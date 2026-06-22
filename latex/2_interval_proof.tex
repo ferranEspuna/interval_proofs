@@ -1,16 +1,175 @@
 \documentclass{article}
 \usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{parskip}
 
-\title{Interval Proofs}
-\author{}
+\newtheorem{theorem}{Theorem}
+\newtheorem{claim}{Claim}
+
+\title{Maximum length of a $3$-sum-free set consisting of $2$ intervals}
+\author{Ferran Espuña}
 \date{\today}
 
 \begin{document}
 
-\maketitle
+    \maketitle
 
-\section{Introduction}
+    \begin{theorem}\label{thm:2intervals}
+        Let $A$ be a $3$-sum-free subset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals. 
+        with measure at least $\frac{1}{5}$. Then, $A + A - 3 \cdot A = \mathbb{T}$.
+    \end{theorem}
 
-This is a basic LaTeX document for interval proofs.
+    \begin{proof}
+        Note that if the statement is true for a set $A$, then it is also true for any translate of $A$ and for the set $-A$.
+        Without loss of generality, we can therefore assume 
+        $A = [0, \alpha] \cup [x, x + \beta]$ satisfying the following conditions:
+            \begin{align}
+            0 < \alpha < x \leq x + \beta < 1, \label{cond:intervals_order} \\
+            \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
+            x - \alpha \leq 1 - (x + \beta), \qquad\text{i.e.}\qquad x \leq \frac{1 + \alpha - \beta}{2}. \label{cond:intervals_close}
+        \end{align}
+        Furthermore, by monotonicity, we can assume that $\alpha + \beta = \frac{1}{5}$, 
+        and that therefore by \eqref{cond:alpha_geq_beta}, $\alpha \geq \frac{1}{10}$ and $\beta \leq \frac{1}{10}$.
+        Let us denote $I = [0, \alpha]$ and $J = [x, x + \beta]$. 
+        We will prove that $\mathbb{T}$ is covered by the following $5$ intervals:
+
+        \begin{align*}
+            R_1 = I + I - 3 \cdot I &= [-3\alpha, 2\alpha], \\
+            R_2 = I + J - 3 \cdot I &= [-3 \alpha + x, \alpha + x + \beta], \\
+            R_3 = J + J - 3 \cdot I &= [2x - 3\alpha, 2x + 2\beta], \\
+            R_4 = I + I - 3 \cdot J &= [-3x - 3\beta,  -3x + 2\alpha], \\
+            R_5 = I + J - 3 \cdot J &= [-2x - 3\beta, \alpha + \beta - 2x].
+        \end{align*}
+        Note that all of these intervals as written are of the form $[a, b]$ where ${0 < b - a < 1}$,
+        (we say that the intervals are in \emph{proper} form)
+        and therefore checking if a point $y \in \mathbb{T}$ is contained in one of these intervals
+        is equivalent to checking if for som integer $k$, $y + k \in [a, b]$.
+
+        We denote $U = R_1 \cup R_2 \cup R_3 \cup R_4 \cup R_5$ and $V = \mathbb{T} \setminus U$.
+        We assume for the sake of contradiction that $V$ is non-empty.
+        Note that $V \subset \mathbb{T} \setminus R_1 = (2\alpha, 1 - 3\alpha)$, which again is in proper form.
+        The rest of the proof consists in iteratively shrinking this interval through a series of claims
+        on the intervals $R_i$ until we show that $V$ is empty. The first claim is the following: 
+
+        \begin{claim}
+            $[2\alpha, \alpha + x + \beta] \subset R_2$.
+        \end{claim}
+        \begin{proof}
+            We just need to show that $2\alpha \in R_2$.
+            In fact, we prove that
+            \begin{equation}
+                -3\alpha + x \leq 2\alpha \leq \alpha + x + \beta. \label{ineq:R2}
+            \end{equation}
+            The first inequality is equivalent to $x \leq 5\alpha$.
+            By assumption \eqref{cond:intervals_close}, we have 
+            \[x \leq \frac{1 + \alpha - \beta}{2} \leq \frac{1 + \alpha - (1/5 - \alpha)}{2} = \alpha + \frac{2}{5}.\]
+            and since $\alpha \geq \frac{1}{10}$, we have $\alpha + \frac{2}{5} \leq 5\alpha$.
+            The second inequality is equivalent to $\alpha \leq x + \beta$, which is true by assumption \eqref{cond:intervals_order}.
+        \end{proof}
+
+        We can then conclude that 
+        \begin{equation}
+            V \subset (\alpha + x + \beta, 1 - 3\alpha). \label{eq:V_subset_v2}
+        \end{equation}
+        Furthermore, since we assuming $V$ is non-empty, we get that $1 - 3\alpha \notin R_2$, and therefore
+        by inequalities \eqref{ineq:R2}, together with the fact that $1-3\alpha >  x - 3\alpha$, we have that
+        \begin{equation}
+            1 - 3\alpha > \alpha + x + \beta \qquad\text{i.e.}\qquad x < 1 - 4\alpha - \beta. \label{ineq:V_nonempty_v1}
+        \end{equation}
+
+        In particular, the interval in \eqref{eq:V_subset_v2} is in proper form.
+        We also note that from inequality \eqref{ineq:V_nonempty_v1} we also get the weaker but more convenient
+        \begin{equation}
+            x < 1 - (\alpha + \beta) - 3\alpha \leq 1 - 1/5 - 3 /10 = 1/2. \label{ineq:x_less_half}
+        \end{equation} 
+
+        \begin{claim}
+            $[\alpha + \beta + x, 2x + 2\beta] \subset R_3$.
+        \end{claim}
+        \begin{proof}
+            Similarly to the previous claim, it suffices to show that \begin{equation}
+                2x - 3 \alpha \leq \alpha + \beta + x \leq 2x + 2\beta. \label{ineq:R3}
+            \end{equation}
+            The first inequality is equivalent to $x \leq 4\alpha + \beta$.
+            From condition \eqref{cond:intervals_close} and the fact that $\alpha + \beta = \frac{1}{5}$, we have
+            \begin{equation}
+                x \leq \frac{1 + \alpha - \beta}{2} = \frac{\alpha - \beta + 5(\alpha + \beta)}{2}  = 3\alpha + 2\beta. \label{ineq:x_less_3alpha_2beta}
+            \end{equation}
+            But since $\alpha \geq \beta$, we have $3\alpha + 2\beta \leq 4\alpha + \beta$, and we are done.
+
+            The second inequality is equivalent to $\alpha \leq x + \beta$, which is true by assumption \eqref{cond:intervals_order}.
+        \end{proof}
+
+        The conclusion of this is that in fact 
+        \begin{equation}
+            V \subset (2x + 2\beta, 1 - 3\alpha). \label{eq:V_subset_v3}
+        \end{equation}
+        Similarly as before, we are assuming $V$ is non-empty
+        and therefore $1 - 3\alpha \notin R_3$.
+        By inequalities \eqref{ineq:R3}, and since $1 - 3\alpha > 2x - 3\alpha$ 
+        by \eqref{ineq:x_less_half}, we have that
+        \begin{equation}
+            1 - 3\alpha > 2x + 2\beta \qquad\text{i.e.}\qquad x < \frac{1 - 3\alpha - 2\beta}{2}.
+            \label{ineq:V_nonempty_v3}
+        \end{equation}
+        and that the interval in \eqref{eq:V_subset_v3} is in proper form.
+        Again, we can obtain a weaker but more convenient inequality from \eqref{ineq:V_nonempty_v3}:
+        \begin{equation}
+            x < \frac{1 - 3\alpha - 2\beta}{2} \leq \frac{1 - 2/5 - 1/10}{2} = 1/4. \label{ineq:x_less_quarter}
+        \end{equation}
+        The proof will be completed once we show that $R_4$ and $R_5$ cover the interval $(2x + 2\beta, 1 - 3\alpha)$.
+        We first show that the union of these two intervals is itself an interval:
+        \begin{claim}
+            The ends of the intervals $R_4$ and $R_5$ satisfy the following inequalities:
+            \[
+                -3x - 3\beta \leq -2x - 3\beta \leq -3x + 2\alpha \leq \alpha + \beta - 2x.        
+            \]
+        and therefore 
+        \begin{equation}
+            R_4 \cup R_5 = [-3x - 3\beta, \alpha + \beta - 2x]. \label{eq:R4_union_R5}
+        \end{equation}
+        Furthermore, this interval is in proper form.
+        \end{claim}
+        \begin{proof}
+            The first inequality is equivalent to $x \geq 0$, which is true by assumption~\eqref{cond:intervals_order}.
+            The second inequality is equivalent to $x \leq 2\alpha + 3\beta$, which is precisely inequality~\eqref{ineq:x_less_3alpha_2beta}.
+            The third inequality is equivalent to $\alpha \leq x + \beta$, which is true by assumption~\eqref{cond:intervals_order}.
+            To see that it is in proper form, note that since both $R_4$ and $R_5$ are in proper form,
+            and since they have interleaving ends (the middle inequality above), 
+            we have that
+            \begin{align*}
+                & (\alpha + \beta - 2x) - (-3x - 3\beta) \\ & \leq \left((\alpha + \beta - 2x) - (-2x - 3\beta)\right) + \left((-3x + 2\alpha) - (-3x - 3\beta)\right) \\
+                & = (\alpha + 4\beta) + (2\alpha + 3\beta) = 3\alpha + 7\beta \leq 5(\alpha + \beta) = 1. \qedhere
+            \end{align*}
+        \end{proof}
+
+        The end is near. We only need to show that the interval in \eqref{eq:R4_union_R5} covers the interval in \eqref{eq:V_subset_v3}:
+
+        \begin{claim}
+            $R_4 \cup R_5 \supset (2x + 2\beta, 1 - 3\alpha)$.
+        \end{claim}
+        \begin{proof}
+            We have calculated the ends of both intervals in proper form.
+            Therefore, it suffices to show that
+            \[
+                -3x - 3 \beta \leq (2x + 2\beta) - 1 \leq (1 - 3\alpha) - 1\leq \alpha + \beta - 2x,         
+            \]
+            where we have shifted both points to check by the integer $-1$.
+            We have already established the middle inequality.
+            The first inequality is equivalent to ${5(x+\beta) \geq 1}$, which is true because ${x + \beta \geq \alpha + \beta = 1/5}$.
+            The last inequality is equivalent to $2x \leq 4\alpha + \beta = 3 \alpha + 1/5$.
+            Since $x \leq 1/4$ by \eqref{ineq:x_less_quarter}, and we have $\alpha \geq 1/10$, we get
+            \[
+                2x \leq 1/2 = 3/10 + 1/5 \leq 3\alpha + 1/5,
+            \]
+            and we are done.
+        \end{proof}
+
+        We have therefore shown that $V$ is empty, so the proof is complete.
+
+    \end{proof}
+        
 
 \end{document}
