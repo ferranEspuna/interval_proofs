@@ -17,11 +17,16 @@
     \maketitle
 
     \begin{theorem}\label{thm:2intervals}
-        Let $A$ be ansubset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals 
+        Let $A$ be asubset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals 
         with measure at least $\frac{1}{5}$. Then, $A + A - 3 \cdot A = \mathbb{T}$.
     \end{theorem}
 
     \begin{proof}
+        By monotonicity, it is enough to prove the result in the case $\mu(A)=\frac{1}{5}$.
+        Indeed, if $\mu(A)>\frac{1}{5}$, then $A$ contains a subset $A'$, still consisting of $2$ disjoint closed intervals, with measure exactly $\frac{1}{5}$.
+        If $A' + A' - 3 \cdot A' = \mathbb{T}$, then, since $A' \subset A$, also $A + A - 3 \cdot A = \mathbb{T}$.
+        Thus we may assume from now on that $\mu(A)=\frac{1}{5}$.
+
         Note that if the statement is true for a set $A$, then it is also true for any translate of $A$ and for the set $-A$.
         Without loss of generality, we can therefore assume 
         $A = [0, \alpha] \cup [x, x + \beta]$ satisfying the following conditions:
@@ -30,8 +35,8 @@
             \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
             x - \alpha \leq 1 - (x + \beta), \qquad\text{i.e.}\qquad x \leq \frac{1 + \alpha - \beta}{2}. \label{cond:intervals_close}
         \end{align}
-        Furthermore, by monotonicity, we can assume that $\alpha + \beta = \frac{1}{5}$, 
-        and that therefore by \eqref{cond:alpha_geq_beta}, $\alpha \geq \frac{1}{10}$ and $\beta \leq \frac{1}{10}$.
+        Furthermore, since $\mu(A)=\frac{1}{5}$, we have $\alpha + \beta = \frac{1}{5}$, 
+        and therefore by \eqref{cond:alpha_geq_beta}, $\alpha \geq \frac{1}{10}$ and $\beta \leq \frac{1}{10}$.
         Let us denote $I = [0, \alpha]$ and $J = [x, x + \beta]$. 
         We will prove that $\mathbb{T}$ is covered by the following $5$ intervals:
 
@@ -73,8 +78,9 @@
         \begin{equation}
             V \subset (\alpha + x + \beta, 1 - 3\alpha). \label{eq:V_subset_v2}
         \end{equation}
-        Furthermore, since we are assuming $V$ is non-empty, we get that $1 - 3\alpha \notin R_2$, and therefore
-        by inequalities \eqref{ineq:R2}, together with the fact that $1-3\alpha >  x - 3\alpha$, we have that
+        Furthermore, if $\alpha + x + \beta \geq 1 - 3\alpha$, then the previous claim implies that $R_2$ covers the whole interval $(2\alpha, 1 - 3\alpha)$,
+        and hence $V$ is empty, contradicting our assumption.
+        Therefore
         \begin{equation}
             1 - 3\alpha > \alpha + x + \beta \qquad\text{i.e.}\qquad x < 1 - 4\alpha - \beta. \label{ineq:V_nonempty_v1}
         \end{equation}
@@ -106,10 +112,9 @@
         \begin{equation}
             V \subset (2x + 2\beta, 1 - 3\alpha). \label{eq:V_subset_v3}
         \end{equation}
-        Similarly as before, we are assuming $V$ is non-empty
-        and therefore $1 - 3\alpha \notin R_3$.
-        By inequalities \eqref{ineq:R3}, and since $1 - 3\alpha > 2x - 3\alpha$ 
-        by \eqref{ineq:x_less_half}, we have that
+        Similarly as before, if $2x + 2\beta \geq 1 - 3\alpha$, then the previous claim implies that $R_3$ covers the whole interval $(\alpha + x + \beta, 1 - 3\alpha)$,
+        and hence $V$ is empty, contradicting our assumption.
+        Therefore
         \begin{equation}
             1 - 3\alpha > 2x + 2\beta \qquad\text{i.e.}\qquad x < \frac{1 - 3\alpha - 2\beta}{2}.
             \label{ineq:V_nonempty_v3}
