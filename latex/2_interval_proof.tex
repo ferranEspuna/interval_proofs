@@ -17,7 +17,7 @@
     \maketitle
 
     \begin{theorem}\label{thm:2intervals}
-        Let $A$ be asubset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals 
+        Let $A$ be a subset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals 
         with measure at least $\frac{1}{5}$. Then, $A + A - 3 \cdot A = \mathbb{T}$.
     \end{theorem}
 
@@ -26,15 +26,18 @@
         Indeed, if $\mu(A)>\frac{1}{5}$, then $A$ contains a subset $A'$, still consisting of $2$ disjoint closed intervals, with measure exactly $\frac{1}{5}$.
         If $A' + A' - 3 \cdot A' = \mathbb{T}$, then, since $A' \subset A$, also $A + A - 3 \cdot A = \mathbb{T}$.
         Thus we may assume from now on that $\mu(A)=\frac{1}{5}$.
+        We may also assume that both intervals have positive length.
+        Indeed, if one of them has length $0$, then the other has length $\frac{1}{5}$, and for an interval $K$ of length $\frac{1}{5}$ we have $K + K - 3K = \mathbb{T}$.
 
         Note that if the statement is true for a set $A$, then it is also true for any translate of $A$ and for the set $-A$.
         Without loss of generality, we can therefore assume 
         $A = [0, \alpha] \cup [x, x + \beta]$ satisfying the following conditions:
             \begin{align}
-            0 < \alpha < x \leq x + \beta < 1, \label{cond:intervals_order} \\
+            0 < \alpha < x < x + \beta < 1, \label{cond:intervals_order} \\
             \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
             x - \alpha \leq 1 - (x + \beta), \qquad\text{i.e.}\qquad x \leq \frac{1 + \alpha - \beta}{2}. \label{cond:intervals_close}
         \end{align}
+        Indeed, we first translate so that the longer interval starts at $0$, and then, if necessary, replace $A$ by $-A$ to make the gap $x - \alpha$ no longer than the gap $1 - (x + \beta)$.
         Furthermore, since $\mu(A)=\frac{1}{5}$, we have $\alpha + \beta = \frac{1}{5}$, 
         and therefore by \eqref{cond:alpha_geq_beta}, $\alpha \geq \frac{1}{10}$ and $\beta \leq \frac{1}{10}$.
         Let us denote $I = [0, \alpha]$ and $J = [x, x + \beta]$. 
@@ -50,11 +53,11 @@
         Note that all of these intervals as written are of the form $[a, b]$ where ${0 < b - a < 1}$,
         (we say that the intervals are in \emph{proper} form)
         and therefore checking if a point $y \in \mathbb{T}$ is contained in one of these intervals
-        is equivalent to checking if for som integer $k$, $y + k \in [a, b]$.
+        is equivalent to checking if for some integer $k$, $y + k \in [a, b]$.
 
         We denote $U = R_1 \cup R_2 \cup R_3 \cup R_4 \cup R_5$ and $V = \mathbb{T} \setminus U$.
         We assume for the sake of contradiction that $V$ is non-empty.
-        Note that $V \subset \mathbb{T} \setminus R_1 = (2\alpha, 1 - 3\alpha)$, which again is in proper form.
+        Identifying $\mathbb{T}$ with $[0,1)$, note that $V \subset \mathbb{T} \setminus R_1 = (2\alpha, 1 - 3\alpha)$, which again is in proper form.
         The rest of the proof consists in iteratively shrinking this interval through a series of claims
         on the intervals $R_i$ until we show that $V$ is empty. The first claim is the following: 
 
@@ -142,16 +145,21 @@
             The second inequality is equivalent to $x \leq 2\alpha + 3\beta$.
             Now, since $x \leq 1/4$ by \eqref{ineq:x_less_quarter}, and since $2\alpha + 3\beta = 2/5 + \beta \geq 2/5 > 1/4$, this inequality is also true.
             The third inequality is equivalent to $\alpha \leq x + \beta$, which is true by assumption~\eqref{cond:intervals_order}.
-            To see that it is in proper form, note that since both $R_4$ and $R_5$ are in proper form,
-            and since they have interleaving ends (the middle inequality above), 
-            we have that
-            \begin{align*}
-                & (\alpha + \beta - 2x) - (-3x - 3\beta) \\ & \leq \left((\alpha + \beta - 2x) - (-2x - 3\beta)\right) + \left((-3x + 2\alpha) - (-3x - 3\beta)\right) \\
-                & = (\alpha + 4\beta) + (2\alpha + 3\beta) = 3\alpha + 7\beta \leq 5(\alpha + \beta) = 1. \qedhere
-            \end{align*}
+            To see that it is in proper form, compute its length directly:
+            \[
+                (\alpha + \beta - 2x) - (-3x - 3\beta) = x + \alpha + 4\beta.
+            \]
+            Using \eqref{ineq:x_less_quarter} and $\alpha + \beta = \frac{1}{5}$, we get
+            \[
+                x + \alpha + 4\beta < \frac{1}{4} + \alpha + 4\beta
+                = \frac{1}{4} + \frac{1}{5} + 3\beta
+                \leq \frac{1}{4} + \frac{1}{5} + \frac{3}{10}
+                = \frac{3}{4} < 1,
+            \]
+            as required.
         \end{proof}
 
-        The end is near. We only need to show that the interval in \eqref{eq:R4_union_R5} covers the interval in \eqref{eq:V_subset_v3}:
+        It remains only to show that the interval in \eqref{eq:R4_union_R5} covers the interval in \eqref{eq:V_subset_v3}:
 
         \begin{claim}
             $R_4 \cup R_5 \supset (2x + 2\beta, 1 - 3\alpha)$.
