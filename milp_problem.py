@@ -7,6 +7,15 @@ import math
 from dataclasses import dataclass, field
 from typing import Any, Mapping
 
+try:
+    import numpy as np
+    from scipy.optimize import Bounds, LinearConstraint, milp
+except ImportError as exc:
+    raise RuntimeError(
+        "MILPProblem.solve() requires SciPy, whose milp() function uses "
+        "the optimized HiGHS solver. Install it with: "
+        "python3 -m pip install scipy"
+    ) from exc
 
 VariableKind = str
 ConstraintSense = str
@@ -477,16 +486,6 @@ class MILPProblem:
         if self.objective is None:
             raise ValueError("cannot solve a MILP without an objective")
 
-        try:
-            import numpy as np
-            from scipy.optimize import Bounds, LinearConstraint, milp
-        except ImportError as exc:
-            raise RuntimeError(
-                "MILPProblem.solve() requires SciPy, whose milp() function uses "
-                "the optimized HiGHS solver. Install it with: "
-                "python3 -m pip install scipy"
-            ) from exc
-
         variable_index = self._variable_index()
         variable_count = len(self.variables)
 
@@ -643,4 +642,3 @@ class MILPProblem:
             lines.append("    <none>")
 
         return "\n".join(lines)
-
