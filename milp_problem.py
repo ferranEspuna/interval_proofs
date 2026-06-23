@@ -9,6 +9,7 @@ from typing import Any, Mapping
 
 try:
     import numpy as np
+    from scipy.sparse import coo_array
     from scipy.optimize import Bounds, LinearConstraint, milp
 except ImportError as exc:
     raise RuntimeError(
@@ -234,6 +235,8 @@ class MILPSolution:
     objective_sense: ObjectiveSense
     optimum: float | None
     values: dict[str, float | int] = field(default_factory=dict)
+    parameters: dict[str, Any] = field(default_factory=dict)
+    solver_details: dict[str, Any] = field(default_factory=dict)
 
     def value(self, variable_name: str) -> float | int:
         return self.values[variable_name]
@@ -251,6 +254,8 @@ class MILPSolution:
             "objective_sense": self.objective_sense,
             "optimum": self.optimum,
             "values": dict(self.values),
+            "parameters": dict(self.parameters),
+            "solver_details": dict(self.solver_details),
         }
 
     @classmethod
@@ -264,6 +269,8 @@ class MILPSolution:
             objective_sense=str(data["objective_sense"]),
             optimum=data.get("optimum"),
             values=dict(data.get("values", {})),
+            parameters=dict(data.get("parameters", {})),
+            solver_details=dict(data.get("solver_details", {})),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:
@@ -293,6 +300,19 @@ class MILPSolution:
         else:
             lines.append("    <none>")
 
+        if self.parameters:
+            lines.append("  parameters:")
+            for name in sorted(self.parameters):
+                lines.append(f"    {name} = {self.parameters[name]}")
+
+        if self.solver_details:
+            lines.append("  solver details:")
+            for name in sorted(self.solver_details):
+                value = self.solver_details[name]
+                if isinstance(value, float):
+                    value = _format_number(value)
+                lines.append(f"    {name} = {value}")
+
         return "\n".join(lines)
 
 
@@ -310,9 +330,11 @@ class MILPProblem:
     variables: list[NamedVariable] = field(default_factory=list)
     constraints: list[LinearConstraintSpec] = field(default_factory=list)
     objective: LinearObjective | None = None
+    metadata: dict[str, Any] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
         self.name = _require_name(self.name, "problem")
+        self.metadata = dict(self.metadata)
 
         seen_variables: set[str] = set()
         for index, variable in enumerate(self.variables):
@@ -486,6 +508,7 @@ class MILPProblem:
         if self.objective is None:
             raise ValueError("cannot solve a MILP without an objective")
 
+        solver_options = dict(options or {})
         variable_index = self._variable_index()
         variable_count = len(self.variables)
 
@@ -516,13 +539,17 @@ class MILPProblem:
 
         solver_constraints = None
         if self.constraints:
-            lhs = np.zeros((len(self.constraints), variable_count), dtype=float)
+            rows: list[int] = []
+            cols: list[int] = []
+            data: list[float] = []
             constraint_lower = np.full(len(self.constraints), -np.inf, dtype=float)
             constraint_upper = np.full(len(self.constraints), np.inf, dtype=float)
 
             for row, constraint in enumerate(self.constraints):
                 for variable_name, coefficient in constraint.coefficients.items():
-                    lhs[row, variable_index[variable_name]] = coefficient
+                    rows.append(row)
+                    cols.append(variable_index[variable_name])
+                    data.append(coefficient)
 
                 if constraint.sense == EQ:
                     constraint_lower[row] = constraint.rhs
@@ -534,6 +561,10 @@ class MILPProblem:
                 else:
                     raise ValueError(f"unknown constraint sense {constraint.sense!r}")
 
+            lhs = coo_array(
+                (data, (rows, cols)),
+                shape=(len(self.constraints), variable_count),
+            ).tocsc()
             solver_constraints = LinearConstraint(
                 lhs,
                 lb=constraint_lower,
@@ -544,7 +575,7 @@ class MILPProblem:
             "c": c,
             "integrality": integrality,
             "bounds": Bounds(lower_bounds, upper_bounds),
-            "options": dict(options or {}),
+            "options": solver_options,
         }
         if solver_constraints is not None:
             kwargs["constraints"] = solver_constraints
@@ -574,6 +605,23 @@ class MILPProblem:
             4: "solver_error",
         }.get(int(result.status), "unknown")
 
+        mip_dual_bound = getattr(result, "mip_dual_bound", None)
+        if mip_dual_bound is not None:
+            mip_dual_bound = float(mip_dual_bound)
+            if self.objective.sense == MAXIMIZE:
+                mip_dual_bound = -mip_dual_bound
+
+        solver_details = {
+            "mip_node_count": getattr(result, "mip_node_count", None),
+            "mip_dual_bound": mip_dual_bound,
+            "mip_gap": getattr(result, "mip_gap", None),
+        }
+        solver_details = {
+            name: value
+            for name, value in solver_details.items()
+            if value is not None
+        }
+
         return MILPSolution(
             problem_name=self.name,
             status=int(result.status),
@@ -583,6 +631,8 @@ class MILPProblem:
             objective_sense=self.objective.sense,
             optimum=optimum,
             values=values,
+            parameters={**self.metadata, "solver_options": dict(solver_options)},
+            solver_details=solver_details,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -591,6 +641,7 @@ class MILPProblem:
             "variables": [variable.to_dict() for variable in self.variables],
             "constraints": [constraint.to_dict() for constraint in self.constraints],
             "objective": None if self.objective is None else self.objective.to_dict(),
+            "metadata": dict(self.metadata),
         }
 
     @classmethod
@@ -610,6 +661,7 @@ class MILPProblem:
                 if data.get("objective") is None
                 else LinearObjective.from_dict(data["objective"])
             ),
+            metadata=dict(data.get("metadata", {})),
         )
 
     def to_json(self, *, indent: int | None = 2) -> str:
