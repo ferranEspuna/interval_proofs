@@ -37,7 +37,40 @@
             \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
             x - \alpha \leq 1 - (x + \beta), \qquad\text{i.e.}\qquad x \leq \frac{1 + \alpha - \beta}{2}. \label{cond:intervals_close}
         \end{align}
-        Indeed, we first translate so that the longer interval starts at $0$, and then, if necessary, replace $A$ by $-A$ to make the gap $x - \alpha$ no longer than the gap $1 - (x + \beta)$.
+        Indeed, we first choose an interval of maximal length, call its length $\alpha$, call the other length $\beta$, and translate so that the longer interval starts at $0$.
+        We can then write
+        \[
+            A = [0, \alpha] \cup [x, x + \beta],
+            \qquad 0 < \alpha < x < x + \beta < 1,
+            \qquad \alpha \geq \beta.
+        \]
+        Let
+        \[
+            g_1 = x - \alpha,
+            \qquad
+            g_2 = 1 - (x + \beta)
+        \]
+        be the two gaps between the intervals.
+        If $g_1 \leq g_2$, then \eqref{cond:intervals_close} already holds.
+        If $g_1 > g_2$, then we replace $A$ by the reflected and translated set $\alpha - A$.
+        This keeps the longer interval anchored at $0$, since
+        \[
+            \alpha - A
+            =
+            [0,\alpha] \cup [1 + \alpha - x - \beta, 1 + \alpha - x].
+        \]
+        Writing $x' = 1 + \alpha - x - \beta$, the new gaps are
+        \[
+            x' - \alpha = 1 - (x + \beta) = g_2,
+            \qquad
+            1 - (x' + \beta) = x - \alpha = g_1.
+        \]
+        Thus the two gaps have been exchanged, and since in this case $g_2 < g_1$, the transformed set satisfies
+        \[
+            x' - \alpha \leq 1 - (x' + \beta).
+        \]
+        Intuitively, the reflection reverses which side of the longer interval the larger gap lies on;
+        the final translation simply puts that longer interval back in the form $[0,\alpha]$.
         Furthermore, since $\mu(A)=\frac{1}{5}$, we have $\alpha + \beta = \frac{1}{5}$, 
         and therefore by \eqref{cond:alpha_geq_beta}, $\alpha \geq \frac{1}{10}$ and $\beta \leq \frac{1}{10}$.
         Let us denote $I = [0, \alpha]$ and $J = [x, x + \beta]$. 
