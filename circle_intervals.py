@@ -26,7 +26,7 @@ def build_circle_interval_problem(
     d: float,
     epsilon: float = 0.0,
     *,
-    add_width_cuts: bool = True,
+    add_width_cuts: bool = False,
     add_monotonicity_cuts: bool = True,
     add_endpoint_length_cut: bool = True,
     subset_alpha_bounds: list[tuple[int, float]] | None = None,
@@ -283,7 +283,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--width-cuts",
         action=argparse.BooleanOptionalAction,
-        default=True,
+        default=False,
         help="add redundant interval-width cuts",
     )
     parser.add_argument(

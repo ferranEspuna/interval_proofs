@@ -109,7 +109,7 @@ noted.
 
 ### Width Cuts
 
-Enabled by default with `--width-cuts`.
+Disabled by default. Enable with `--width-cuts`.
 
 Every lifted interval must fit inside a unit gap, so:
 
@@ -117,7 +117,7 @@ Every lifted interval must fit inside a unit gap, so:
 alpha_i + alpha_j + d alpha_k <= 1 - 2 epsilon
 ```
 
-Disable with:
+Leave disabled with the default behavior, or explicitly with:
 
 ```bash
 --no-width-cuts
