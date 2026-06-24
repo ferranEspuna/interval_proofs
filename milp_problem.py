@@ -7,16 +7,9 @@ import math
 from dataclasses import dataclass, field
 from typing import Any, Mapping
 
-try:
-    import numpy as np
-    from scipy.sparse import coo_array
-    from scipy.optimize import Bounds, LinearConstraint, milp
-except ImportError as exc:
-    raise RuntimeError(
-        "MILPProblem.solve() requires SciPy, whose milp() function uses "
-        "the optimized HiGHS solver. Install it with: "
-        "python3 -m pip install scipy"
-    ) from exc
+import numpy as np
+from scipy.sparse import coo_array
+from scipy.optimize import Bounds, LinearConstraint, milp, OptimizeResult
 
 VariableKind = str
 ConstraintSense = str
@@ -35,7 +28,7 @@ MAXIMIZE = "maximize"
 
 
 def _require_name(name: str, what: str) -> str:
-    if not isinstance(name, str) or not name.strip():
+    if not name.strip():
         raise ValueError(f"{what} name must be a non-empty string")
     return name
 
@@ -327,8 +320,8 @@ class MILPProblem:
     """
 
     name: str = "MILPProblem"
-    variables: list[NamedVariable] = field(default_factory=list)
-    constraints: list[LinearConstraintSpec] = field(default_factory=list)
+    variables: list["NamedVariable"] = field(default_factory=list)
+    constraints: list["LinearConstraintSpec"] = field(default_factory=list)
     objective: LinearObjective | None = None
     metadata: dict[str, Any] = field(default_factory=dict)
 
@@ -337,25 +330,16 @@ class MILPProblem:
         self.metadata = dict(self.metadata)
 
         seen_variables: set[str] = set()
-        for index, variable in enumerate(self.variables):
-            if not isinstance(variable, NamedVariable):
-                variable = NamedVariable.from_dict(variable)  # type: ignore[arg-type]
-                self.variables[index] = variable
+        for variable in self.variables:
             if variable.name in seen_variables:
                 raise ValueError(f"duplicate variable name {variable.name!r}")
             seen_variables.add(variable.name)
 
         seen_constraints: set[str] = set()
-        for index, constraint in enumerate(self.constraints):
-            if not isinstance(constraint, LinearConstraintSpec):
-                constraint = LinearConstraintSpec.from_dict(constraint)  # type: ignore[arg-type]
-                self.constraints[index] = constraint
+        for constraint in self.constraints:
             if constraint.name in seen_constraints:
                 raise ValueError(f"duplicate constraint name {constraint.name!r}")
             seen_constraints.add(constraint.name)
-
-        if self.objective is not None and not isinstance(self.objective, LinearObjective):
-            self.objective = LinearObjective.from_dict(self.objective)  # type: ignore[arg-type]
 
         self._validate_references()
 
@@ -580,7 +564,7 @@ class MILPProblem:
         if solver_constraints is not None:
             kwargs["constraints"] = solver_constraints
 
-        result = milp(**kwargs)
+        result: OptimizeResult = milp(**kwargs)
 
         values: dict[str, float | int] = {}
         if result.x is not None:

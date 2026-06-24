@@ -172,7 +172,7 @@ def build_circle_interval_problem(
                             rhs=0,
                         )
 
-                coefs_left = defaultdict(float)
+                coefs_left: dict[str, float] = defaultdict(float)
                 coefs_left[f"x_{i}"] -= 1
                 coefs_left[f"x_{j}"] -= 1
                 coefs_left[f"x_{k}"] += d
@@ -188,7 +188,7 @@ def build_circle_interval_problem(
 
                 # The rightmost point of I_i + I_j - d*I_k is
                 # x_i + x_j + alpha_i + alpha_j - d*x_k <= n_ijk + 1 - epsilon.
-                coefs_right = defaultdict(float)
+                coefs_right: dict[str, float] = defaultdict(float)
                 coefs_right[f"x_{i}"] += 1
                 coefs_right[f"x_{j}"] += 1
                 coefs_right[f"alpha_{i}"] += 1
