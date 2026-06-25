@@ -297,6 +297,16 @@ def build_parser() -> argparse.ArgumentParser:
         help="add subset alpha bounds to every tested model; can be repeated",
     )
     parser.add_argument(
+        "--n-minus-one-alpha-bound",
+        type=float,
+        default=None,
+        metavar="BOUND",
+        help=(
+            "for each tested N, add the bound that every (N-1)-subset of "
+            "interval lengths has sum at most BOUND"
+        ),
+    )
+    parser.add_argument(
         "--mip-rel-gap",
         type=float,
         default=0.0,
@@ -375,6 +385,7 @@ def main() -> None:
         f"  width_cuts = {args.width_cuts}",
         f"  monotonicity_cuts = {args.monotonicity_cuts}",
         f"  subset_alpha_bounds = {args.subset_alpha_bounds}",
+        f"  n_minus_one_alpha_bound = {args.n_minus_one_alpha_bound}",
         f"  solver_options = {solver_options}",
         f"  max_families = {args.max_families}",
         f"  search_time_limit = {args.search_time_limit}",
@@ -383,6 +394,11 @@ def main() -> None:
 
     for N in args.n_values:
         print(f"N={N}: computing full-model bound")
+        subset_alpha_bounds = list(args.subset_alpha_bounds)
+        if args.n_minus_one_alpha_bound is not None:
+            if N < 2:
+                raise ValueError("--n-minus-one-alpha-bound requires N >= 2")
+            subset_alpha_bounds.append((N - 1, args.n_minus_one_alpha_bound))
         oracle = BoundOracle(
             N=N,
             d=args.d,
@@ -391,7 +407,7 @@ def main() -> None:
             tolerance=args.tolerance,
             add_width_cuts=args.width_cuts,
             add_monotonicity_cuts=args.monotonicity_cuts,
-            subset_alpha_bounds=args.subset_alpha_bounds,
+            subset_alpha_bounds=subset_alpha_bounds,
             solver_options=solver_options,
         )
         full_proves, full_bound, full_message = oracle.proves_bound(())
@@ -436,6 +452,7 @@ def main() -> None:
                 "-" * (4 + len(str(N))),
                 f"Full-model optimum: {full_bound}",
                 f"All triples: {len(all_triples)}",
+                f"Subset alpha bounds used: {subset_alpha_bounds}",
                 f"Singleton-removable triples: {len(removable)}",
                 f"Maximal families found: {len(families)}",
                 f"Search complete: {search_complete}",
