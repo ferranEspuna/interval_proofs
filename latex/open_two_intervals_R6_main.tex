@@ -1,0 +1,252 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{parskip}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{claim}{Claim}
+\newtheorem{remark}{Remark}
+
+\title{The endpoint case using $J+J-3J$ as the main final interval}
+\author{Ferran Espu\~na}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{theorem}\label{thm:open_two_intervals_endpoint_R6}
+Let $A \subset \mathbb T$ be a union of two non-empty disjoint open intervals with
+\[
+    \mu(A)=\frac15.
+\]
+If
+\[
+    A+A-3\cdot A \neq \mathbb T,
+\]
+then, up to translating $A$ and replacing $A$ by $-A$, we have
+\[
+    A=\left(0,\frac1{10}\right)\cup\left(\frac12,\frac35\right).
+\]
+In particular, $2\cdot A$ is contained in an interval of length $\frac15$.
+\end{theorem}
+
+\begin{proof}
+As before, the condition $A+A-3\cdot A=\mathbb T$ is invariant under translating $A$
+and replacing $A$ by $-A$. We may therefore assume
+\[
+    A=I\cup J, \qquad I=(0,\alpha), \qquad J=(x,x+\beta),
+\]
+where
+\begin{align}
+    0<\alpha < x < x+\beta <1, \label{cond:order_R6} \\
+    \alpha \geq \beta, \label{cond:alpha_geq_beta_R6} \\
+    x-\alpha \leq 1-(x+\beta). \label{cond:shorter_gap_R6}
+\end{align}
+We have
+\[
+    \alpha+\beta=\frac15,
+\]
+and~\eqref{cond:shorter_gap_R6} gives
+\begin{equation}\label{ineq:x_leq_3a_2b_R6}
+    x\leq \frac{1+\alpha-\beta}{2}=3\alpha+2\beta.
+\end{equation}
+We will prove that $A+A-3\cdot A=\mathbb T$ unless
+\begin{equation}\label{eq:exceptional_case_R6}
+    \alpha=\beta=\frac1{10}, \qquad x=\frac12.
+\end{equation}
+
+This time we keep $J+J-3\cdot J$ as the main final interval and leave
+$I+J-3\cdot J$ out of the main covering argument. Define
+\begin{align*}
+    R_1=I+I-3\cdot I &= (-3\alpha,2\alpha), \\
+    R_2=I+J-3\cdot I &= (x-3\alpha,x+\alpha+\beta), \\
+    R_3=J+J-3\cdot I &= (2x-3\alpha,2x+2\beta), \\
+    R_4=I+I-3\cdot J &= (-3x-3\beta,-3x+2\alpha), \\
+    R_6=J+J-3\cdot J &= (-x-3\beta,-x+2\beta).
+\end{align*}
+All these intervals are in proper form. Clearly each of them is contained in
+$A+A-3\cdot A$.
+
+The first part of the proof is exactly the same as before.
+
+\begin{claim}\label{claim:strict_first_inequalities_R6}
+If~\eqref{eq:exceptional_case_R6} does not hold, then
+\[
+    x<5\alpha
+    \qquad\text{and}\qquad
+    x<4\alpha+\beta.
+\]
+\end{claim}
+
+\begin{proof}
+By~\eqref{ineq:x_leq_3a_2b_R6} and $\alpha\geq\beta$,
+\[
+    x\leq 3\alpha+2\beta\leq 5\alpha.
+\]
+Equality forces $\alpha=\beta$ and $x=3\alpha+2\beta$, hence
+$\alpha=\beta=\frac1{10}$ and $x=\frac12$. Thus, outside
+\eqref{eq:exceptional_case_R6}, we have $x<5\alpha$.
+
+Similarly,
+\[
+    x\leq 3\alpha+2\beta\leq 4\alpha+\beta,
+\]
+and equality again forces~\eqref{eq:exceptional_case_R6}. Hence $x<4\alpha+\beta$.
+\end{proof}
+
+\begin{claim}\label{claim:first_cover_R6}
+Assume~\eqref{eq:exceptional_case_R6} does not hold. Then
+\[
+    R_1\cup R_2\cup R_3
+\]
+covers $[0,2x+2\beta)$ and also covers $(1-3\alpha,1)$.
+\end{claim}
+
+\begin{proof}
+Modulo $1$, the interval $R_1=(-3\alpha,2\alpha)$ covers
+\[
+    [0,2\alpha)\cup(1-3\alpha,1).
+\]
+By Claim~\ref{claim:strict_first_inequalities_R6}, $x<5\alpha$, so $R_2$ contains
+$2\alpha$. Therefore $R_1\cup R_2$ covers $[0,x+\alpha+\beta)$.
+Again by Claim~\ref{claim:strict_first_inequalities_R6}, $x<4\alpha+\beta$, so
+$R_3$ contains $x+\alpha+\beta$. Therefore $R_1\cup R_2\cup R_3$ covers
+$[0,2x+2\beta)$.
+\end{proof}
+
+Thus the only possible leftover is
+\begin{equation}\label{eq:leftover_R6}
+    [2x+2\beta,1-3\alpha].
+\end{equation}
+If this interval is empty, we are done. So assume it is non-empty. Equivalently,
+\begin{equation}\label{ineq:two_x_bound_R6}
+    2x\leq 2\alpha+3\beta.
+\end{equation}
+We now cover this leftover using $R_4\cup R_6$.
+
+\begin{claim}\label{claim:R4_R6_cover_except_fake}
+The intervals $R_4$ and $R_6$ cover the leftover interval~\eqref{eq:leftover_R6}, except
+possibly in the case
+\begin{equation}\label{eq:fake_case_R6}
+    \alpha=\frac9{65}, \qquad \beta=\frac4{65}, \qquad x=\frac3{13}.
+\end{equation}
+In that case, the only point of~\eqref{eq:leftover_R6} not covered by $R_4\cup R_6$ is
+$\frac{38}{65}$.
+\end{claim}
+
+\begin{proof}
+Shift the leftover interval by $-1$. We need to cover
+\[
+    [2x+2\beta-1,-3\alpha].
+\]
+The left endpoint is strictly to the right of the left endpoint of $R_4$, because
+\[
+    -3x-3\beta<2x+2\beta-1
+\]
+is equivalent to $x+\beta>\frac15$, which follows from $x>\alpha$ and
+$\alpha+\beta=\frac15$.
+
+The right endpoint is strictly to the left of the right endpoint of $R_6$, because
+\[
+    -3\alpha<-x+2\beta
+\]
+is equivalent to $x<3\alpha+2\beta$. This is strict under the present assumption that
+\eqref{eq:leftover_R6} is non-empty: indeed, equality in
+$x\leq 3\alpha+2\beta$ together with~\eqref{ineq:two_x_bound_R6} would give
+$6\alpha+4\beta\leq 2\alpha+3\beta$, impossible.
+
+It remains only to check that $R_4$ and $R_6$ do not leave a gap inside this shifted
+leftover interval. Their adjacent endpoints are
+\[
+    -3x+2\alpha
+    \qquad\text{and}\qquad
+    -x-3\beta.
+\]
+By~\eqref{ineq:two_x_bound_R6},
+\[
+    -x-3\beta\leq -3x+2\alpha.
+\]
+Thus $R_4$ and $R_6$ overlap, except possibly when
+\[
+    2x=2\alpha+3\beta.
+\]
+If this inequality is strict, there is no gap and the whole leftover interval is covered.
+
+Suppose then that $2x=2\alpha+3\beta$. In this case the leftover interval
+\eqref{eq:leftover_R6} is a single point, namely $1-3\alpha$. The only point not covered
+by $R_4\cup R_6$ is the common endpoint
+\[
+    -3x+2\alpha=-x-3\beta.
+\]
+This coincides with $(1-3\alpha)-1=-3\alpha$ precisely when
+\[
+    -3x+2\alpha=-3\alpha,
+\]
+or equivalently $3x=5\alpha$. Combining this with $2x=2\alpha+3\beta$ gives
+\[
+    4\alpha=9\beta.
+\]
+Since $\alpha+\beta=\frac15$, this gives
+\[
+    \alpha=\frac9{65}, \qquad \beta=\frac4{65}, \qquad x=\frac3{13}.
+\]
+In that case the leftover point is
+\[
+    1-3\alpha=\frac{38}{65}.
+\]
+This proves the claim.
+\end{proof}
+
+The fake case~\eqref{eq:fake_case_R6} is not a genuine solution. It is exactly the case
+where the strategy using only $R_4\cup R_6$ leaves an artificial endpoint. The omitted
+interval
+\[
+    R_5=I+J-3\cdot J=(-2x-3\beta,\alpha+\beta-2x)
+\]
+contains it, because in the fake case
+\[
+    R_5=\left(-\frac{42}{65},-\frac{17}{65}\right)
+\]
+and
+\[
+    \frac{38}{65}-1=-\frac{27}{65}\in R_5.
+\]
+Thus this point belongs to $A+A-3\cdot A$ after all.
+
+We conclude that, outside the exceptional case~\eqref{eq:exceptional_case_R6}, the set
+$A+A-3\cdot A$ is all of $\mathbb T$. Therefore, if
+$A+A-3\cdot A\neq\mathbb T$, we must be in the exceptional case
+\eqref{eq:exceptional_case_R6}.
+
+In that case,
+\[
+    A=\left(0,\frac1{10}\right)\cup\left(\frac12,\frac35\right),
+\]
+and
+\[
+    2\cdot A=\left(0,\frac15\right),
+\]
+which is contained in an interval of length $\frac15$. Directly computing the six interval
+pieces shows that this exceptional set satisfies
+\[
+    A+A-3\cdot A=\mathbb T\setminus\left\{\frac15,\frac7{10}\right\}.
+\]
+This completes the proof.
+\end{proof}
+
+\begin{remark}
+The proof above shows that one cannot literally omit $I+J-3\cdot J$ from a covering
+proof in the open-interval setting. The five intervals $R_1,R_2,R_3,R_4,R_6$ leave a fake
+endpoint in the parameter choice
+\[
+    \alpha=\frac9{65}, \qquad \beta=\frac4{65}, \qquad x=\frac3{13},
+\]
+and that endpoint is covered exactly by the omitted term $I+J-3\cdot J$. Thus $R_6$ can
+be used as the main replacement for $R_5$, but $R_5$ still has to be mentioned to dismiss
+this one artificial endpoint.
+\end{remark}
+
+\end{document}

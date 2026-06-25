@@ -1,0 +1,242 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{parskip}
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{claim}{Claim}
+
+\title{The endpoint case for two open intervals}
+\author{Ferran Espu\~na}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{theorem}\label{thm:open_two_intervals_endpoint}
+Let $A \subset \mathbb T$ be a union of two non-empty disjoint open intervals with
+\[
+    \mu(A)=\frac15.
+\]
+If
+\[
+    A+A-3\cdot A \neq \mathbb T,
+\]
+then, up to translating $A$ and replacing $A$ by $-A$, we have
+\[
+    A=\left(0,\frac1{10}\right)\cup\left(\frac12,\frac35\right).
+\]
+In particular, $2\cdot A$ is contained in an interval of length $\frac15$.
+\end{theorem}
+
+\begin{proof}
+The property of $A+A-3\cdot A$ being equal to $\mathbb T$ is unchanged by translating
+$A$ or by replacing $A$ by $-A$. As in the closed-interval proof, we may therefore write
+\[
+    A=I\cup J, \qquad I=(0,\alpha), \qquad J=(x,x+\beta),
+\]
+where
+\begin{align}
+    0<\alpha < x < x+\beta <1, \label{cond:order} \\
+    \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
+    x-\alpha \leq 1-(x+\beta). \label{cond:shorter_gap}
+\end{align}
+Since $\mu(A)=\frac15$, we have
+\[
+    \alpha+\beta=\frac15.
+\]
+Condition~\eqref{cond:shorter_gap} is equivalent to
+\begin{equation}\label{ineq:x_leq_3a_2b}
+    x \leq \frac{1+\alpha-\beta}{2}=3\alpha+2\beta.
+\end{equation}
+We will show that, unless
+\begin{equation}\label{eq:exceptional_case}
+    \alpha=\beta=\frac1{10}, \qquad x=\frac12,
+\end{equation}
+we have $A+A-3\cdot A=\mathbb T$.
+
+Let
+\begin{align*}
+    R_1=I+I-3\cdot I &= (-3\alpha,2\alpha), \\
+    R_2=I+J-3\cdot I &= (x-3\alpha,x+\alpha+\beta), \\
+    R_3=J+J-3\cdot I &= (2x-3\alpha,2x+2\beta), \\
+    R_4=I+I-3\cdot J &= (-3x-3\beta,-3x+2\alpha), \\
+    R_5=I+J-3\cdot J &= (-2x-3\beta,\alpha+\beta-2x), \\
+    R_6=J+J-3\cdot J &= (-x-3\beta,-x+2\beta).
+\end{align*}
+All of these intervals have length strictly smaller than $1$, so we use them in proper
+form: a point $y\in\mathbb T$ belongs to one of these intervals if and only if, for
+some $k\in\mathbb Z$, the real number $y+k$ belongs to the displayed interval.
+Clearly each $R_i$ is contained in $A+A-3\cdot A$.
+
+We first record the strict inequalities that replace the non-strict endpoint inequalities
+in the closed-interval proof.
+
+\begin{claim}\label{claim:strict_first_inequalities}
+If~\eqref{eq:exceptional_case} does not hold, then
+\[
+    x<5\alpha
+    \qquad\text{and}\qquad
+    x<4\alpha+\beta.
+\]
+\end{claim}
+
+\begin{proof}
+By~\eqref{ineq:x_leq_3a_2b} and $\alpha\geq\beta$,
+\[
+    x\leq 3\alpha+2\beta\leq 5\alpha.
+\]
+If equality held in $x\leq 5\alpha$, then we would need $\alpha=\beta$ and
+$x=3\alpha+2\beta$. Since $\alpha+\beta=\frac15$, this gives
+$\alpha=\beta=\frac1{10}$ and $x=\frac12$, which is exactly
+\eqref{eq:exceptional_case}. Hence, outside the exceptional case, $x<5\alpha$.
+
+Similarly,
+\[
+    x\leq 3\alpha+2\beta\leq 4\alpha+\beta,
+\]
+and equality again forces $\alpha=\beta=\frac1{10}$ and $x=\frac12$. Thus
+$x<4\alpha+\beta$ outside the exceptional case.
+\end{proof}
+
+\begin{claim}\label{claim:first_cover}
+Assume~\eqref{eq:exceptional_case} does not hold. Then
+\[
+    R_1\cup R_2\cup R_3
+\]
+covers the interval
+\[
+    [0,2x+2\beta)
+\]
+and also covers the interval $(1-3\alpha,1)$.
+\end{claim}
+
+\begin{proof}
+Modulo $1$, the interval $R_1=(-3\alpha,2\alpha)$ covers
+\[
+    [0,2\alpha)\cup(1-3\alpha,1).
+\]
+By Claim~\ref{claim:strict_first_inequalities}, $x<5\alpha$, so
+\[
+    x-3\alpha<2\alpha.
+\]
+Also $2\alpha<x+\alpha+\beta$, since $\alpha<x+\beta$. Hence $R_2$ contains
+$2\alpha$, and therefore $R_1\cup R_2$ covers $[0,x+\alpha+\beta)$.
+
+Again by Claim~\ref{claim:strict_first_inequalities}, $x<4\alpha+\beta$, so
+\[
+    2x-3\alpha<x+\alpha+\beta.
+\]
+Also $x+\alpha+\beta<2x+2\beta$, since $\alpha<x+\beta$. Hence $R_3$ contains
+$x+\alpha+\beta$, and $R_1\cup R_2\cup R_3$ covers $[0,2x+2\beta)$.
+\end{proof}
+
+It remains to cover the possible leftover interval
+\begin{equation}\label{eq:leftover}
+    [2x+2\beta,1-3\alpha].
+\end{equation}
+If this interval is empty, then we are done. Thus assume from now on that it is non-empty.
+Then
+\begin{equation}\label{ineq:leftover_nonempty}
+    2x+2\beta\leq 1-3\alpha,
+\end{equation}
+or equivalently, using $\alpha+\beta=\frac15$,
+\begin{equation}\label{ineq:two_x_bound}
+    2x\leq 2\alpha+3\beta.
+\end{equation}
+
+We now follow the original proof and try to cover the leftover using $R_4\cup R_5$.
+The only difference is that the intervals are open, so one endpoint case survives.
+
+\begin{claim}\label{claim:R4_R5_cover_except_fake}
+The intervals $R_4$ and $R_5$ cover the leftover interval~\eqref{eq:leftover}, except
+possibly in the case
+\begin{equation}\label{eq:fake_case_R5}
+    \alpha=\beta=\frac1{10}, \qquad x=\frac14.
+\end{equation}
+In that case, the only point of~\eqref{eq:leftover} not covered by $R_4\cup R_5$ is
+$\frac7{10}$.
+\end{claim}
+
+\begin{proof}
+We check the leftover interval after shifting by $-1$. Thus we want to cover
+\[
+    [2x+2\beta-1,-3\alpha].
+\]
+The intervals $R_4$ and $R_5$ overlap, because
+\[
+    -2x-3\beta<-3x+2\alpha
+\]
+is equivalent to $x<2\alpha+3\beta$, which follows from
+\eqref{ineq:two_x_bound}. Therefore
+\[
+    R_4\cup R_5=(-3x-3\beta,\alpha+\beta-2x).
+\]
+The left endpoint is strictly covered, since
+\[
+    -3x-3\beta<2x+2\beta-1
+\]
+is equivalent to $x+\beta>\frac15$, which follows from $x>\alpha$ and
+$\alpha+\beta=\frac15$.
+
+For the right endpoint, we need
+\[
+    -3\alpha<\alpha+\beta-2x,
+\]
+which is equivalent to
+\[
+    2x<4\alpha+\beta.
+\]
+By~\eqref{ineq:two_x_bound} and $\alpha\geq\beta$,
+\[
+    2x\leq 2\alpha+3\beta\leq 4\alpha+\beta.
+\]
+Thus the desired strict inequality can fail only if both inequalities are equalities.
+This forces $\alpha=\beta=\frac1{10}$ and $2x=2\alpha+3\beta=\frac12$, i.e.
+$x=\frac14$.
+
+In that case, the leftover interval~\eqref{eq:leftover} is the singleton
+\[
+    \left\{\frac7{10}\right\},
+\]
+and $\frac7{10}-1=-\frac3{10}$ is exactly the right endpoint of $R_5$, so it is not
+covered by $R_4\cup R_5$.
+\end{proof}
+
+This is the only place where the patch by $R_6$ is needed. In the fake case
+\eqref{eq:fake_case_R5}, we have
+\[
+    R_6=\left(-\frac{11}{20},-\frac1{20}\right),
+\]
+and
+\[
+    \frac7{10}-1=-\frac3{10}\in R_6.
+\]
+Therefore the apparent missing endpoint is covered by $R_6=J+J-3\cdot J$.
+
+We have shown that, outside the exceptional case~\eqref{eq:exceptional_case}, the union
+of the intervals $R_1,\ldots,R_6$ covers all of $\mathbb T$. Hence
+$A+A-3\cdot A=\mathbb T$ outside~\eqref{eq:exceptional_case}. Therefore, if
+$A+A-3\cdot A\neq\mathbb T$, the exceptional case~\eqref{eq:exceptional_case} must hold.
+
+Finally, in the exceptional case,
+\[
+    A=\left(0,\frac1{10}\right)\cup\left(\frac12,\frac35\right),
+\]
+and hence
+\[
+    2\cdot A=\left(0,\frac15\right),
+\]
+which is contained in an interval of length $\frac15$. A direct calculation also shows
+that this exceptional set really does not cover the circle: the six intervals above have
+union
+\[
+    \mathbb T\setminus\left\{\frac15,\frac7{10}\right\}.
+\]
+This completes the proof.
+\end{proof}
+
+\end{document}
