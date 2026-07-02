@@ -1,3 +1,15 @@
+
+# Project build outputs
+/build/
+/dist/
+/pdf/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
 compile_latex.bat
 pdf/.build/
 .venv/

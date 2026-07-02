@@ -1,0 +1,57 @@
+name: Build PDFs
+
+on:
+  push:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install TeX dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends             cm-super             latexmk             texlive-bibtex-extra             texlive-fonts-recommended             texlive-lang-european             texlive-latex-base             texlive-latex-extra             texlive-latex-recommended             texlive-pictures             texlive-science
+
+      - name: Build PDFs and release package
+        run: python scripts/build.py --clean --package
+
+      - name: Compute release tag
+        id: release
+        shell: bash
+        run: |
+          safe_ref="$(printf '%s' "${GITHUB_REF_NAME}" | tr -c 'A-Za-z0-9._-' '-')"
+          echo "tag=pdf-build-${safe_ref}" >> "$GITHUB_OUTPUT"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.release.outputs.tag }}
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -f "$TAG" "$GITHUB_SHA"
+          git push -f origin "$TAG"
+
+          title="Automated PDFs (${GITHUB_REF_NAME})"
+          notes="Automated build for ${GITHUB_SHA}."
+          assets=(pdf/2_interval_proof.pdf pdf/open_two_intervals_R6_main.pdf pdf/open_two_intervals_original_R6_patch.pdf dist/interval_proofs-release.zip)
+
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            gh release upload "$TAG" "${assets[@]}" --clobber
+            gh release edit "$TAG" --title "$title" --notes "$notes"
+          else
+            gh release create "$TAG" "${assets[@]}" --title "$title" --notes "$notes"
+          fi
