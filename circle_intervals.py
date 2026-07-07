@@ -1,11 +1,26 @@
 import argparse
+import base64
 from collections import defaultdict
 from itertools import combinations
+import json
 import math
 from pathlib import Path
+from urllib.parse import parse_qsl, urlencode, urlsplit, urlunsplit
 import warnings
 
 from milp_problem import MILPProblem, MILPSolution
+
+
+DEFAULT_VISUALIZER_URL = "https://ferranespuna.github.io/interval_proofs/"
+VISUALIZER_BASE_COLORS = [
+    "#ef4444",
+    "#3b82f6",
+    "#f59e0b",
+    "#10b981",
+    "#8b5cf6",
+    "#ec4899",
+    "#06b6d4",
+]
 
 
 def integer_lift_bounds(
@@ -479,6 +494,86 @@ def parse_sum_free_triple(value: str) -> tuple[int, int, int]:
     return i, j, k
 
 
+def visualizer_number(value: float, *, digits: int = 6) -> float:
+    rounded = round(float(value), digits)
+    if math.isclose(rounded, 0.0, abs_tol=10 ** -digits):
+        return 0.0
+    return rounded
+
+
+def visualizer_lambda(value: float) -> int | float:
+    if math.isclose(value, round(value), abs_tol=1e-12):
+        return int(round(value))
+    return float(value)
+
+
+def has_visualizer_values(solution: MILPSolution, N: int) -> bool:
+    return all(
+        f"x_{index}" in solution.values and f"alpha_{index}" in solution.values
+        for index in range(N)
+    )
+
+
+def solution_visualizer_state(
+    solution: MILPSolution,
+    *,
+    N: int,
+    d: float,
+) -> dict[str, object]:
+    intervals: list[dict[str, object]] = []
+    for index in range(N):
+        start = visualizer_number(float(solution[f"x_{index}"]) % 1.0)
+        width = visualizer_number(float(solution[f"alpha_{index}"]))
+        intervals.append(
+            {
+                "id": index + 1,
+                "start": start,
+                "width": width,
+                "color": VISUALIZER_BASE_COLORS[index % len(VISUALIZER_BASE_COLORS)],
+            }
+        )
+
+    total_length = visualizer_number(
+        sum(float(interval["width"]) for interval in intervals)
+    )
+    state: dict[str, object] = {
+        "v": 1,
+        "intervals": intervals,
+        "lambda": visualizer_lambda(d),
+        "fixTotalLength": False,
+        "targetTotalLength": total_length,
+        "hiddenMixedComboKeys": [],
+    }
+    missing_point = solution["t"] if "t" in solution.values else 0.0
+    state["missingPoint"] = visualizer_number(float(missing_point) % 1.0)
+    return state
+
+
+def encode_visualizer_state(state: dict[str, object]) -> str:
+    state_json = json.dumps(state, ensure_ascii=False, separators=(",", ":"))
+    encoded = base64.urlsafe_b64encode(state_json.encode("utf-8")).decode("ascii")
+    return encoded.rstrip("=")
+
+
+def visualizer_state_url(
+    state: dict[str, object],
+    *,
+    base_url: str = DEFAULT_VISUALIZER_URL,
+) -> str:
+    split_url = urlsplit(base_url)
+    query = dict(parse_qsl(split_url.query, keep_blank_values=True))
+    query["state"] = encode_visualizer_state(state)
+    return urlunsplit(
+        (
+            split_url.scheme,
+            split_url.netloc,
+            split_url.path,
+            urlencode(query),
+            split_url.fragment,
+        )
+    )
+
+
 def default_file_stem(args: argparse.Namespace) -> str:
     subset_bound_part = "".join(
         f"_subset{subset_size}le{filename_float(bound)}"
@@ -695,6 +790,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="do not save problem and solution JSON files",
     )
     parser.add_argument(
+        "--visualizer-url",
+        default=DEFAULT_VISUALIZER_URL,
+        help="base URL used when printing the shareable visualizer state link",
+    )
+    parser.add_argument(
         "--print-problem",
         action="store_true",
         help="print the full MILP model before solving",
@@ -770,10 +870,39 @@ def main() -> None:
     print(solution)
     print()
 
+    visualizer_state = None
+    visualizer_url = None
+    if has_visualizer_values(solution, args.N):
+        visualizer_state = solution_visualizer_state(
+            solution,
+            N=args.N,
+            d=args.d,
+        )
+        visualizer_url = visualizer_state_url(
+            visualizer_state,
+            base_url=args.visualizer_url,
+        )
+        solution.parameters["visualizer_state"] = visualizer_state
+        solution.parameters["visualizer_url"] = visualizer_url
+
     if not args.no_save:
         problem_path, solution_path = save_json_outputs(problem, solution, args)
         print(f"Saved problem JSON: {problem_path}")
         print(f"Saved solution JSON: {solution_path}")
+        print()
+
+    if visualizer_state is not None and visualizer_url is not None:
+        print("Visualizer state JSON:")
+        print(json.dumps(visualizer_state, indent=2))
+        print()
+        print("Visualizer state URL:")
+        print(visualizer_url)
+        print()
+    else:
+        print(
+            "No visualizer state was printed because the solver returned "
+            "no interval values."
+        )
         print()
 
     if args.require_success and not solution.success:

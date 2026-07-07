@@ -1,7 +1,8 @@
 # Interval Proofs MILP Tools
 
 This repository contains a small named-variable MILP wrapper and a model for
-searching interval configurations on the circle.
+searching interval configurations on the circle. It also contains the React
+visualizer formerly hosted in `ferranEspuna/circle-intervals`.
 
 The main script is `circle_intervals.py`. It builds a mixed-integer linear
 program for a set
@@ -38,8 +39,41 @@ python3 -m venv .venv
 Run the small MILP wrapper test:
 
 ```bash
-.venv/bin/python test_milp_problem.py
 ```
+
+## Visualizer Website
+
+The circle interval visualizer lives in `website/`. It accepts imported state
+JSON and shareable `?state=...` URLs for interval configurations.
+
+Run it locally:
+
+```bash
+npm --prefix website install
+npm --prefix website run dev
+```
+
+Build it:
+
+```bash
+npm --prefix website run build
+```
+
+Pushing to `main` runs `.github/workflows/deploy-pages.yml`, builds the Vite
+app from `website/`, and deploys it to GitHub Pages.
+
+Expected Pages URL:
+
+```text
+https://ferranespuna.github.io/interval_proofs/
+```
+
+After solving, `circle_intervals.py` prints:
+
+- visualizer state JSON that can be pasted into the website's import box;
+- a visualizer state URL that can be copied directly into a browser.
+
+Use `--visualizer-url` to point those generated links at another deployment.
 
 ## Files
 
@@ -659,4 +693,3 @@ Outputs:
 - `pdf/open_two_intervals_original_R6_patch.pdf`
 
 The release zip is written to `dist/interval_proofs-release.zip` and contains the PDFs plus a buildable source tree.
-

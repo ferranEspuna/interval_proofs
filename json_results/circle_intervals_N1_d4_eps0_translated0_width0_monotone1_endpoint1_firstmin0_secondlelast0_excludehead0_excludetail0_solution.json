@@ -1,0 +1,48 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.16666666666666666,
+  "parameters": {
+    "N": 1,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.16666666666666666,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.16666666666666666
+    },
+    "d": 4.0,
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -5,
+    "integer_lift_upper_bound": 2,
+    "output_dir": "json_results",
+    "problem_json_path": "json_results/circle_intervals_N1_d4_eps0_translated0_width0_monotone1_endpoint1_firstmin0_secondlelast0_excludehead0_excludetail0_problem.json",
+    "solution_json_path": "json_results/circle_intervals_N1_d4_eps0_translated0_width0_monotone1_endpoint1_firstmin0_secondlelast0_excludehead0_excludetail0_solution.json",
+    "solver_options": {},
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false
+  },
+  "problem_name": "4.0-sum-free set problem for 1 intervals",
+  "solver_details": {
+    "mip_dual_bound": 0.16666666666666666,
+    "mip_gap": 0.0,
+    "mip_node_count": 1
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.16666666666666666,
+    "n_0-0-0": -1,
+    "x_0": 0.16666666666666669
+  }
+}
