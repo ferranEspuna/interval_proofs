@@ -14,3 +14,4 @@ compile_latex.bat
 pdf/.build/
 .venv/
 __pycache__/
+json_results_tmp/

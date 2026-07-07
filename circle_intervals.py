@@ -762,7 +762,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("json_results"),
+        default=Path("json_results_tmp"),
         help="directory for saved problem and solution JSON files",
     )
     parser.add_argument(
