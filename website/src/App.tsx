@@ -466,7 +466,6 @@ function getDefaultSetup() {
     hiddenMixedComboKeys: [],
     fixTotalLength: false,
     targetTotalLength,
-    missingPoint: null,
   };
 }
 
@@ -553,10 +552,6 @@ function normalizeSharedSetup(shared, defaults = getDefaultSetup()) {
   const hiddenMixedComboKeys = Array.isArray(shared?.hiddenMixedComboKeys)
     ? shared.hiddenMixedComboKeys.filter(key => typeof key === 'string')
     : [];
-  const rawMissingPoint = Number(shared?.missingPoint);
-  const missingPoint = Number.isFinite(rawMissingPoint)
-    ? normalizeTurn(rawMissingPoint)
-    : defaults.missingPoint;
 
   return {
     intervals,
@@ -564,7 +559,6 @@ function normalizeSharedSetup(shared, defaults = getDefaultSetup()) {
     hiddenMixedComboKeys,
     fixTotalLength,
     targetTotalLength,
-    missingPoint,
   };
 }
 
@@ -643,7 +637,6 @@ export default function App() {
   const [hiddenMixedComboKeys, setHiddenMixedComboKeys] = useState(initialSetup.hiddenMixedComboKeys);
   const [fixTotalLength, setFixTotalLength] = useState(initialSetup.fixTotalLength);
   const [targetTotalLength, setTargetTotalLength] = useState(initialSetup.targetTotalLength);
-  const [missingPoint, setMissingPoint] = useState(initialSetup.missingPoint);
   const [copyStatus, setCopyStatus] = useState('idle');
   const [jsonInput, setJsonInput] = useState('');
   const [jsonStatus, setJsonStatus] = useState('idle');
@@ -758,27 +751,19 @@ export default function App() {
     }
   }, [fixTotalLength, totalIntervalLength]);
 
-  const shareState = useMemo(() => {
-    const state: { [key: string]: any } = {
-      v: 1,
-      intervals: intervals.map(interval => ({
-        id: interval.id,
-        start: Number(interval.start.toFixed(6)),
-        width: Number(interval.width.toFixed(6)),
-        color: interval.color,
-      })),
-      lambda,
-      fixTotalLength,
-      targetTotalLength: Number(displayedTotalLength.toFixed(6)),
-      hiddenMixedComboKeys,
-    };
-
-    if (missingPoint !== null) {
-      state.missingPoint = Number(normalizeTurn(missingPoint).toFixed(6));
-    }
-
-    return state;
-  }, [intervals, lambda, fixTotalLength, displayedTotalLength, hiddenMixedComboKeys, missingPoint]);
+  const shareState = useMemo(() => ({
+    v: 1,
+    intervals: intervals.map(interval => ({
+      id: interval.id,
+      start: Number(interval.start.toFixed(6)),
+      width: Number(interval.width.toFixed(6)),
+      color: interval.color,
+    })),
+    lambda,
+    fixTotalLength,
+    targetTotalLength: Number(displayedTotalLength.toFixed(6)),
+    hiddenMixedComboKeys,
+  }), [intervals, lambda, fixTotalLength, displayedTotalLength, hiddenMixedComboKeys]);
 
   const shareUrl = useMemo(() => buildShareUrl(shareState), [shareState]);
   const currentStateJson = useMemo(() => JSON.stringify(shareState, null, 2), [shareState]);
@@ -789,7 +774,6 @@ export default function App() {
     setHiddenMixedComboKeys(setup.hiddenMixedComboKeys);
     setFixTotalLength(setup.fixTotalLength);
     setTargetTotalLength(setup.targetTotalLength);
-    setMissingPoint(setup.missingPoint);
     setDragState({ id: null, offset: 0 });
   }, []);
 
@@ -941,11 +925,6 @@ export default function App() {
   const RADIUS_LAMBDA = 100;
   const RADIUS_PLUS = 140;
   const RADIUS_MIXED = 180;
-  const missingPointMarker = missingPoint === null ? null : {
-    inner: polarToCartesian(0, 0, RADIUS_MIXED - 22, missingPoint),
-    outer: polarToCartesian(0, 0, RADIUS_MIXED + 22, missingPoint),
-    label: polarToCartesian(0, 0, RADIUS_MIXED + 38, missingPoint),
-  };
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans p-4 md:p-8 flex flex-col items-center">
@@ -1020,29 +999,6 @@ export default function App() {
               {renderAPlusAMinusLambdaA.map((seg, i) => (
                 <Arc key={`M-${i}`} r={RADIUS_MIXED} start={seg.start} end={seg.end} color={seg.color} />
               ))}
-              {missingPointMarker && (
-                <g>
-                  <line
-                    x1={missingPointMarker.inner.x}
-                    y1={missingPointMarker.inner.y}
-                    x2={missingPointMarker.outer.x}
-                    y2={missingPointMarker.outer.y}
-                    stroke="#0f172a"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                  <circle cx={missingPointMarker.outer.x} cy={missingPointMarker.outer.y} r="4" fill="#0f172a" />
-                  <text
-                    x={missingPointMarker.label.x}
-                    y={missingPointMarker.label.y}
-                    textAnchor="middle"
-                    alignmentBaseline="middle"
-                    className="text-xs font-bold fill-slate-900"
-                  >
-                    t
-                  </text>
-                </g>
-              )}
             </svg>
 
             {/* Legend inside canvas area */}
@@ -1262,35 +1218,6 @@ export default function App() {
                 </div>
               </div>
             </div>
-
-            {missingPoint !== null && (
-              <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-                <div className="flex items-center justify-between gap-4 mb-4">
-                  <h2 className="font-bold text-lg">Missing Point</h2>
-                  <button
-                    onClick={() => setMissingPoint(null)}
-                    className="px-2 py-1 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors text-xs font-bold"
-                  >
-                    Clear
-                  </button>
-                </div>
-                <div className="flex items-center gap-3">
-                  <label className="font-medium text-slate-700">t</label>
-                  <input
-                    type="number"
-                    step="0.001"
-                    min="0"
-                    max="1"
-                    value={Number(missingPoint.toFixed(6)).toString()}
-                    onChange={(e) => {
-                      const val = parseFloat(e.target.value);
-                      if (!isNaN(val)) setMissingPoint(normalizeTurn(val));
-                    }}
-                    className="w-full text-center font-mono font-bold bg-slate-50 border border-slate-200 rounded-lg h-10 focus:outline-none focus:ring-2 focus:ring-slate-500"
-                  />
-                </div>
-              </div>
-            )}
 
             {canFilterMixedCombinations && (
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">

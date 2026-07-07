@@ -544,8 +544,6 @@ def solution_visualizer_state(
         "targetTotalLength": total_length,
         "hiddenMixedComboKeys": [],
     }
-    missing_point = solution["t"] if "t" in solution.values else 0.0
-    state["missingPoint"] = visualizer_number(float(missing_point) % 1.0)
     return state
 
 
