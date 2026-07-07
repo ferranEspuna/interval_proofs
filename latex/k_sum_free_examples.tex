@@ -1,0 +1,171 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{parskip}
+
+\newtheorem{proposition}{Proposition}
+
+\title{Multi-interval examples improving the one-interval bound}
+\author{Ferran Espu\~na}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+We write \(\mathbb T=\mathbb R/\mathbb Z\). A set \(A\subset \mathbb T\) is
+\(k\)-sum-free if
+\[
+    0\notin A+A-kA.
+\]
+Equivalently, there are no \(x,y,z\in A\) with \(x+y=kz\) in \(\mathbb T\).
+
+For comparison, suppose \(A=I\) is a single open interval of length \(\alpha\).
+Then \(I+I-kI\) is an open interval of length \((k+2)\alpha\) on the real line.
+If \((k+2)\alpha>1\), its image in \(\mathbb T\) is all of \(\mathbb T\). Thus
+the trivial one-interval bound is
+\[
+    \alpha\leq \frac1{k+2}.
+\]
+The examples below exceed this bound for \(k=4\) and \(k=5\).
+
+We will use the following finite certificate. If
+\[
+    I_r=(a_r,b_r),
+\]
+then
+\[
+    I_i+I_j-kI_\ell
+    =
+    \bigl(a_i+a_j-kb_\ell,\; b_i+b_j-ka_\ell\bigr).
+\]
+It is therefore enough, for each \(i\leq j\) and each \(\ell\), to find an
+integer \(n\) such that
+\[
+    n\leq a_i+a_j-kb_\ell
+    \quad\text{and}\quad
+    b_i+b_j-ka_\ell\leq n+1.
+\]
+Then the open interval \(I_i+I_j-kI_\ell\) contains no integer, and hence
+contributes no point equal to \(0\) in \(\mathbb T\).
+
+\begin{proposition}[A \(4\)-sum-free set of three open intervals]
+Let
+\[
+    A_4=
+    \left(\frac13,\frac5{12}\right)
+    \cup
+    \left(\frac{25}{48},\frac{101}{192}\right)
+    \cup
+    \left(\frac7{12},\frac23\right)
+    \subset \mathbb T.
+\]
+Then \(A_4\) is \(4\)-sum-free and
+\[
+    \mu(A_4)
+    =
+    \frac1{12}+\frac1{192}+\frac1{12}
+    =
+    \frac{11}{64}
+    >
+    \frac16.
+\]
+Thus the one-interval bound for \(k=4\) is improved by \(1/192\).
+\end{proposition}
+
+\begin{proof}
+Let the three intervals in \(A_4\) be \(I_1,I_2,I_3\), in the displayed order.
+For each triple \(i\leq j\) and \(\ell\), the following table gives
+\[
+    L_{ij\ell}=a_i+a_j-4b_\ell,
+    \qquad
+    R_{ij\ell}=b_i+b_j-4a_\ell,
+\]
+and an integer \(n\) with \(n\leq L_{ij\ell}<R_{ij\ell}\leq n+1\).
+\[
+\begin{array}{c|c|c|c}
+(i,j,\ell) & n & L_{ij\ell} & R_{ij\ell} \\
+\hline
+(1,1,1) & -1 & -1 & -\frac12 \\
+(1,1,2) & -2 & -\frac{23}{16} & -\frac54 \\
+(1,1,3) & -2 & -2 & -\frac32 \\
+(1,2,1) & -1 & -\frac{13}{16} & -\frac{25}{64} \\
+(1,2,2) & -2 & -\frac54 & -\frac{73}{64} \\
+(1,2,3) & -2 & -\frac{29}{16} & -\frac{89}{64} \\
+(1,3,1) & -1 & -\frac34 & -\frac14 \\
+(1,3,2) & -2 & -\frac{19}{16} & -1 \\
+(1,3,3) & -2 & -\frac74 & -\frac54 \\
+(2,2,1) & -1 & -\frac58 & -\frac9{32} \\
+(2,2,2) & -2 & -\frac{17}{16} & -\frac{33}{32} \\
+(2,2,3) & -2 & -\frac{13}{8} & -\frac{41}{32} \\
+(2,3,1) & -1 & -\frac9{16} & -\frac9{64} \\
+(2,3,2) & -1 & -1 & -\frac{57}{64} \\
+(2,3,3) & -2 & -\frac{25}{16} & -\frac{73}{64} \\
+(3,3,1) & -1 & -\frac12 & 0 \\
+(3,3,2) & -1 & -\frac{15}{16} & -\frac34 \\
+(3,3,3) & -2 & -\frac32 & -1
+\end{array}
+\]
+Since the intervals are open, equality with an integer endpoint in the table
+does not introduce an integer point. Hence every interval
+\(I_i+I_j-4I_\ell\) misses all integers, so \(0\notin A_4+A_4-4A_4\) in
+\(\mathbb T\).
+\end{proof}
+
+\begin{proposition}[A \(5\)-sum-free set of two open intervals]
+Let
+\[
+    A_5=
+    \left(\frac2{35},\frac17\right)
+    \cup
+    \left(\frac67,\frac{33}{35}\right)
+    \subset \mathbb T.
+\]
+Then \(A_5\) is \(5\)-sum-free and
+\[
+    \mu(A_5)
+    =
+    \frac3{35}+\frac3{35}
+    =
+    \frac6{35}
+    >
+    \frac17.
+\]
+Thus the one-interval bound for \(k=5\) is improved by \(1/35\).
+\end{proposition}
+
+\begin{proof}
+The numerical experiment found a third interval of length \(0\), namely
+\((6/7,6/7)\). We omit it here and keep only the two non-empty intervals above.
+Let these intervals be \(I_1,I_2\).
+
+For each triple \(i\leq j\) and \(\ell\), set
+\[
+    L_{ij\ell}=a_i+a_j-5b_\ell,
+    \qquad
+    R_{ij\ell}=b_i+b_j-5a_\ell.
+\]
+The following table gives an integer \(n\) with
+\[
+    n\leq L_{ij\ell}<R_{ij\ell}\leq n+1.
+\]
+\[
+\begin{array}{c|c|c|c}
+(i,j,\ell) & n & L_{ij\ell} & R_{ij\ell} \\
+\hline
+(1,1,1) & -1 & -\frac35 & 0 \\
+(1,1,2) & -5 & -\frac{23}{5} & -4 \\
+(1,2,1) & 0 & \frac15 & \frac45 \\
+(1,2,2) & -4 & -\frac{19}{5} & -\frac{16}{5} \\
+(2,2,1) & 1 & 1 & \frac85 \\
+(2,2,2) & -3 & -3 & -\frac{12}{5}
+\end{array}
+\]
+Again, the intervals are open, so the integer endpoints shown in the table are
+not included. Therefore every interval \(I_i+I_j-5I_\ell\) misses all integers,
+and \(0\notin A_5+A_5-5A_5\) in \(\mathbb T\).
+\end{proof}
+
+\end{document}
