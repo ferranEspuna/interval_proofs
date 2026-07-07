@@ -29,7 +29,9 @@ the trivial one-interval bound is
 \[
     \alpha\leq \frac1{k+2}.
 \]
-The examples below exceed this bound for \(k=4\) and \(k=5\).
+The examples below exceed this bound for \(k=4\) and \(k=5\). We also record
+a general equally spaced construction which gives examples of density larger
+than \(1/8\) for every \(k\geq 3\).
 
 We will use the following finite certificate. If
 \[
@@ -50,6 +52,106 @@ integer \(n\) such that
 \]
 Then the open interval \(I_i+I_j-kI_\ell\) contains no integer, and hence
 contributes no point equal to \(0\) in \(\mathbb T\).
+
+\begin{proposition}[An equally spaced construction]\label{prop:equal_spacing}
+Let \(k\geq 3\), and let \(m\) be an integer satisfying
+\[
+    1\leq m < \frac{k+2}{2}.
+\]
+Set
+\[
+    \delta=\frac{k-2m+2}{k(k+2)}.
+\]
+Choose \(a\in\mathbb T\) such that
+\[
+    (2-k)a\equiv k\delta \pmod 1,
+\]
+and define
+\[
+    A_{k,m}
+    =
+    \bigcup_{r=0}^{m-1}
+    \left(a+\frac r k,\; a+\frac r k+\delta\right)
+    \subset \mathbb T.
+\]
+Then \(A_{k,m}\) is \(k\)-sum-free and
+\[
+    \mu(A_{k,m})
+    =
+    \frac{m(k-2m+2)}{k(k+2)}.
+\]
+In particular, optimizing over \(m\) gives the lower bound
+\[
+    \sup \{\mu(A): A\subset\mathbb T \text{ is } k\text{-sum-free}\}
+    \geq
+    \frac{\left\lfloor (k+2)^2/8\right\rfloor}{k(k+2)}
+    >
+    \frac18.
+\]
+\end{proposition}
+
+\begin{proof}
+The intervals are disjoint because \(\delta<1/k\). Write
+\[
+    I_r=\left(a+\frac r k,\; a+\frac r k+\delta\right),
+    \qquad 0\leq r\leq m-1.
+\]
+For \(0\leq r,s,t\leq m-1\), the interval \(I_r+I_s-kI_t\) has endpoints
+\begin{align*}
+    L_{rst}
+    &=
+    (2-k)a+\frac{r+s}{k}-t-k\delta, \\
+    R_{rst}
+    &=
+    (2-k)a+\frac{r+s}{k}-t+2\delta.
+\end{align*}
+By the choice of \(a\), there is an integer \(q\) such that
+\[
+    (2-k)a=q+k\delta.
+\]
+Thus
+\[
+    L_{rst}=q-t+\frac{r+s}{k}
+\]
+and
+\[
+    R_{rst}
+    =
+    q-t+\frac{r+s}{k}+(k+2)\delta
+    =
+    q-t+\frac{r+s}{k}+1-\frac{2m-2}{k}.
+\]
+Since \(0\leq r+s\leq 2m-2\), we have
+\[
+    q-t
+    \leq L_{rst}
+    <
+    R_{rst}
+    \leq q-t+1.
+\]
+Therefore each open interval \(I_r+I_s-kI_t\) contains no integer. Hence
+\(0\notin A_{k,m}+A_{k,m}-kA_{k,m}\) in \(\mathbb T\).
+
+The measure is \(m\delta\). It remains only to maximize
+\[
+    m(k-2m+2)=m((k+2)-2m)
+\]
+over integers \(m\). This quadratic has maximum
+\[
+    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+\]
+Writing \(u=k+2\), we also have
+\[
+    8\left\lfloor \frac{u^2}{8}\right\rfloor
+    \geq u^2-7
+    >
+    u^2-2u
+    =
+    k(k+2),
+\]
+because \(u\geq 5\). This proves that the optimized density is always strictly
+larger than \(1/8\).
+\end{proof}
 
 \begin{proposition}[A \(4\)-sum-free set of three open intervals]
 Let
