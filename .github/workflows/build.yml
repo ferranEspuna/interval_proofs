@@ -47,7 +47,7 @@ jobs:
 
           title="Automated PDFs (${GITHUB_REF_NAME})"
           notes="Automated build for ${GITHUB_SHA}."
-          assets=(pdf/2_interval_proof.pdf pdf/open_two_intervals_R6_main.pdf pdf/open_two_intervals_original_R6_patch.pdf dist/interval_proofs-release.zip)
+          assets=(pdf/*.pdf dist/interval_proofs-release.zip)
 
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" "${assets[@]}" --clobber

@@ -10,20 +10,22 @@ from pathlib import Path
 
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
+LATEX_DIR = PROJECT_ROOT / "latex"
+PDF_DIR = PROJECT_ROOT / "pdf"
 BUILD_DIR = PROJECT_ROOT / "build"
 DIST_DIR = PROJECT_ROOT / "dist"
 GENERATED_DIRS = {
-        ".git",
-        ".venv",
-        "venv",
-        "__pycache__",
-        ".pytest_cache",
-        ".mypy_cache",
-        ".ruff_cache",
-        "build",
-        "dist",
-        'pdf',
-    }
+    ".git",
+    ".venv",
+    "venv",
+    "__pycache__",
+    ".pytest_cache",
+    ".mypy_cache",
+    ".ruff_cache",
+    "build",
+    "dist",
+    "pdf",
+}
 
 
 @dataclass(frozen=True)
@@ -45,11 +47,19 @@ class LatexTarget:
         return self.tex_path.stem
 
 
-TARGETS = {
-    '2_interval_proof': LatexTarget('2_interval_proof', 'latex/2_interval_proof.tex', 'pdf/2_interval_proof.pdf'),
-    'open_two_intervals_R6_main': LatexTarget('open_two_intervals_R6_main', 'latex/open_two_intervals_R6_main.tex', 'pdf/open_two_intervals_R6_main.pdf'),
-    'open_two_intervals_original_R6_patch': LatexTarget('open_two_intervals_original_R6_patch', 'latex/open_two_intervals_original_R6_patch.tex', 'pdf/open_two_intervals_original_R6_patch.pdf'),
-}
+def discover_targets() -> dict[str, LatexTarget]:
+    targets = {}
+    for tex_path in sorted(LATEX_DIR.glob("*.tex")):
+        name = tex_path.stem
+        targets[name] = LatexTarget(
+            name,
+            str(tex_path.relative_to(PROJECT_ROOT)),
+            str((PDF_DIR / f"{name}.pdf").relative_to(PROJECT_ROOT)),
+        )
+    return targets
+
+
+TARGETS = discover_targets()
 
 
 def run(command: list[str], cwd: Path | None = None) -> None:
@@ -66,12 +76,9 @@ def ensure_tool(name: str) -> None:
 
 
 def clean() -> None:
-    for path in (BUILD_DIR, DIST_DIR):
+    for path in (BUILD_DIR, DIST_DIR, PDF_DIR):
         if path.exists():
             shutil.rmtree(path)
-    for target in TARGETS.values():
-        if target.output_path.exists():
-            target.output_path.unlink()
 
 
 def prepare_build_dir(target: LatexTarget) -> Path:
@@ -168,6 +175,9 @@ def main() -> None:
         clean()
     if args.clean_only:
         return
+
+    if not TARGETS:
+        raise SystemExit("No LaTeX files found in latex/.")
 
     target_names = args.target or list(TARGETS)
     pdf_paths = [build_target(TARGETS[name]) for name in target_names]
