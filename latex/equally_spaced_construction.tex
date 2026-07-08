@@ -1,0 +1,333 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{parskip}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{claim}{Claim}
+\newtheorem{remark}{Remark}
+
+\title{An equally spaced construction for $k$-sum-free sets}
+\author{Ferran Espu\~na}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+We work in \(\mathbb T=\mathbb R/\mathbb Z\). We will build open sets
+\[
+    A\subset \mathbb T
+\]
+with
+\[
+    0\notin A+A-kA.
+\]
+Equivalently, there are no \(x,y,z\in A\) satisfying \(x+y=kz\) in
+\(\mathbb T\).
+
+Fix an integer \(k\geq 3\). Choose, for the moment, an integer \(m\geq 1\), a
+number \(\delta>0\), and a point \(a\in\mathbb T\). Consider
+\[
+    A=\bigcup_{r=0}^{m-1} I_r,
+    \qquad
+    I_r=\left(a+\frac r k,\; a+\frac r k+\delta\right).
+\]
+The intervals are equally spaced by \(1/k\). We will now discover how large
+\(\delta\) can be.
+
+\begin{claim}\label{claim:disjoint}
+If
+\[
+    \delta<\frac1k
+    \qquad\text{and}\qquad
+    \frac{m-1}{k}+\delta<1,
+\]
+then the intervals \(I_0,\ldots,I_{m-1}\) are disjoint in \(\mathbb T\).
+\end{claim}
+
+\begin{proof}
+In the chosen order, consecutive starting points are separated by \(1/k\), so
+\(\delta<1/k\) prevents two consecutive intervals from overlapping. The second
+inequality says that the last interval does not reach the first interval after
+going around the circle.
+\end{proof}
+
+We next impose the \(k\)-sum-free condition. For \(0\leq r,s,t\leq m-1\), the
+open interval \(I_r+I_s-kI_t\) has left and right endpoints
+\begin{align*}
+    L_{rst}
+    &=
+    (2-k)a+\frac{r+s-kt}{k}-k\delta, \\
+    R_{rst}
+    &=
+    (2-k)a+\frac{r+s-kt}{k}+2\delta.
+\end{align*}
+Since \(kt/k=t\) is an integer, the index \(t\) only shifts the interval by an
+integer. We therefore remove this integer shift and define
+\[
+    L'_{r,s}=(2-k)a+\frac{r+s}{k}-k\delta,
+    \qquad
+    R'_{r,s}=(2-k)a+\frac{r+s}{k}+2\delta.
+\]
+Then
+\[
+    I_r+I_s-kI_t=(L'_{r,s}-t,\; R'_{r,s}-t).
+\]
+Thus it is enough to place all the reduced intervals
+\((L'_{r,s},R'_{r,s})\) between the same two consecutive integers.
+
+\begin{claim}\label{claim:reduced_intervals}
+Assume
+\[
+    L'_{0,0}=(2-k)a-k\delta\in\mathbb Z
+\]
+and
+\[
+    R'_{m-1,m-1}-L'_{0,0}\leq 1.
+\]
+Then \(A\) is \(k\)-sum-free.
+\end{claim}
+
+\begin{proof}
+The reduced endpoints are increasing with \(r+s\). Hence, for every
+\(0\leq r,s\leq m-1\),
+\[
+    L'_{0,0}
+    \leq
+    L'_{r,s}
+    <
+    R'_{r,s}
+    \leq
+    R'_{m-1,m-1}
+    \leq
+    L'_{0,0}+1.
+\]
+Thus each reduced interval \((L'_{r,s},R'_{r,s})\) lies between the same two
+consecutive integers. Shifting by the integer \(-t\), each interval
+\[
+    I_r+I_s-kI_t=(L'_{r,s}-t,\;R'_{r,s}-t)
+\]
+also lies between two consecutive integers. Since these intervals are open,
+integer endpoints are not included. Therefore no interval \(I_r+I_s-kI_t\)
+contains an integer, and \(0\notin A+A-kA\) in \(\mathbb T\).
+\end{proof}
+
+The condition \((2-k)a-k\delta\in\mathbb Z\) can always be achieved after
+\(\delta\) is chosen. For example, we may take
+\[
+    a=\frac{k\delta}{2-k},
+\]
+which makes \(L'_{0,0}=0\). In particular, when \(\delta\) is rational this
+choice gives rational endpoints. We are therefore left with the size constraint
+coming from Claim~\ref{claim:reduced_intervals}. Directly computing,
+\[
+    R'_{m-1,m-1}-L'_{0,0}
+    =
+    \frac{2(m-1)}{k}+(k+2)\delta.
+\]
+To make the intervals as large as possible for this value of \(m\), we take
+equality:
+\[
+    \frac{2(m-1)}{k}+(k+2)\delta=1.
+\]
+Solving for \(\delta\) gives
+\[
+    \delta
+    =
+    \frac{1-\frac{2(m-1)}{k}}{k+2}
+    =
+    \frac{k-2m+2}{k(k+2)}.
+\]
+This is positive precisely when
+\[
+    m<\frac{k+2}{2}.
+\]
+
+\begin{proposition}\label{prop:construction}
+Let \(k\geq 3\), and let \(m\) be an integer with
+\[
+    1\leq m<\frac{k+2}{2}.
+\]
+Set
+\[
+    \delta=\frac{k-2m+2}{k(k+2)}.
+\]
+Then there is a choice of \(a\in\mathbb T\) for which
+\[
+    A=\bigcup_{r=0}^{m-1}
+    \left(a+\frac r k,\; a+\frac r k+\delta\right)
+\]
+is \(k\)-sum-free. Its measure is
+\[
+    \mu(A)=m\delta
+    =
+    \frac{m(k-2m+2)}{k(k+2)}.
+\]
+\end{proposition}
+
+\begin{proof}
+Choose \(a=k\delta/(2-k)\), so that \(L'_{0,0}=0\). The defining choice of
+\(\delta\) gives the second hypothesis of Claim~\ref{claim:reduced_intervals}.
+Hence \(A\) is \(k\)-sum-free.
+
+It remains only to check that the intervals are disjoint. Since \(m\geq 1\),
+\[
+    \delta
+    =
+    \frac{k-2m+2}{k(k+2)}
+    \leq
+    \frac{k}{k(k+2)}
+    <
+    \frac1k.
+\]
+Also,
+\[
+    \frac{m-1}{k}+\delta
+    <
+    \frac{m}{k}
+    <
+    \frac{k+2}{2k}
+    <1,
+\]
+because \(k\geq 3\). By Claim~\ref{claim:disjoint}, the intervals are
+disjoint. The measure is therefore the sum of their lengths, namely
+\(m\delta\).
+\end{proof}
+
+Now we optimize over \(m\). Put
+\[
+    \varphi(x)=x(k-2x+2).
+\]
+The density from Proposition~\ref{prop:construction} is
+\[
+    \frac{\varphi(m)}{k(k+2)}.
+\]
+The function \(\varphi\) is a downward-opening parabola with roots \(0\) and
+\((k+2)/2\), so its real maximum occurs at
+\[
+    x_0=\frac{k+2}{4}.
+\]
+Therefore we choose an integer \(m_0\) nearest to \(x_0\). Then
+\[
+    \left|m_0-\frac{k+2}{4}\right|\leq \frac12.
+\]
+For \(k\geq 3\), this integer is allowed: indeed \(m_0\geq 1\), and
+\[
+    m_0
+    \leq
+    \frac{k+2}{4}+\frac12
+    =
+    \frac{k+4}{4}
+    <
+    \frac{k+2}{2}.
+\]
+
+\begin{claim}\label{claim:nearest_integer}
+For this choice of \(m_0\),
+\[
+    \varphi(m_0)
+    =
+    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+\]
+\end{claim}
+
+\begin{proof}
+Completing the square gives
+\[
+    \varphi(x)
+    =
+    \frac{(k+2)^2}{8}
+    -
+    2\left(x-\frac{k+2}{4}\right)^2.
+\]
+Thus
+\[
+    \varphi\left(\frac{k+2}{4}\right)-\varphi(m_0)
+    =
+    2\left(m_0-\frac{k+2}{4}\right)^2
+    \leq
+    \frac12
+    <1.
+\]
+Since \(\varphi(m_0)\) is an integer and
+\(\varphi(m_0)\leq (k+2)^2/8\), this forces
+\[
+    \varphi(m_0)
+    =
+    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+\]
+\end{proof}
+
+\begin{proposition}\label{prop:optimized_density}
+For every \(k\geq 3\), the construction above gives a \(k\)-sum-free open set
+of measure
+\[
+    \frac{\left\lfloor (k+2)^2/8\right\rfloor}{k(k+2)}.
+\]
+In particular this measure is always strictly larger than \(1/8\).
+\end{proposition}
+
+\begin{proof}
+The formula follows from Proposition~\ref{prop:construction} and
+Claim~\ref{claim:nearest_integer}. To prove that this is larger than \(1/8\),
+use the estimate from the proof of Claim~\ref{claim:nearest_integer}:
+\[
+    \varphi(m_0)>
+    \frac{(k+2)^2}{8}-1.
+\]
+Therefore
+\[
+    \mu(A)
+    >
+    \frac{\frac{(k+2)^2}{8}-1}{k(k+2)}.
+\]
+The right-hand side is larger than \(1/8\) exactly when
+\[
+    \frac{(k+2)^2}{8}-1>\frac{k(k+2)}{8},
+\]
+or equivalently
+\[
+    (k+2)^2-8>k(k+2).
+\]
+This reduces to \(2k-4>0\), which holds for every \(k\geq 3\).
+\end{proof}
+
+\begin{table}[ht]
+\centering
+\small
+\caption{Optimized density of the equally spaced construction.}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{c|ccccccccccccc}
+\(k\) & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
+\hline
+fraction
+& \(1/5\) & \(1/6\) & \(6/35\) & \(1/6\) & \(10/63\) & \(3/20\)
+& \(5/33\) & \(3/20\) & \(21/143\) & \(1/7\) & \(28/195\)
+& \(1/7\) & \(12/85\) \\
+decimal
+& \(0.200000\) & \(0.166667\) & \(0.171429\) & \(0.166667\)
+& \(0.158730\) & \(0.150000\) & \(0.151515\) & \(0.150000\)
+& \(0.146853\) & \(0.142857\) & \(0.143590\) & \(0.142857\)
+& \(0.141176\)
+\end{tabular}%
+}
+\end{table}
+
+\begin{remark}
+This construction is not always optimal among finite unions of intervals. For
+example, when \(k=4\), the equally spaced construction gives density \(1/6\),
+but one can add a tiny extra interval and obtain density
+\[
+    \frac{11}{64}
+    =
+    \frac16+\frac1{192}.
+\]
+Thus the construction above should be viewed as a robust general lower bound,
+not as a sharp formula for every \(k\).
+\end{remark}
+
+\end{document}
