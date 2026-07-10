@@ -7,6 +7,7 @@ const MAX_P = 12000;
 const MAX_M = Math.floor(Math.sqrt((MAX_P - 1) / 4));
 const COLORS = {
   a: '#ef4444',
+  tail: '#f97316',
   ma: '#059669',
   sum: '#2563eb',
   mixed: '#7c3aed',
@@ -103,37 +104,50 @@ function getRecipePreset(recipe, m, manualLambda, manualMu) {
 }
 
 function buildCandelaSet({ m, n, p, lambda, mu, extra }) {
-  const result = new Set();
+  const base = new Set();
+  const tail = new Set();
   const start = 4 * m * n + 1;
   const end = 2 * lambda * m * n;
 
   for (let x = start; x <= end; x += 1) {
     if (mod(x, m) <= mu) {
-      result.add(mod(x, p));
+      base.add(mod(x, p));
     }
   }
 
   if (extra === 'tail-2' && mod(m, 4) === 2) {
     const residue = (m + 2) / 4;
     for (let t = m * n; t <= 2 * (m - 1) * n - 1; t += 1) {
-      result.add(mod(t * m + residue, p));
+      tail.add(mod(t * m + residue, p));
     }
   }
 
   if (extra === 'tail-3' && mod(m, 4) === 3) {
     const residue = (m + 1) / 4;
     for (let t = m * n; t <= 2 * m * n - 1; t += 1) {
-      result.add(mod(t * m + residue, p));
+      tail.add(mod(t * m + residue, p));
     }
   }
 
-  return result;
+  return {
+    base,
+    tail,
+    all: unionSets(base, tail),
+  };
 }
 
 function multiplySet(values, factor, p) {
   const result = new Set();
   values.forEach(value => {
     result.add(mod(value * factor, p));
+  });
+  return result;
+}
+
+function unionSets(...sets) {
+  const result = new Set();
+  sets.forEach(values => {
+    values.forEach(value => result.add(value));
   });
   return result;
 }
@@ -269,26 +283,27 @@ function readCandelaSetupFromUrl() {
   }
 }
 
-function DiscreteRing({ radius, p, residues, color }) {
+function DiscreteRing({ radius, p, residues, color, accentResidues = null, accentColor = null }) {
   const dotRadius = p <= 720 ? 1.05 : p <= 1500 ? 0.75 : p <= 3000 ? 0.55 : p <= 8000 ? 0.38 : 0.3;
   const dots = useMemo(() => {
     const result = [];
     for (let value = 0; value < p; value += 1) {
       const point = polarToCartesian(0, 0, radius, value / p);
       const isPresent = residues.has(value);
+      const isAccent = accentResidues?.has(value);
       result.push(
         <circle
           key={value}
           cx={point.x}
           cy={point.y}
           r={dotRadius}
-          fill={isPresent ? color : '#cbd5e1'}
+          fill={isAccent ? accentColor : isPresent ? color : '#cbd5e1'}
           opacity={isPresent ? 0.98 : 0.58}
         />
       );
     }
     return result;
-  }, [radius, p, residues, color, dotRadius]);
+  }, [radius, p, residues, color, accentResidues, accentColor, dotRadius]);
 
   return (
     <g>
@@ -376,7 +391,8 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
 
   const data = useMemo(() => {
     const rawA = buildCandelaSet({ m, n, p, lambda, mu, extra });
-    const a = multiplySet(rawA, dilation, p);
+    const aTail = multiplySet(rawA.tail, dilation, p);
+    const a = multiplySet(rawA.all, dilation, p);
     const ma = multiplySet(a, m, p);
     const aa = sumset(a, p);
     const mixed = differenceSet(aa, ma, p);
@@ -384,6 +400,7 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
 
     return {
       a,
+      aTail,
       ma,
       aa,
       mixed,
@@ -515,7 +532,7 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
                 <text x="0" y="248" textAnchor="middle" alignmentBaseline="hanging" className="text-sm font-semibold fill-slate-400">{Math.floor(p / 2)}</text>
                 <text x="-248" y="0" textAnchor="end" alignmentBaseline="middle" className="text-sm font-semibold fill-slate-400">{Math.floor(3 * p / 4)}</text>
 
-                <DiscreteRing radius={RADIUS_A} p={p} residues={data.a} color={COLORS.a} />
+                <DiscreteRing radius={RADIUS_A} p={p} residues={data.a} color={COLORS.a} accentResidues={data.aTail} accentColor={COLORS.tail} />
                 <DiscreteRing radius={RADIUS_MA} p={p} residues={data.ma} color={COLORS.ma} />
                 <DiscreteRing radius={RADIUS_SUM} p={p} residues={data.aa} color={COLORS.sum} />
                 <DiscreteRing radius={RADIUS_MIXED} p={p} residues={data.mixed} color={COLORS.mixed} />
@@ -530,6 +547,14 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
                   <span className="text-sm text-slate-600"><InlineMath>{'cA'}</InlineMath></span>
                   <span className="font-bold text-sm text-slate-500 font-mono ml-auto">{data.a.size}</span>
                 </div>
+                {data.aTail.size > 0 && (
+                  <div className="flex items-center gap-2">
+                    <span className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS.tail }} />
+                    <span className="font-bold text-sm text-slate-800">Tail:</span>
+                    <span className="text-sm text-slate-600"><InlineMath>{'cB'}</InlineMath></span>
+                    <span className="font-bold text-sm text-slate-500 font-mono ml-auto">{data.aTail.size}</span>
+                  </div>
+                )}
                 <div className="flex items-center gap-2">
                   <span className="h-3 w-3 rounded-full" style={{ backgroundColor: COLORS.ma }} />
                   <span className="font-bold text-sm text-slate-800">Second:</span>
@@ -623,6 +648,7 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
               <h2 className="font-bold text-lg mb-4">Discrete Counts</h2>
               <div className="space-y-1">
                 <Stat label="|A|" value={data.a.size} />
+                <Stat label="|tail|" value={data.aTail.size} />
                 <Stat label="|A| / p" value={density.toFixed(6)} />
                 <Stat label="|A| / (p - 1)" value={paperDensity.toFixed(6)} />
                 <Stat label="|A + A|" value={data.aa.size} />
