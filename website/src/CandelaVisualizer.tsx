@@ -269,53 +269,31 @@ function readCandelaSetupFromUrl() {
   }
 }
 
-function DiscreteTrack({ radius, p }) {
-  const fullTicks = p <= 720;
-  const count = fullTicks ? p : 240;
-  const ticks = [];
-
-  for (let i = 0; i < count; i += 1) {
-    const turn = fullTicks ? i / p : i / count;
-    const point = polarToCartesian(0, 0, radius, turn);
-    ticks.push(
-      <circle
-        key={i}
-        cx={point.x}
-        cy={point.y}
-        r={fullTicks ? 1.05 : 0.8}
-        fill="#cbd5e1"
-        opacity={fullTicks ? 0.8 : 0.45}
-      />
-    );
-  }
+function DiscreteRing({ radius, p, residues, color }) {
+  const dotRadius = p <= 720 ? 1.05 : p <= 1500 ? 0.75 : p <= 3000 ? 0.55 : p <= 8000 ? 0.38 : 0.3;
+  const dots = useMemo(() => {
+    const result = [];
+    for (let value = 0; value < p; value += 1) {
+      const point = polarToCartesian(0, 0, radius, value / p);
+      const isPresent = residues.has(value);
+      result.push(
+        <circle
+          key={value}
+          cx={point.x}
+          cy={point.y}
+          r={dotRadius}
+          fill={isPresent ? color : '#cbd5e1'}
+          opacity={isPresent ? 0.98 : 0.58}
+        />
+      );
+    }
+    return result;
+  }, [radius, p, residues, color, dotRadius]);
 
   return (
     <g>
       <circle cx="0" cy="0" r={radius} stroke="#f1f5f9" strokeWidth="12" fill="none" />
-      {ticks}
-    </g>
-  );
-}
-
-function ResidueRing({ radius, p, residues, color }) {
-  const values = useMemo(() => Array.from(residues).sort((a, b) => a - b), [residues]);
-  const dotRadius = p <= 240 ? 3.4 : p <= 900 ? 2.3 : p <= 3000 ? 1.55 : 1.05;
-
-  return (
-    <g>
-      {values.map(value => {
-        const point = polarToCartesian(0, 0, radius, value / p);
-        return (
-          <circle
-            key={value}
-            cx={point.x}
-            cy={point.y}
-            r={dotRadius}
-            fill={color}
-            opacity="0.78"
-          />
-        );
-      })}
+      {dots}
     </g>
   );
 }
@@ -537,15 +515,10 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
                 <text x="0" y="248" textAnchor="middle" alignmentBaseline="hanging" className="text-sm font-semibold fill-slate-400">{Math.floor(p / 2)}</text>
                 <text x="-248" y="0" textAnchor="end" alignmentBaseline="middle" className="text-sm font-semibold fill-slate-400">{Math.floor(3 * p / 4)}</text>
 
-                <DiscreteTrack radius={RADIUS_A} p={p} />
-                <DiscreteTrack radius={RADIUS_MA} p={p} />
-                <DiscreteTrack radius={RADIUS_SUM} p={p} />
-                <DiscreteTrack radius={RADIUS_MIXED} p={p} />
-
-                <ResidueRing radius={RADIUS_A} p={p} residues={data.a} color={COLORS.a} />
-                <ResidueRing radius={RADIUS_MA} p={p} residues={data.ma} color={COLORS.ma} />
-                <ResidueRing radius={RADIUS_SUM} p={p} residues={data.aa} color={COLORS.sum} />
-                <ResidueRing radius={RADIUS_MIXED} p={p} residues={data.mixed} color={COLORS.mixed} />
+                <DiscreteRing radius={RADIUS_A} p={p} residues={data.a} color={COLORS.a} />
+                <DiscreteRing radius={RADIUS_MA} p={p} residues={data.ma} color={COLORS.ma} />
+                <DiscreteRing radius={RADIUS_SUM} p={p} residues={data.aa} color={COLORS.sum} />
+                <DiscreteRing radius={RADIUS_MIXED} p={p} residues={data.mixed} color={COLORS.mixed} />
 
                 <circle cx="0" cy={-RADIUS_MIXED} r="5" fill={data.zeroInMixed ? '#ef4444' : '#0f172a'} stroke="#ffffff" strokeWidth="2" />
               </svg>
