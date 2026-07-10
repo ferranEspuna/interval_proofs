@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Check, Copy, RotateCcw } from 'lucide-react';
 import katex from 'katex';
 
-const MIN_M = 7;
+const MIN_M = 3;
 const MAX_P = 12000;
 const MAX_M = Math.floor(Math.sqrt((MAX_P - 1) / 4));
 const COLORS = {
