@@ -2,6 +2,7 @@ import React, { useState, useMemo, useRef, useCallback, useEffect } from 'react'
 import { Check, Copy, Plus, Trash2 } from 'lucide-react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
+import CandelaVisualizer from './CandelaVisualizer';
 
 const EPSILON = 1e-9;
 const BASE_COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4'];
@@ -578,6 +579,24 @@ function readSetupFromUrl() {
   }
 }
 
+function readInitialVisualizerMode() {
+  if (typeof window === 'undefined') return 'candela';
+
+  const rawState = new URLSearchParams(window.location.search).get('state');
+  if (!rawState) return 'candela';
+
+  try {
+    const shared = decodeShareState(rawState);
+    if (shared?.mode === 'candela') return 'candela';
+    if (shared?.mode === 'interval') return 'interval';
+    if (Array.isArray(shared?.intervals)) return 'interval';
+  } catch {
+    return 'candela';
+  }
+
+  return 'candela';
+}
+
 function buildShareUrl(state) {
   if (typeof window === 'undefined') return '';
 
@@ -630,7 +649,7 @@ function Arc({ r, start, end, color, className, style, ...rest }) {
   return <path d={d} stroke={color} strokeWidth="16" fill="none" strokeLinecap="butt" className={finalClassName} style={mergedStyle} {...rest} />;
 }
 
-export default function App() {
+function IntervalVisualizer({ onSwitchToCandela }) {
   const [initialSetup] = useState(() => readSetupFromUrl());
   const [intervals, setIntervals] = useState(initialSetup.intervals);
   const [lambda, setLambda] = useState(initialSetup.lambda);
@@ -753,6 +772,7 @@ export default function App() {
 
   const shareState = useMemo(() => ({
     v: 1,
+    mode: 'interval',
     intervals: intervals.map(interval => ({
       id: interval.id,
       start: Number(interval.start.toFixed(6)),
@@ -938,14 +958,23 @@ export default function App() {
                 Explore additive combinatorics on the circle group <InlineMath>{'\\mathbb{T} = \\mathbb{R}/\\mathbb{Z}'}</InlineMath>. Visualizing interval sets <InlineMath>{'A'}</InlineMath>, sumsets <InlineMath>{'A+A'}</InlineMath>, dilations <InlineMath>{'\\lambda A'}</InlineMath>, and mixed sets <InlineMath>{'A+A-\\lambda A'}</InlineMath>.
               </p>
             </div>
-            <button
-              onClick={handleCopyShareLink}
-              className="shrink-0 bg-slate-900 hover:bg-slate-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
-              title="Copy shareable setup link"
-            >
-              {copyStatus === 'copied' ? <Check size={16} /> : <Copy size={16} />}
-              {copyStatus === 'copied' ? 'Copied' : copyStatus === 'failed' ? 'Copy Failed' : 'Copy current state link'}
-            </button>
+            <div className="flex flex-col sm:flex-row gap-2">
+              <button
+                onClick={onSwitchToCandela}
+                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
+                title="Open the Candela construction visualizer"
+              >
+                Candela construction
+              </button>
+              <button
+                onClick={handleCopyShareLink}
+                className="shrink-0 bg-slate-900 hover:bg-slate-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
+                title="Copy shareable setup link"
+              >
+                {copyStatus === 'copied' ? <Check size={16} /> : <Copy size={16} />}
+                {copyStatus === 'copied' ? 'Copied' : copyStatus === 'failed' ? 'Copy Failed' : 'Copy current state link'}
+              </button>
+            </div>
           </div>
         </header>
 
@@ -1299,4 +1328,14 @@ export default function App() {
       </div>
     </div>
   );
+}
+
+export default function App() {
+  const [mode, setMode] = useState(() => readInitialVisualizerMode());
+
+  if (mode === 'interval') {
+    return <IntervalVisualizer onSwitchToCandela={() => setMode('candela')} />;
+  }
+
+  return <CandelaVisualizer onSwitchToIntervals={() => setMode('interval')} />;
 }

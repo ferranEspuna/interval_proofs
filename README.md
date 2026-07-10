@@ -43,8 +43,14 @@ Run the small MILP wrapper test:
 
 ## Visualizer Website
 
-The circle interval visualizer lives in `website/`. It accepts imported state
-JSON and shareable `?state=...` URLs for interval configurations.
+The visualizer lives in `website/`. It now has two modes:
+
+- a discrete Candela--González-Sánchez--Grynkiewicz construction visualizer for
+  sets in `Z/pZ` with `p = 4m^2n + 1`;
+- the original circle interval visualizer for interval configurations in
+  `T = R/Z`.
+
+Both modes accept imported state JSON and shareable `?state=...` URLs.
 
 Run it locally:
 
