@@ -23,25 +23,40 @@ VISUALIZER_BASE_COLORS = [
 ]
 
 
+def resolve_multiplier(
+    m: float | None,
+    legacy_d: float | None = None,
+) -> float:
+    if m is None:
+        if legacy_d is None:
+            raise ValueError("m must be provided")
+        return legacy_d
+    if legacy_d is not None and not math.isclose(m, legacy_d, rel_tol=0.0, abs_tol=1e-12):
+        raise ValueError("received conflicting values for m and legacy d")
+    return m
+
+
 def integer_lift_bounds(
-    d: float,
+    m: float | None = None,
     epsilon: float = 0.0,
     *,
     translated_missing_point: bool = False,
+    d: float | None = None,
 ) -> tuple[int, int]:
-    """Return safe bounds for the integer lift variable n_ijk.
+    """Return safe bounds for the integer lift variable.
 
     Since all intervals are represented inside [0, 1],
-        -d <= right endpoint <= 2 and -d <= left endpoint <= 2.
+        -m <= right endpoint <= 2 and -m <= left endpoint <= 2.
     In the original formulation, the lift n must satisfy
         n + epsilon <= left and right <= n + 1 - epsilon.
     In the translated-missing-point formulation, t is in [0, 1] and
         n + t + epsilon <= left and right <= n + 1 + t - epsilon,
     so the lower bound can be one smaller.
     """
+    m = resolve_multiplier(m, d)
     tolerance = 1e-12
     translated_shift = 1 if translated_missing_point else 0
-    lower_bound = math.ceil(-d - 1 - translated_shift + epsilon - tolerance)
+    lower_bound = math.ceil(-m - 1 - translated_shift + epsilon - tolerance)
     upper_bound = math.floor(2 - epsilon + tolerance)
     return lower_bound, upper_bound
 
@@ -60,10 +75,10 @@ def excluded_sum_free_triples(
 
     def triples_supported_on(indices: set[int]) -> set[tuple[int, int, int]]:
         return {
-            (i, j, k)
+            (i, j, ell)
             for i in indices
             for j in indices
-            for k in indices
+            for ell in indices
             if i <= j
         }
 
@@ -77,9 +92,10 @@ def excluded_sum_free_triples(
 
 def build_circle_interval_problem(
     N: int,
-    d: float,
+    m: float | None = None,
     epsilon: float = 0.0,
     *,
+    d: float | None = None,
     use_translated_missing_point: bool = False,
     add_width_cuts: bool = False,
     add_monotonicity_cuts: bool = True,
@@ -92,11 +108,12 @@ def build_circle_interval_problem(
     exclude_sum_free_exact_triples: list[tuple[int, int, int]] | None = None,
     subset_alpha_bounds: list[tuple[int, float]] | None = None,
 ) -> MILPProblem:
-    problem = MILPProblem(f"{d}-sum-free set problem for {N} intervals")
+    m = resolve_multiplier(m, d)
+    problem = MILPProblem(f"{m}-sum-free set problem for {N} intervals")
     if N < 1:
         raise ValueError("N must be at least 1")
-    if d <= 0:
-        raise ValueError("d must be positive")
+    if m <= 0:
+        raise ValueError("m must be positive")
     if epsilon < 0:
         raise ValueError("epsilon must be nonnegative")
     if add_first_interval_shortest_cut and not use_translated_missing_point:
@@ -136,8 +153,8 @@ def build_circle_interval_problem(
     for triple in exclude_sum_free_exact_triples or []:
         if len(triple) != 3:
             raise ValueError("exclude sum-free triples must have exactly 3 indices")
-        i, j, k = triple
-        invalid_indices = [index for index in (i, j, k) if index < 0 or index >= N]
+        i, j, ell = triple
+        invalid_indices = [index for index in (i, j, ell) if index < 0 or index >= N]
         if invalid_indices:
             raise ValueError(
                 "exclude sum-free triple indices must be between 0 and N-1"
@@ -146,7 +163,7 @@ def build_circle_interval_problem(
             raise ValueError(
                 "exclude sum-free triple must have first index <= second index"
             )
-        normalized_exact_triples.add((i, j, k))
+        normalized_exact_triples.add((i, j, ell))
     exclude_sum_free_exact_triples = sorted(normalized_exact_triples)
 
     has_sum_free_exclusions = (
@@ -157,7 +174,7 @@ def build_circle_interval_problem(
     )
     if has_sum_free_exclusions and not add_first_interval_shortest_cut:
         warnings.warn(
-            "d-sum-free triples are being excluded, but no interval is known "
+            "m-sum-free triples are being excluded, but no interval is known "
             "to be globally shortest. For small-interval experiments, consider "
             "using --translated-missing-point --first-interval-shortest.",
             UserWarning,
@@ -172,7 +189,7 @@ def build_circle_interval_problem(
             raise ValueError("subset alpha bound must be a finite nonnegative number")
 
     n_lower_bound, n_upper_bound = integer_lift_bounds(
-        d,
+        m,
         epsilon,
         translated_missing_point=use_translated_missing_point,
     )
@@ -183,14 +200,14 @@ def build_circle_interval_problem(
         exclude_sum_free_interval_sets,
         exclude_sum_free_exact_triples,
     )
-    default_alpha_upper_bound = max(0.0, (1 - 2 * epsilon) / (d + 2))
+    default_alpha_upper_bound = max(0.0, (1 - 2 * epsilon) / (m + 2))
     alpha_upper_bounds = [
         1.0 if (i, i, i) in excluded_triples else default_alpha_upper_bound
         for i in range(N)
     ]
     problem.metadata = {
         "N": N,
-        "d": d,
+        "m": m,
         "epsilon": epsilon,
         "use_translated_missing_point": use_translated_missing_point,
         "add_width_cuts": add_width_cuts,
@@ -298,66 +315,66 @@ def build_circle_interval_problem(
                 rhs=bound,
             )
 
-    # Sum-free condition: the interval I_i + I_j - d*I_k must avoid the
+    # Sum-free condition: the interval I_i + I_j - m*I_ell must avoid the
     # chosen missing point. In the original formulation that point is 0; in
     # the translated formulation it is t.
     for i in range(N):
         for j in range(i, N):
-            for k in range(N):
-                if (i, j, k) in excluded_triples:
+            for ell in range(N):
+                if (i, j, ell) in excluded_triples:
                     continue
 
                 if add_width_cuts:
                     width_coefs: dict[str, float] = defaultdict(float)
                     width_coefs[f"alpha_{i}"] += 1
                     width_coefs[f"alpha_{j}"] += 1
-                    width_coefs[f"alpha_{k}"] += d
+                    width_coefs[f"alpha_{ell}"] += m
                     problem.add_inequality(
-                        name=f"sum_free_width_{i}-{j}-{k}",
+                        name=f"sum_free_width_{i}-{j}-{ell}",
                         coefficients=width_coefs,
                         sense="<=",
                         rhs=1 - 2 * epsilon,
                     )
 
-                # The leftmost point of I_i + I_j - d*I_k is
-                # x_i + x_j - d*x_k - d*alpha_k.
+                # The leftmost point of I_i + I_j - m*I_ell is
+                # x_i + x_j - m*x_ell - m*alpha_ell.
                 problem.add_integer_variable(
-                    f"n_{i}-{j}-{k}",
+                    f"n_{i}-{j}-{ell}",
                     lower_bound=n_lower_bound,
                     upper_bound=n_upper_bound,
                 )
 
                 if add_monotonicity_cuts:
                     # The lifted interval moves right as i or j increases.
-                    if i > 0 and (i - 1, j, k) not in excluded_triples:
+                    if i > 0 and (i - 1, j, ell) not in excluded_triples:
                         problem.add_inequality(
-                            name=f"n_monotone_i_{i}-{j}-{k}",
+                            name=f"n_monotone_i_{i}-{j}-{ell}",
                             coefficients={
-                                f"n_{i - 1}-{j}-{k}": 1,
-                                f"n_{i}-{j}-{k}": -1,
+                                f"n_{i - 1}-{j}-{ell}": 1,
+                                f"n_{i}-{j}-{ell}": -1,
                             },
                             sense="<=",
                             rhs=0,
                         )
-                    if j > i and (i, j - 1, k) not in excluded_triples:
+                    if j > i and (i, j - 1, ell) not in excluded_triples:
                         problem.add_inequality(
-                            name=f"n_monotone_j_{i}-{j}-{k}",
+                            name=f"n_monotone_j_{i}-{j}-{ell}",
                             coefficients={
-                                f"n_{i}-{j - 1}-{k}": 1,
-                                f"n_{i}-{j}-{k}": -1,
+                                f"n_{i}-{j - 1}-{ell}": 1,
+                                f"n_{i}-{j}-{ell}": -1,
                             },
                             sense="<=",
                             rhs=0,
                         )
 
-                    # The lifted interval moves left as k increases because
-                    # the expression subtracts d*I_k.
-                    if k > 0 and (i, j, k - 1) not in excluded_triples:
+                    # The lifted interval moves left as ell increases because
+                    # the expression subtracts m*I_ell.
+                    if ell > 0 and (i, j, ell - 1) not in excluded_triples:
                         problem.add_inequality(
-                            name=f"n_monotone_k_{i}-{j}-{k}",
+                            name=f"n_monotone_ell_{i}-{j}-{ell}",
                             coefficients={
-                                f"n_{i}-{j}-{k}": 1,
-                                f"n_{i}-{j}-{k - 1}": -1,
+                                f"n_{i}-{j}-{ell}": 1,
+                                f"n_{i}-{j}-{ell - 1}": -1,
                             },
                             sense="<=",
                             rhs=0,
@@ -366,33 +383,33 @@ def build_circle_interval_problem(
                 coefs_left: dict[str, float] = defaultdict(float)
                 coefs_left[f"x_{i}"] -= 1
                 coefs_left[f"x_{j}"] -= 1
-                coefs_left[f"x_{k}"] += d
-                coefs_left[f"alpha_{k}"] += d
-                coefs_left[f"n_{i}-{j}-{k}"] += 1
+                coefs_left[f"x_{ell}"] += m
+                coefs_left[f"alpha_{ell}"] += m
+                coefs_left[f"n_{i}-{j}-{ell}"] += 1
                 if use_translated_missing_point:
                     coefs_left["t"] += 1
 
                 problem.add_inequality(
-                    name=f"sum_free_left_{i}-{j}-{k}",
+                    name=f"sum_free_left_{i}-{j}-{ell}",
                     coefficients=coefs_left,
                     sense="<=",
                     rhs=-epsilon,
                 )
 
-                # The rightmost point of I_i + I_j - d*I_k is
-                # x_i + x_j + alpha_i + alpha_j - d*x_k.
+                # The rightmost point of I_i + I_j - m*I_ell is
+                # x_i + x_j + alpha_i + alpha_j - m*x_ell.
                 coefs_right: dict[str, float] = defaultdict(float)
                 coefs_right[f"x_{i}"] += 1
                 coefs_right[f"x_{j}"] += 1
                 coefs_right[f"alpha_{i}"] += 1
                 coefs_right[f"alpha_{j}"] += 1
-                coefs_right[f"x_{k}"] -= d
-                coefs_right[f"n_{i}-{j}-{k}"] -= 1
+                coefs_right[f"x_{ell}"] -= m
+                coefs_right[f"n_{i}-{j}-{ell}"] -= 1
                 if use_translated_missing_point:
                     coefs_right["t"] -= 1
 
                 problem.add_inequality(
-                    name=f"sum_free_right_{i}-{j}-{k}",
+                    name=f"sum_free_right_{i}-{j}-{ell}",
                     coefficients=coefs_right,
                     sense="<=",
                     rhs=1 - epsilon,
@@ -421,8 +438,8 @@ def filename_triples(triples: list[tuple[int, int, int]]) -> str:
         return ""
     normalized_triples = sorted(triples)
     triple_texts = [
-        f"{i}-{j}-{k}"
-        for i, j, k in normalized_triples
+        f"{i}-{j}-{ell}"
+        for i, j, ell in normalized_triples
     ]
     return "_excludetriples" + "+".join(triple_texts)
 
@@ -486,12 +503,12 @@ def parse_sum_free_triple(value: str) -> tuple[int, int, int]:
     if any(index < 0 for index in indices):
         raise argparse.ArgumentTypeError("triple indices must be nonnegative")
 
-    i, j, k = indices
+    i, j, ell = indices
     if i > j:
         raise argparse.ArgumentTypeError(
             "expected I <= J because only triples with i <= j are modeled"
         )
-    return i, j, k
+    return i, j, ell
 
 
 def visualizer_number(value: float, *, digits: int = 6) -> float:
@@ -501,7 +518,7 @@ def visualizer_number(value: float, *, digits: int = 6) -> float:
     return rounded
 
 
-def visualizer_lambda(value: float) -> int | float:
+def visualizer_multiplier(value: float) -> int | float:
     if math.isclose(value, round(value), abs_tol=1e-12):
         return int(round(value))
     return float(value)
@@ -518,7 +535,7 @@ def solution_visualizer_state(
     solution: MILPSolution,
     *,
     N: int,
-    d: float,
+    m: float,
 ) -> dict[str, object]:
     intervals: list[dict[str, object]] = []
     for index in range(N):
@@ -538,8 +555,9 @@ def solution_visualizer_state(
     )
     state: dict[str, object] = {
         "v": 1,
+        "mode": "interval",
         "intervals": intervals,
-        "lambda": visualizer_lambda(d),
+        "m": visualizer_multiplier(m),
         "fixTotalLength": False,
         "targetTotalLength": total_length,
         "hiddenMixedComboKeys": [],
@@ -580,7 +598,7 @@ def default_file_stem(args: argparse.Namespace) -> str:
     interval_set_part = filename_interval_sets(args.exclude_sum_free_interval_sets)
     exact_triple_part = filename_triples(args.exclude_sum_free_exact_triples)
     return (
-        f"circle_intervals_N{args.N}_d{filename_float(args.d)}"
+        f"circle_intervals_N{args.N}_m{filename_float(args.m)}"
         f"_eps{filename_float(args.epsilon)}"
         f"_translated{int(args.translated_missing_point)}"
         f"_width{int(args.width_cuts)}"
@@ -619,7 +637,14 @@ def build_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
     )
     parser.add_argument("-N", type=int, default=2, help="number of intervals")
-    parser.add_argument("--d", type=float, default=3.0, help="sum-free multiplier")
+    parser.add_argument(
+        "--m",
+        "--d",
+        dest="m",
+        type=float,
+        default=3.0,
+        help="sum-free multiplier; --d is accepted as a legacy alias",
+    )
     parser.add_argument(
         "--epsilon",
         type=float,
@@ -674,7 +699,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=0,
         metavar="COUNT",
         help=(
-            "skip d-sum-free lifted conditions whose three interval indices "
+            "skip m-sum-free lifted conditions whose three interval indices "
             "all lie among the first COUNT intervals"
         ),
     )
@@ -684,7 +709,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=0,
         metavar="COUNT",
         help=(
-            "skip d-sum-free lifted conditions whose three interval indices "
+            "skip m-sum-free lifted conditions whose three interval indices "
             "all lie among the last COUNT intervals"
         ),
     )
@@ -696,7 +721,7 @@ def build_parser() -> argparse.ArgumentParser:
         default=[],
         metavar="I,J,...",
         help=(
-            "skip d-sum-free lifted conditions whose three interval indices "
+            "skip m-sum-free lifted conditions whose three interval indices "
             "all lie in this comma-separated zero-based interval set; can be repeated"
         ),
     )
@@ -706,9 +731,9 @@ def build_parser() -> argparse.ArgumentParser:
         action="append",
         type=parse_sum_free_triple,
         default=[],
-        metavar="I,J,K",
+        metavar="I,J,ELL",
         help=(
-            "skip exactly this lifted d-sum-free triple; the first two indices "
+            "skip exactly this lifted m-sum-free triple; the first two indices "
             "must satisfy I <= J; can be repeated"
         ),
     )
@@ -833,7 +858,7 @@ def main() -> None:
     try:
         problem = build_circle_interval_problem(
             N=args.N,
-            d=args.d,
+            m=args.m,
             epsilon=args.epsilon,
             use_translated_missing_point=args.translated_missing_point,
             add_width_cuts=args.width_cuts,
@@ -874,7 +899,7 @@ def main() -> None:
         visualizer_state = solution_visualizer_state(
             solution,
             N=args.N,
-            d=args.d,
+            m=args.m,
         )
         visualizer_url = visualizer_state_url(
             visualizer_state,

@@ -16,22 +16,22 @@
 \maketitle
 
 We write \(\mathbb T=\mathbb R/\mathbb Z\). A set \(A\subset \mathbb T\) is
-\(k\)-sum-free if
+\(m\)-sum-free if
 \[
-    0\notin A+A-kA.
+    0\notin A+A-mA.
 \]
-Equivalently, there are no \(x,y,z\in A\) with \(x+y=kz\) in \(\mathbb T\).
+Equivalently, there are no \(x,y,z\in A\) with \(x+y=mz\) in \(\mathbb T\).
 
 For comparison, suppose \(A=I\) is a single open interval of length \(\alpha\).
-Then \(I+I-kI\) is an open interval of length \((k+2)\alpha\) on the real line.
-If \((k+2)\alpha>1\), its image in \(\mathbb T\) is all of \(\mathbb T\). Thus
+Then \(I+I-mI\) is an open interval of length \((m+2)\alpha\) on the real line.
+If \((m+2)\alpha>1\), its image in \(\mathbb T\) is all of \(\mathbb T\). Thus
 the trivial one-interval bound is
 \[
-    \alpha\leq \frac1{k+2}.
+    \alpha\leq \frac1{m+2}.
 \]
-The examples below exceed this bound for \(k=4\) and \(k=5\). We also record
+The examples below exceed this bound for \(m=4\) and \(m=5\). We also record
 a general equally spaced construction which gives examples of density larger
-than \(1/8\) for every \(k\geq 3\).
+than \(1/8\) for every \(m\geq 3\).
 
 We will use the following finite certificate. If
 \[
@@ -39,115 +39,115 @@ We will use the following finite certificate. If
 \]
 then
 \[
-    I_i+I_j-kI_\ell
+    I_i+I_j-mI_\ell
     =
-    \bigl(a_i+a_j-kb_\ell,\; b_i+b_j-ka_\ell\bigr).
+    \bigl(a_i+a_j-mb_\ell,\; b_i+b_j-ma_\ell\bigr).
 \]
 It is therefore enough, for each \(i\leq j\) and each \(\ell\), to find an
 integer \(n\) such that
 \[
-    n\leq a_i+a_j-kb_\ell
+    n\leq a_i+a_j-mb_\ell
     \quad\text{and}\quad
-    b_i+b_j-ka_\ell\leq n+1.
+    b_i+b_j-ma_\ell\leq n+1.
 \]
-Then the open interval \(I_i+I_j-kI_\ell\) contains no integer, and hence
+Then the open interval \(I_i+I_j-mI_\ell\) contains no integer, and hence
 contributes no point equal to \(0\) in \(\mathbb T\).
 
 \begin{proposition}[An equally spaced construction]\label{prop:equal_spacing}
-Let \(k\geq 3\), and let \(m\) be an integer satisfying
+Let \(m\geq 3\), and let \(q\) be an integer satisfying
 \[
-    1\leq m < \frac{k+2}{2}.
+    1\leq q < \frac{m+2}{2}.
 \]
 Set
 \[
-    \delta=\frac{k-2m+2}{k(k+2)}.
+    \delta=\frac{m-2q+2}{m(m+2)}.
 \]
 Choose \(a\in\mathbb T\) such that
 \[
-    (2-k)a\equiv k\delta \pmod 1,
+    (2-m)a\equiv m\delta \pmod 1,
 \]
 and define
 \[
-    A_{k,m}
+    A_{m,q}
     =
-    \bigcup_{r=0}^{m-1}
-    \left(a+\frac r k,\; a+\frac r k+\delta\right)
+    \bigcup_{r=0}^{q-1}
+    \left(a+\frac r m,\; a+\frac r m+\delta\right)
     \subset \mathbb T.
 \]
-Then \(A_{k,m}\) is \(k\)-sum-free and
+Then \(A_{m,q}\) is \(m\)-sum-free and
 \[
-    \mu(A_{k,m})
+    \mu(A_{m,q})
     =
-    \frac{m(k-2m+2)}{k(k+2)}.
+    \frac{q(m-2q+2)}{m(m+2)}.
 \]
-In particular, optimizing over \(m\) gives the lower bound
+In particular, optimizing over \(q\) gives the lower bound
 \[
-    \sup \{\mu(A): A\subset\mathbb T \text{ is } k\text{-sum-free}\}
+    \sup \{\mu(A): A\subset\mathbb T \text{ is } m\text{-sum-free}\}
     \geq
-    \frac{\left\lfloor (k+2)^2/8\right\rfloor}{k(k+2)}
+    \frac{\left\lfloor (m+2)^2/8\right\rfloor}{m(m+2)}
     >
     \frac18.
 \]
 \end{proposition}
 
 \begin{proof}
-The intervals are disjoint because \(\delta<1/k\). Write
+The intervals are disjoint because \(\delta<1/m\). Write
 \[
-    I_r=\left(a+\frac r k,\; a+\frac r k+\delta\right),
-    \qquad 0\leq r\leq m-1.
+    I_r=\left(a+\frac r m,\; a+\frac r m+\delta\right),
+    \qquad 0\leq r\leq q-1.
 \]
-For \(0\leq r,s,t\leq m-1\), the interval \(I_r+I_s-kI_t\) has endpoints
+For \(0\leq r,s,t\leq q-1\), the interval \(I_r+I_s-mI_t\) has endpoints
 \begin{align*}
     L_{rst}
     &=
-    (2-k)a+\frac{r+s}{k}-t-k\delta, \\
+    (2-m)a+\frac{r+s}{m}-t-m\delta, \\
     R_{rst}
     &=
-    (2-k)a+\frac{r+s}{k}-t+2\delta.
+    (2-m)a+\frac{r+s}{m}-t+2\delta.
 \end{align*}
-By the choice of \(a\), there is an integer \(q\) such that
+By the choice of \(a\), there is an integer \(h\) such that
 \[
-    (2-k)a=q+k\delta.
+    (2-m)a=h+m\delta.
 \]
 Thus
 \[
-    L_{rst}=q-t+\frac{r+s}{k}
+    L_{rst}=h-t+\frac{r+s}{m}
 \]
 and
 \[
     R_{rst}
     =
-    q-t+\frac{r+s}{k}+(k+2)\delta
+    h-t+\frac{r+s}{m}+(m+2)\delta
     =
-    q-t+\frac{r+s}{k}+1-\frac{2m-2}{k}.
+    h-t+\frac{r+s}{m}+1-\frac{2q-2}{m}.
 \]
-Since \(0\leq r+s\leq 2m-2\), we have
+Since \(0\leq r+s\leq 2q-2\), we have
 \[
-    q-t
+    h-t
     \leq L_{rst}
     <
     R_{rst}
-    \leq q-t+1.
+    \leq h-t+1.
 \]
-Therefore each open interval \(I_r+I_s-kI_t\) contains no integer. Hence
-\(0\notin A_{k,m}+A_{k,m}-kA_{k,m}\) in \(\mathbb T\).
+Therefore each open interval \(I_r+I_s-mI_t\) contains no integer. Hence
+\(0\notin A_{m,q}+A_{m,q}-mA_{m,q}\) in \(\mathbb T\).
 
-The measure is \(m\delta\). It remains only to maximize
+The measure is \(q\delta\). It remains only to maximize
 \[
-    m(k-2m+2)=m((k+2)-2m)
+    q(m-2q+2)=q((m+2)-2q)
 \]
-over integers \(m\). This quadratic has maximum
+over integers \(q\). This quadratic has maximum
 \[
-    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+    \left\lfloor \frac{(m+2)^2}{8}\right\rfloor.
 \]
-Writing \(u=k+2\), we also have
+Writing \(u=m+2\), we also have
 \[
     8\left\lfloor \frac{u^2}{8}\right\rfloor
     \geq u^2-7
     >
     u^2-2u
     =
-    k(k+2),
+    m(m+2),
 \]
 because \(u\geq 5\). This proves that the optimized density is always strictly
 larger than \(1/8\).
@@ -174,7 +174,7 @@ Then \(A_4\) is \(4\)-sum-free and
     >
     \frac16.
 \]
-Thus the one-interval bound for \(k=4\) is improved by \(1/192\).
+Thus the one-interval bound for \(m=4\) is improved by \(1/192\).
 \end{proposition}
 
 \begin{proof}
@@ -235,7 +235,7 @@ Then \(A_5\) is \(5\)-sum-free and
     >
     \frac17.
 \]
-Thus the one-interval bound for \(k=5\) is improved by \(1/35\).
+Thus the one-interval bound for \(m=5\) is improved by \(1/35\).
 \end{proposition}
 
 \begin{proof}

@@ -10,7 +10,7 @@
 \newtheorem{claim}{Claim}
 \newtheorem{remark}{Remark}
 
-\title{An equally spaced construction for $k$-sum-free sets}
+\title{An equally spaced construction for $m$-sum-free sets}
 \author{Ferran Espu\~na}
 \date{\today}
 
@@ -24,58 +24,58 @@ We work in \(\mathbb T=\mathbb R/\mathbb Z\). We will build open sets
 \]
 with
 \[
-    0\notin A+A-kA.
+    0\notin A+A-mA.
 \]
-Equivalently, there are no \(x,y,z\in A\) satisfying \(x+y=kz\) in
+Equivalently, there are no \(x,y,z\in A\) satisfying \(x+y=mz\) in
 \(\mathbb T\).
 
-Fix an integer \(k\geq 3\). Choose, for the moment, an integer \(m\geq 1\), a
+Fix an integer \(m\geq 3\). Choose, for the moment, an integer \(q\geq 1\), a
 number \(\delta>0\), and a point \(a\in\mathbb T\). Consider
 \[
-    A=\bigcup_{r=0}^{m-1} I_r,
+    A=\bigcup_{r=0}^{q-1} I_r,
     \qquad
-    I_r=\left(a+\frac r k,\; a+\frac r k+\delta\right).
+    I_r=\left(a+\frac r m,\; a+\frac r m+\delta\right).
 \]
-The intervals are equally spaced by \(1/k\). We will now discover how large
+The intervals are equally spaced by \(1/m\). We will now discover how large
 \(\delta\) can be.
 
 \begin{claim}\label{claim:disjoint}
 If
 \[
-    \delta<\frac1k
+    \delta<\frac1m
     \qquad\text{and}\qquad
-    \frac{m-1}{k}+\delta<1,
+    \frac{q-1}{m}+\delta<1,
 \]
-then the intervals \(I_0,\ldots,I_{m-1}\) are disjoint in \(\mathbb T\).
+then the intervals \(I_0,\ldots,I_{q-1}\) are disjoint in \(\mathbb T\).
 \end{claim}
 
 \begin{proof}
-In the chosen order, consecutive starting points are separated by \(1/k\), so
-\(\delta<1/k\) prevents two consecutive intervals from overlapping. The second
+In the chosen order, consecutive starting points are separated by \(1/m\), so
+\(\delta<1/m\) prevents two consecutive intervals from overlapping. The second
 inequality says that the last interval does not reach the first interval after
 going around the circle.
 \end{proof}
 
-We next impose the \(k\)-sum-free condition. For \(0\leq r,s,t\leq m-1\), the
-open interval \(I_r+I_s-kI_t\) has left and right endpoints
+We next impose the \(m\)-sum-free condition. For \(0\leq r,s,t\leq q-1\), the
+open interval \(I_r+I_s-mI_t\) has left and right endpoints
 \begin{align*}
     L_{rst}
     &=
-    (2-k)a+\frac{r+s-kt}{k}-k\delta, \\
+    (2-m)a+\frac{r+s-mt}{m}-m\delta, \\
     R_{rst}
     &=
-    (2-k)a+\frac{r+s-kt}{k}+2\delta.
+    (2-m)a+\frac{r+s-mt}{m}+2\delta.
 \end{align*}
-Since \(kt/k=t\) is an integer, the index \(t\) only shifts the interval by an
+Since \(mt/m=t\) is an integer, the index \(t\) only shifts the interval by an
 integer. We therefore remove this integer shift and define
 \[
-    L'_{r,s}=(2-k)a+\frac{r+s}{k}-k\delta,
+    L'_{r,s}=(2-m)a+\frac{r+s}{m}-m\delta,
     \qquad
-    R'_{r,s}=(2-k)a+\frac{r+s}{k}+2\delta.
+    R'_{r,s}=(2-m)a+\frac{r+s}{m}+2\delta.
 \]
 Then
 \[
-    I_r+I_s-kI_t=(L'_{r,s}-t,\; R'_{r,s}-t).
+    I_r+I_s-mI_t=(L'_{r,s}-t,\; R'_{r,s}-t).
 \]
 Thus it is enough to place all the reduced intervals
 \((L'_{r,s},R'_{r,s})\) between the same two consecutive integers.
@@ -83,18 +83,18 @@ Thus it is enough to place all the reduced intervals
 \begin{claim}\label{claim:reduced_intervals}
 Assume
 \[
-    L'_{0,0}=(2-k)a-k\delta\in\mathbb Z
+    L'_{0,0}=(2-m)a-m\delta\in\mathbb Z
 \]
 and
 \[
-    R'_{m-1,m-1}-L'_{0,0}\leq 1.
+    R'_{q-1,q-1}-L'_{0,0}\leq 1.
 \]
-Then \(A\) is \(k\)-sum-free.
+Then \(A\) is \(m\)-sum-free.
 \end{claim}
 
 \begin{proof}
 The reduced endpoints are increasing with \(r+s\). Hence, for every
-\(0\leq r,s\leq m-1\),
+\(0\leq r,s\leq q-1\),
 \[
     L'_{0,0}
     \leq
@@ -102,136 +102,136 @@ The reduced endpoints are increasing with \(r+s\). Hence, for every
     <
     R'_{r,s}
     \leq
-    R'_{m-1,m-1}
+    R'_{q-1,q-1}
     \leq
     L'_{0,0}+1.
 \]
 Thus each reduced interval \((L'_{r,s},R'_{r,s})\) lies between the same two
 consecutive integers. Shifting by the integer \(-t\), each interval
 \[
-    I_r+I_s-kI_t=(L'_{r,s}-t,\;R'_{r,s}-t)
+    I_r+I_s-mI_t=(L'_{r,s}-t,\;R'_{r,s}-t)
 \]
 also lies between two consecutive integers. Since these intervals are open,
-integer endpoints are not included. Therefore no interval \(I_r+I_s-kI_t\)
-contains an integer, and \(0\notin A+A-kA\) in \(\mathbb T\).
+integer endpoints are not included. Therefore no interval \(I_r+I_s-mI_t\)
+contains an integer, and \(0\notin A+A-mA\) in \(\mathbb T\).
 \end{proof}
 
-The condition \((2-k)a-k\delta\in\mathbb Z\) can always be achieved after
+The condition \((2-m)a-m\delta\in\mathbb Z\) can always be achieved after
 \(\delta\) is chosen. For example, we may take
 \[
-    a=\frac{k\delta}{2-k},
+    a=\frac{m\delta}{2-m},
 \]
 which makes \(L'_{0,0}=0\). In particular, when \(\delta\) is rational this
 choice gives rational endpoints. We are therefore left with the size constraint
 coming from Claim~\ref{claim:reduced_intervals}. Directly computing,
 \[
-    R'_{m-1,m-1}-L'_{0,0}
+    R'_{q-1,q-1}-L'_{0,0}
     =
-    \frac{2(m-1)}{k}+(k+2)\delta.
+    \frac{2(q-1)}{m}+(m+2)\delta.
 \]
-To make the intervals as large as possible for this value of \(m\), we take
+To make the intervals as large as possible for this value of \(q\), we take
 equality:
 \[
-    \frac{2(m-1)}{k}+(k+2)\delta=1.
+    \frac{2(q-1)}{m}+(m+2)\delta=1.
 \]
 Solving for \(\delta\) gives
 \[
     \delta
     =
-    \frac{1-\frac{2(m-1)}{k}}{k+2}
+    \frac{1-\frac{2(q-1)}{m}}{m+2}
     =
-    \frac{k-2m+2}{k(k+2)}.
+    \frac{m-2q+2}{m(m+2)}.
 \]
 This is positive precisely when
 \[
-    m<\frac{k+2}{2}.
+    q<\frac{m+2}{2}.
 \]
 
 \begin{proposition}\label{prop:construction}
-Let \(k\geq 3\), and let \(m\) be an integer with
+Let \(m\geq 3\), and let \(q\) be an integer with
 \[
-    1\leq m<\frac{k+2}{2}.
+    1\leq q<\frac{m+2}{2}.
 \]
 Set
 \[
-    \delta=\frac{k-2m+2}{k(k+2)}.
+    \delta=\frac{m-2q+2}{m(m+2)}.
 \]
 Then there is a choice of \(a\in\mathbb T\) for which
 \[
-    A=\bigcup_{r=0}^{m-1}
-    \left(a+\frac r k,\; a+\frac r k+\delta\right)
+    A=\bigcup_{r=0}^{q-1}
+    \left(a+\frac r m,\; a+\frac r m+\delta\right)
 \]
-is \(k\)-sum-free. Its measure is
+is \(m\)-sum-free. Its measure is
 \[
-    \mu(A)=m\delta
+    \mu(A)=q\delta
     =
-    \frac{m(k-2m+2)}{k(k+2)}.
+    \frac{q(m-2q+2)}{m(m+2)}.
 \]
 \end{proposition}
 
 \begin{proof}
-Choose \(a=k\delta/(2-k)\), so that \(L'_{0,0}=0\). The defining choice of
+Choose \(a=m\delta/(2-m)\), so that \(L'_{0,0}=0\). The defining choice of
 \(\delta\) gives the second hypothesis of Claim~\ref{claim:reduced_intervals}.
-Hence \(A\) is \(k\)-sum-free.
+Hence \(A\) is \(m\)-sum-free.
 
-It remains only to check that the intervals are disjoint. Since \(m\geq 1\),
+It remains only to check that the intervals are disjoint. Since \(q\geq 1\),
 \[
     \delta
     =
-    \frac{k-2m+2}{k(k+2)}
+    \frac{m-2q+2}{m(m+2)}
     \leq
-    \frac{k}{k(k+2)}
+    \frac{m}{m(m+2)}
     <
-    \frac1k.
+    \frac1m.
 \]
 Also,
 \[
-    \frac{m-1}{k}+\delta
+    \frac{q-1}{m}+\delta
     <
-    \frac{m}{k}
+    \frac{q}{m}
     <
-    \frac{k+2}{2k}
+    \frac{m+2}{2m}
     <1,
 \]
-because \(k\geq 3\). By Claim~\ref{claim:disjoint}, the intervals are
+because \(m\geq 3\). By Claim~\ref{claim:disjoint}, the intervals are
 disjoint. The measure is therefore the sum of their lengths, namely
-\(m\delta\).
+\(q\delta\).
 \end{proof}
 
-Now we optimize over \(m\). Put
+Now we optimize over \(q\). Put
 \[
-    \varphi(x)=x(k-2x+2).
+    \varphi(x)=x(m-2x+2).
 \]
 The density from Proposition~\ref{prop:construction} is
 \[
-    \frac{\varphi(m)}{k(k+2)}.
+    \frac{\varphi(q)}{m(m+2)}.
 \]
 The function \(\varphi\) is a downward-opening parabola with roots \(0\) and
-\((k+2)/2\), so its real maximum occurs at
+\((m+2)/2\), so its real maximum occurs at
 \[
-    x_0=\frac{k+2}{4}.
+    x_0=\frac{m+2}{4}.
 \]
-Therefore we choose an integer \(m_0\) nearest to \(x_0\). Then
+Therefore we choose an integer \(q_0\) nearest to \(x_0\). Then
 \[
-    \left|m_0-\frac{k+2}{4}\right|\leq \frac12.
+    \left|q_0-\frac{m+2}{4}\right|\leq \frac12.
 \]
-For \(k\geq 3\), this integer is allowed: indeed \(m_0\geq 1\), and
+For \(m\geq 3\), this integer is allowed: indeed \(q_0\geq 1\), and
 \[
-    m_0
+    q_0
     \leq
-    \frac{k+2}{4}+\frac12
+    \frac{m+2}{4}+\frac12
     =
-    \frac{k+4}{4}
+    \frac{m+4}{4}
     <
-    \frac{k+2}{2}.
+    \frac{m+2}{2}.
 \]
 
 \begin{claim}\label{claim:nearest_integer}
-For this choice of \(m_0\),
+For this choice of \(q_0\),
 \[
-    \varphi(m_0)
+    \varphi(q_0)
     =
-    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+    \left\lfloor \frac{(m+2)^2}{8}\right\rfloor.
 \]
 \end{claim}
 
@@ -240,33 +240,33 @@ Completing the square gives
 \[
     \varphi(x)
     =
-    \frac{(k+2)^2}{8}
+    \frac{(m+2)^2}{8}
     -
-    2\left(x-\frac{k+2}{4}\right)^2.
+    2\left(x-\frac{m+2}{4}\right)^2.
 \]
 Thus
 \[
-    \varphi\left(\frac{k+2}{4}\right)-\varphi(m_0)
+    \varphi\left(\frac{m+2}{4}\right)-\varphi(q_0)
     =
-    2\left(m_0-\frac{k+2}{4}\right)^2
+    2\left(q_0-\frac{m+2}{4}\right)^2
     \leq
     \frac12
     <1.
 \]
-Since \(\varphi(m_0)\) is an integer and
-\(\varphi(m_0)\leq (k+2)^2/8\), this forces
+Since \(\varphi(q_0)\) is an integer and
+\(\varphi(q_0)\leq (m+2)^2/8\), this forces
 \[
-    \varphi(m_0)
+    \varphi(q_0)
     =
-    \left\lfloor \frac{(k+2)^2}{8}\right\rfloor.
+    \left\lfloor \frac{(m+2)^2}{8}\right\rfloor.
 \]
 \end{proof}
 
 \begin{proposition}\label{prop:optimized_density}
-For every \(k\geq 3\), the construction above gives a \(k\)-sum-free open set
+For every \(m\geq 3\), the construction above gives an \(m\)-sum-free open set
 of measure
 \[
-    \frac{\left\lfloor (k+2)^2/8\right\rfloor}{k(k+2)}.
+    \frac{\left\lfloor (m+2)^2/8\right\rfloor}{m(m+2)}.
 \]
 In particular this measure is always strictly larger than \(1/8\).
 \end{proposition}
@@ -276,24 +276,24 @@ The formula follows from Proposition~\ref{prop:construction} and
 Claim~\ref{claim:nearest_integer}. To prove that this is larger than \(1/8\),
 use the estimate from the proof of Claim~\ref{claim:nearest_integer}:
 \[
-    \varphi(m_0)>
-    \frac{(k+2)^2}{8}-1.
+    \varphi(q_0)>
+    \frac{(m+2)^2}{8}-1.
 \]
 Therefore
 \[
     \mu(A)
     >
-    \frac{\frac{(k+2)^2}{8}-1}{k(k+2)}.
+    \frac{\frac{(m+2)^2}{8}-1}{m(m+2)}.
 \]
 The right-hand side is larger than \(1/8\) exactly when
 \[
-    \frac{(k+2)^2}{8}-1>\frac{k(k+2)}{8},
+    \frac{(m+2)^2}{8}-1>\frac{m(m+2)}{8},
 \]
 or equivalently
 \[
-    (k+2)^2-8>k(k+2).
+    (m+2)^2-8>m(m+2).
 \]
-This reduces to \(2k-4>0\), which holds for every \(k\geq 3\).
+This reduces to \(2m-4>0\), which holds for every \(m\geq 3\).
 \end{proof}
 
 \begin{table}[ht]
@@ -302,7 +302,7 @@ This reduces to \(2k-4>0\), which holds for every \(k\geq 3\).
 \caption{Optimized density of the equally spaced construction.}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{c|ccccccccccccc}
-\(k\) & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
+\(m\) & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 & 11 & 12 & 13 & 14 & 15 \\
 \hline
 fraction
 & \(1/5\) & \(1/6\) & \(6/35\) & \(1/6\) & \(10/63\) & \(3/20\)
@@ -319,7 +319,7 @@ decimal
 
 \begin{remark}
 This construction is not always optimal among finite unions of intervals. For
-example, when \(k=4\), the equally spaced construction gives density \(1/6\),
+example, when \(m=4\), the equally spaced construction gives density \(1/6\),
 but one can add a tiny extra interval and obtain density
 \[
     \frac{11}{64}
@@ -327,7 +327,7 @@ but one can add a tiny extra interval and obtain density
     \frac16+\frac1{192}.
 \]
 Thus the construction above should be viewed as a robust general lower bound,
-not as a sharp formula for every \(k\).
+not as a sharp formula for every \(m\).
 \end{remark}
 
 \end{document}

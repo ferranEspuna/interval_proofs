@@ -13,10 +13,10 @@ A = union_i [x_i, x_i + alpha_i] in T = R/Z
 
 ordered in the representative interval `[0, 1]`, and maximizes
 `sum_i alpha_i` subject to the condition that `0` is not contained in
-`A + A - dA`. It also has an optional translated-missing-point formulation
-that asks whether some point, not necessarily `0`, is outside `A + A - dA`.
+`A + A - mA`. It also has an optional translated-missing-point formulation
+that asks whether some point, not necessarily `0`, is outside `A + A - mA`.
 
-The proof that the sharp bound is `1/5` for `N=2`, `d=3` is in:
+The proof that the sharp bound is `1/5` for `N=2`, `m=3` is in:
 
 ```text
 latex/2_interval_proof.tex
@@ -25,7 +25,7 @@ pdf/2_interval_proof.pdf
 
 That proof shows that any union of two closed intervals in `T` of measure at
 least `1/5` satisfies `A + A - 3A = T`. In the MILP's normalized missing-point
-formulation, this corresponds to a supremum of `1/5` for `N=2`, `d=3`.
+formulation, this corresponds to a supremum of `1/5` for `N=2`, `m=3`.
 
 ## Setup
 
@@ -120,18 +120,18 @@ x_{i-1} + alpha_{i-1} <= x_i
 
 so intervals are non-wrapping, ordered, and non-overlapping in `[0, 1]`.
 
-For every `i <= j` and every `k`, it introduces an integer lift variable
-`n_{i-j-k}` so that the real interval
+For every `i <= j` and every third index `ell`, it introduces an integer lift
+variable `n_{i-j-ell}` so that the real interval
 
 ```text
-I_i + I_j - d I_k
+I_i + I_j - m I_ell
 ```
 
 is contained between consecutive integers:
 
 ```text
-n_{i-j-k} + epsilon <= left endpoint
-right endpoint <= n_{i-j-k} + 1 - epsilon
+n_{i-j-ell} + epsilon <= left endpoint
+right endpoint <= n_{i-j-ell} + 1 - epsilon
 ```
 
 With `epsilon=0`, this is the closed relaxation and computes a supremum. With
@@ -141,11 +141,11 @@ With `--translated-missing-point`, the model adds a continuous variable
 `t in [0, 1]` and instead uses:
 
 ```text
-n_{i-j-k} + t + epsilon <= left endpoint
-right endpoint <= n_{i-j-k} + 1 + t - epsilon
+n_{i-j-ell} + t + epsilon <= left endpoint
+right endpoint <= n_{i-j-ell} + 1 + t - epsilon
 ```
 
-This asks whether any point `t mod 1` is missing from `A + A - dA`. In this
+This asks whether any point `t mod 1` is missing from `A + A - mA`. In this
 mode the integer lift lower bound is one smaller, because `t` can shift the
 containing unit interval by up to one. The model also fixes `x_0 = 0`, using
 translation invariance to start the first interval at the origin.
@@ -168,7 +168,7 @@ Disabled by default. Enable with `--width-cuts`.
 Every lifted interval must fit inside a unit gap, so:
 
 ```text
-alpha_i + alpha_j + d alpha_k <= 1 - 2 epsilon
+alpha_i + alpha_j + m alpha_ell <= 1 - 2 epsilon
 ```
 
 Leave disabled with the default behavior, or explicitly with:
@@ -184,9 +184,9 @@ Enabled by default with `--monotonicity-cuts`.
 Since intervals are ordered, the lift variables are monotone:
 
 ```text
-n_{i-1,j,k} <= n_{i,j,k}
-n_{i,j-1,k} <= n_{i,j,k}
-n_{i,j,k} <= n_{i,j,k-1}
+n_{i-1,j,ell} <= n_{i,j,ell}
+n_{i,j-1,ell} <= n_{i,j,ell}
+n_{i,j,ell} <= n_{i,j,ell-1}
 ```
 
 Disable with:
@@ -246,11 +246,11 @@ Here the indices are the zero-based variable names used in the JSON and code:
 
 ### Excluding Head or Tail Sum-Free Conditions
 
-Use `--exclude-sum-free-triple I,J,K` to skip one exact lifted d-sum-free
+Use `--exclude-sum-free-triple I,J,ELL` to skip one exact lifted m-sum-free
 condition:
 
 ```text
-I_i + I_j - d I_k
+I_i + I_j - m I_ell
 ```
 
 The first two indices must satisfy `I <= J`, matching the modeled triples
@@ -261,11 +261,11 @@ The first two indices must satisfy `I <= J`, matching the modeled triples
 --exclude-sum-free-triple 0,1,0
 ```
 
-This skips exactly `I_0 + I_0 - d I_0` and `I_0 + I_1 - d I_0`, and does not
+This skips exactly `I_0 + I_0 - m I_0` and `I_0 + I_1 - m I_0`, and does not
 skip other triples involving intervals `0` or `1`.
 
 Use `--exclude-sum-free-intervals I,J,...` to choose a zero-based set of
-intervals. This is coarser: the model skips all lifted d-sum-free conditions
+intervals. This is coarser: the model skips all lifted m-sum-free conditions
 whose three interval indices all lie inside that chosen set. The option can be
 repeated to exclude several chosen sets.
 
@@ -276,13 +276,13 @@ The shortcut flags `--exclude-sum-free-head-size COUNT` and
 For head `COUNT=1`, this skips only:
 
 ```text
-I_0 + I_0 - d I_0
+I_0 + I_0 - m I_0
 ```
 
 For tail `COUNT=1`, this skips only:
 
 ```text
-I_{N-1} + I_{N-1} - d I_{N-1}
+I_{N-1} + I_{N-1} - m I_{N-1}
 ```
 
 For `COUNT=2`, this skips the lifted conditions using only the first two or
@@ -318,13 +318,13 @@ Direct examples:
 --exclude-sum-free-intervals 0,1 --exclude-sum-free-intervals 3,4
 ```
 
-Skipped triples do not get an integer lift variable `n_{i-j-k}`, the two
+Skipped triples do not get an integer lift variable `n_{i-j-ell}`, the two
 left/right containment inequalities, width cuts, or monotonicity links
 involving that missing lift variable. Also, if a self triple `(i, i, i)` is
-skipped, the derived variable upper bound `alpha_i <= 1/(d+2)` is not imposed
+skipped, the derived variable upper bound `alpha_i <= 1/(m+2)` is not imposed
 on that interval; the interval is still bounded by `x_i + alpha_i <= 1`.
 
-Important: excluding d-sum-free triples relaxes the MILP. If the relaxed model
+Important: excluding m-sum-free triples relaxes the MILP. If the relaxed model
 proves a larger optimum than the full model, that is not a theorem about the
 original problem; it only shows that the omitted triples may be doing real
 work. The useful case is when the relaxed model proves the same bound as the
@@ -361,7 +361,7 @@ sum_{i in S} alpha_i <= BOUND
 for every subset `S` of size `N_PRIME`.
 
 This is useful when a proven bound is known for fewer intervals. For example,
-if for the same `d` you know any six intervals have total length at most
+if for the same `m` you know any six intervals have total length at most
 `1/5`, then in a seven-interval run add:
 
 ```bash
@@ -385,28 +385,31 @@ Show all options:
 Every CLI flag has an example below. The examples are intentionally small; mix
 the flags as needed for longer experiments.
 
-Basic `N=2`, `d=3` run:
+Basic `N=2`, `m=3` run:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 2 --d 3 --mip-rel-gap 0 --require-success
+.venv/bin/python circle_intervals.py -N 2 --m 3 --mip-rel-gap 0 --require-success
 ```
+
+The old `--d` flag is still accepted as a legacy alias for `--m`; new docs,
+metadata, visualizer state, and filenames use `m`.
 
 Use a positive endpoint margin:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 2 --d 3 --epsilon 1e-6
+.venv/bin/python circle_intervals.py -N 2 --m 3 --epsilon 1e-6
 ```
 
 Print the generated MILP without saving JSON:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 2 --d 3 --print-problem --no-save
+.venv/bin/python circle_intervals.py -N 2 --m 3 --print-problem --no-save
 ```
 
 Translated-missing-point run with both translated-only symmetry cuts:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --translated-missing-point \
   --width-cuts \
   --first-interval-shortest \
@@ -419,24 +422,24 @@ Translated-missing-point run with both translated-only symmetry cuts:
 Width and monotonicity cut examples:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 --width-cuts
-.venv/bin/python circle_intervals.py -N 5 --d 3 --no-width-cuts
-.venv/bin/python circle_intervals.py -N 5 --d 3 --monotonicity-cuts
-.venv/bin/python circle_intervals.py -N 5 --d 3 --no-monotonicity-cuts
+.venv/bin/python circle_intervals.py -N 5 --m 3 --width-cuts
+.venv/bin/python circle_intervals.py -N 5 --m 3 --no-width-cuts
+.venv/bin/python circle_intervals.py -N 5 --m 3 --monotonicity-cuts
+.venv/bin/python circle_intervals.py -N 5 --m 3 --no-monotonicity-cuts
 ```
 
 Endpoint symmetry examples:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 --endpoint-length-cut
-.venv/bin/python circle_intervals.py -N 5 --d 3 --no-endpoint-length-cut
+.venv/bin/python circle_intervals.py -N 5 --m 3 --endpoint-length-cut
+.venv/bin/python circle_intervals.py -N 5 --m 3 --no-endpoint-length-cut
 ```
 
-Relax the model by ignoring lifted d-sum-free conditions supported only on the
+Relax the model by ignoring lifted m-sum-free conditions supported only on the
 first interval:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --exclude-sum-free-head-size 1 \
   --mip-rel-gap 0 \
   --require-success
@@ -447,7 +450,7 @@ shortest, ignore the lifted conditions supported only on the first two
 intervals:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --translated-missing-point \
   --first-interval-shortest \
   --second-interval-at-most-last \
@@ -460,7 +463,7 @@ intervals:
 Ignore only two exact triples involving the first two intervals:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --translated-missing-point \
   --first-interval-shortest \
   --second-interval-at-most-last \
@@ -471,51 +474,51 @@ Ignore only two exact triples involving the first two intervals:
   --require-success
 ```
 
-Relax the model by ignoring lifted d-sum-free conditions supported only on the
+Relax the model by ignoring lifted m-sum-free conditions supported only on the
 last interval:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --exclude-sum-free-tail-size 1 \
   --mip-rel-gap 0 \
   --require-success
 ```
 
-Relax the model by ignoring lifted d-sum-free conditions supported only on the
+Relax the model by ignoring lifted m-sum-free conditions supported only on the
 last two intervals:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --exclude-sum-free-tail-size 2 \
   --mip-rel-gap 0 \
   --require-success
 ```
 
-Run `N=7`, `d=3` with the known six-alpha bound `1/5`:
+Run `N=7`, `m=3` with the known six-alpha bound `1/5`:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --subset-alpha-bound 6:0.2 \
   --time-limit 300 \
   --mip-rel-gap 1e-3 \
-  --run-name N7_d3_with_6_bound
+  --run-name N7_m3_with_6_bound
 ```
 
 Run the same experiment without the endpoint symmetry cut:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --subset-alpha-bound 6:0.2 \
   --no-endpoint-length-cut \
   --time-limit 300 \
   --mip-rel-gap 1e-3 \
-  --run-name N7_d3_with_6_bound_no_endpoint_cut
+  --run-name N7_m3_with_6_bound_no_endpoint_cut
 ```
 
 Run with solver logging:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --subset-alpha-bound 6:0.2 \
   --disp
 ```
@@ -523,7 +526,7 @@ Run with solver logging:
 Limit solver effort:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --time-limit 300 \
   --node-limit 100000 \
   --mip-rel-gap 1e-3
@@ -532,14 +535,14 @@ Limit solver effort:
 Control HiGHS presolve and thread count:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 --presolve --threads 4
-.venv/bin/python circle_intervals.py -N 5 --d 3 --no-presolve --threads 1
+.venv/bin/python circle_intervals.py -N 5 --m 3 --presolve --threads 4
+.venv/bin/python circle_intervals.py -N 5 --m 3 --no-presolve --threads 1
 ```
 
 Save to a different output directory:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --subset-alpha-bound 6:0.2 \
   --output-dir experiments/json
 ```
@@ -547,7 +550,7 @@ Save to a different output directory:
 Save to explicit files:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
   --subset-alpha-bound 6:0.2 \
   --problem-json experiments/N7_problem.json \
   --solution-json experiments/N7_solution.json
@@ -556,29 +559,29 @@ Save to explicit files:
 Use a run name for the default JSON filenames:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 \
-  --run-name N7_d3_named_experiment
+.venv/bin/python circle_intervals.py -N 7 --m 3 \
+  --run-name N7_m3_named_experiment
 ```
 
 Avoid saving JSON:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 7 --d 3 --no-save
+.venv/bin/python circle_intervals.py -N 7 --m 3 --no-save
 ```
 
 ## Profiling Notes
 
-The `N=5`, `d=3` profiling runs from 2026-06-24 are saved in:
+The `N=5`, `m=3` profiling runs from 2026-06-24 are saved in:
 
 ```text
-json_results/k5_translated_profile_20260624/
+json_results/N5_translated_profile_20260624/
 ```
 
 The summary files are:
 
 ```text
-json_results/k5_translated_profile_20260624/profile_summary.csv
-json_results/k5_translated_profile_20260624/profile_summary.json
+json_results/N5_translated_profile_20260624/profile_summary.csv
+json_results/N5_translated_profile_20260624/profile_summary.json
 ```
 
 All 32 legal runs in that matrix used `--mip-rel-gap 0 --require-success`,
@@ -587,7 +590,7 @@ proved the same bound `0.2`, and ended with zero MIP gap.
 Fastest original formulation:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --no-width-cuts \
   --monotonicity-cuts \
   --endpoint-length-cut \
@@ -600,7 +603,7 @@ This took about `4.82s` and `4,329` branch-and-bound nodes.
 Fastest translated-missing-point formulation:
 
 ```bash
-.venv/bin/python circle_intervals.py -N 5 --d 3 \
+.venv/bin/python circle_intervals.py -N 5 --m 3 \
   --translated-missing-point \
   --width-cuts \
   --monotonicity-cuts \
@@ -659,7 +662,7 @@ The solution JSON includes:
 
 - `optimum`
 - named variable `values`
-- `parameters`, including `N`, `d`, `epsilon`, formulation and cut toggles,
+- `parameters`, including `N`, `m`, `epsilon`, formulation and cut toggles,
   subset bounds, and solver options
 - `solver_details`, including node count, dual bound, and MIP gap when HiGHS
   provides them

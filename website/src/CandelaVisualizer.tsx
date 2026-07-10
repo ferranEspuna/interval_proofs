@@ -50,8 +50,8 @@ function isPrime(value) {
   if (value < 2) return false;
   if (value === 2 || value === 3) return true;
   if (value % 2 === 0 || value % 3 === 0) return false;
-  for (let d = 5; d * d <= value; d += 6) {
-    if (value % d === 0 || value % (d + 2) === 0) return false;
+  for (let divisor = 5; divisor * divisor <= value; divisor += 6) {
+    if (value % divisor === 0 || value % (divisor + 2) === 0) return false;
   }
   return true;
 }

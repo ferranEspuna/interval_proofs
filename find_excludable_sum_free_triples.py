@@ -1,10 +1,10 @@
-"""Find maximal d-sum-free triples that can be omitted without changing a bound.
+"""Find maximal m-sum-free triples that can be omitted without changing a bound.
 
 The default experiment is the translated-missing-point setup used for
 small-interval investigations:
 
     N = 2, 3, 4, 5
-    d = 3
+    m = 3
     target bound = 1/5
     x_0 = 0 via --translated-missing-point
     alpha_0 <= alpha_i via --first-interval-shortest
@@ -12,7 +12,7 @@ small-interval investigations:
     no endpoint-length cut
 
 The output is a text report listing maximal families of exact triples
-(i, j, k), i <= j, whose lifted conditions can be excluded while the MILP
+(i, j, ell), i <= j, whose lifted conditions can be excluded while the MILP
 still proves the requested bound.
 """
 
@@ -48,19 +48,24 @@ class SearchStats:
 
 
 def all_sum_free_triples(N: int) -> list[Triple]:
-    return [(i, j, k) for i in range(N) for j in range(i, N) for k in range(N)]
+    return [
+        (i, j, ell)
+        for i in range(N)
+        for j in range(i, N)
+        for ell in range(N)
+    ]
 
 
-def format_triple(triple: Triple, d: float) -> str:
-    i, j, k = triple
-    return f"({i},{j},{k}) = I_{i} + I_{j} - {d:g} I_{k}"
+def format_triple(triple: Triple, m: float) -> str:
+    i, j, ell = triple
+    return f"({i},{j},{ell}) = I_{i} + I_{j} - {m:g} I_{ell}"
 
 
-def format_family(family: Iterable[Triple], d: float) -> str:
+def format_family(family: Iterable[Triple], m: float) -> str:
     triples = sorted(family)
     if not triples:
         return "  <empty family>"
-    return "\n".join(f"  - {format_triple(triple, d)}" for triple in triples)
+    return "\n".join(f"  - {format_triple(triple, m)}" for triple in triples)
 
 
 class BoundOracle:
@@ -68,7 +73,7 @@ class BoundOracle:
         self,
         *,
         N: int,
-        d: float,
+        m: float,
         epsilon: float,
         target_bound: float,
         tolerance: float,
@@ -78,7 +83,7 @@ class BoundOracle:
         solver_options: dict[str, object],
     ) -> None:
         self.N = N
-        self.d = d
+        self.m = m
         self.epsilon = epsilon
         self.target_bound = target_bound
         self.tolerance = tolerance
@@ -98,7 +103,7 @@ class BoundOracle:
 
         problem = build_circle_interval_problem(
             N=self.N,
-            d=self.d,
+            m=self.m,
             epsilon=self.epsilon,
             use_translated_missing_point=True,
             add_width_cuts=self.add_width_cuts,
@@ -245,7 +250,7 @@ def parse_n_values(text: str) -> list[int]:
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
-            "Find maximal exact d-sum-free triples that can be excluded while "
+            "Find maximal exact m-sum-free triples that can be excluded while "
             "preserving a target bound."
         ),
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
@@ -256,7 +261,14 @@ def build_parser() -> argparse.ArgumentParser:
         default=[2, 3, 4, 5],
         help="comma-separated interval counts to test",
     )
-    parser.add_argument("--d", type=float, default=3.0, help="sum-free multiplier")
+    parser.add_argument(
+        "--m",
+        "--d",
+        dest="m",
+        type=float,
+        default=3.0,
+        help="sum-free multiplier; --d is accepted as a legacy alias",
+    )
     parser.add_argument(
         "--target-bound",
         type=float,
@@ -345,7 +357,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--output-txt",
         type=Path,
-        default=Path("json_results/maximal_excludable_triples_d3_N2-5.txt"),
+        default=Path("json_results/maximal_excludable_triples_m3_N2-5.txt"),
         help="text report path",
     )
     return parser
@@ -368,7 +380,7 @@ def main() -> None:
     solver_options = solver_options_from_args(args)
 
     lines: list[str] = [
-        "Maximal excludable d-sum-free triples",
+        "Maximal excludable m-sum-free triples",
         "======================================",
         "",
         "A family is listed when excluding exactly those triples, and no larger",
@@ -376,7 +388,7 @@ def main() -> None:
         f"target bound {args.target_bound:g}.",
         "",
         "Fixed model settings:",
-        f"  d = {args.d:g}",
+        f"  m = {args.m:g}",
         f"  epsilon = {args.epsilon:g}",
         "  translated_missing_point = True",
         "  first_interval_shortest = True",
@@ -401,7 +413,7 @@ def main() -> None:
             subset_alpha_bounds.append((N - 1, args.n_minus_one_alpha_bound))
         oracle = BoundOracle(
             N=N,
-            d=args.d,
+            m=args.m,
             epsilon=args.epsilon,
             target_bound=args.target_bound,
             tolerance=args.tolerance,
@@ -480,7 +492,7 @@ def main() -> None:
             lines.extend(
                 [
                     f"Family {family_index} ({len(family)} triples):",
-                    format_family(family, args.d),
+                    format_family(family, args.m),
                     "",
                 ]
             )

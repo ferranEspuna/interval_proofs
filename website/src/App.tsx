@@ -463,7 +463,7 @@ function getDefaultSetup() {
 
   return {
     intervals,
-    lambda: 3,
+    m: 3,
     hiddenMixedComboKeys: [],
     fixTotalLength: false,
     targetTotalLength,
@@ -532,7 +532,10 @@ function normalizeSharedSetup(shared, defaults = getDefaultSetup()) {
   }
 
   let intervals = normalizeSharedIntervals(shared?.intervals);
-  const lambda = Number.isFinite(Number(shared?.lambda)) ? Number(shared.lambda) : defaults.lambda;
+  const sharedMultiplier = shared?.m ?? shared?.lambda;
+  const m = Number.isFinite(Number(sharedMultiplier))
+    ? Number(sharedMultiplier)
+    : defaults.m;
   const fixTotalLength = shared?.fixTotalLength === true;
   let targetTotalLength = clamp(
     Number(shared?.targetTotalLength),
@@ -556,7 +559,7 @@ function normalizeSharedSetup(shared, defaults = getDefaultSetup()) {
 
   return {
     intervals,
-    lambda,
+    m,
     hiddenMixedComboKeys,
     fixTotalLength,
     targetTotalLength,
@@ -644,15 +647,15 @@ function Arc({ r, start, end, color, className, style, ...rest }) {
   const largeArcFlag = end - start <= 0.5 ? "0" : "1";
   
   // sweepFlag is 1 for clockwise
-  const d = `M ${pStart.x} ${pStart.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y}`;
+  const pathData = `M ${pStart.x} ${pStart.y} A ${r} ${r} 0 ${largeArcFlag} 1 ${pEnd.x} ${pEnd.y}`;
 
-  return <path d={d} stroke={color} strokeWidth="16" fill="none" strokeLinecap="butt" className={finalClassName} style={mergedStyle} {...rest} />;
+  return <path d={pathData} stroke={color} strokeWidth="16" fill="none" strokeLinecap="butt" className={finalClassName} style={mergedStyle} {...rest} />;
 }
 
 function IntervalVisualizer({ onSwitchToCandela }) {
   const [initialSetup] = useState(() => readSetupFromUrl());
   const [intervals, setIntervals] = useState(initialSetup.intervals);
-  const [lambda, setLambda] = useState(initialSetup.lambda);
+  const [m, setM] = useState(initialSetup.m);
   const [hiddenMixedComboKeys, setHiddenMixedComboKeys] = useState(initialSetup.hiddenMixedComboKeys);
   const [fixTotalLength, setFixTotalLength] = useState(initialSetup.fixTotalLength);
   const [targetTotalLength, setTargetTotalLength] = useState(initialSetup.targetTotalLength);
@@ -694,31 +697,31 @@ function IntervalVisualizer({ onSwitchToCandela }) {
     return result;
   }, [intervals]);
 
-  // 3. Calculate lambda * A
-  const renderLambdaA = useMemo(() => {
+  // 3. Calculate m * A
+  const renderMA = useMemo(() => {
     let result = [];
     intervals.forEach(i => {
-      let s = lambda * i.start;
-      let e = lambda * (i.start + i.width);
+      let s = m * i.start;
+      let e = m * (i.start + i.width);
       getWrappedSegments(s, e).forEach(seg => {
         result.push({ start: seg[0], end: seg[1], color: i.color });
       });
     });
     return result;
-  }, [intervals, lambda]);
+  }, [intervals, m]);
 
   const mixedCombinations = useMemo(() => {
     let result = [];
     for (let i = 0; i < intervals.length; i++) {
       for (let j = i; j < intervals.length; j++) {
-        for (let k = 0; k < intervals.length; k++) {
+        for (let ell = 0; ell < intervals.length; ell++) {
           let int1 = intervals[i];
           let int2 = intervals[j];
-          let int3 = intervals[k];
+          let int3 = intervals[ell];
           const labels = intervals.length <= 2 ? ['I', 'J'] : intervals.map((_, index) => `A${index + 1}`);
           result.push({
             key: `${int1.id}:${int2.id}:${int3.id}`,
-            label: `${labels[i]} + ${labels[j]} - ${lambda}${labels[k]}`,
+            label: `${labels[i]} + ${labels[j]} - ${m}${labels[ell]}`,
             int1,
             int2,
             int3,
@@ -728,12 +731,12 @@ function IntervalVisualizer({ onSwitchToCandela }) {
       }
     }
     return result;
-  }, [intervals, lambda]);
+  }, [intervals, m]);
 
   const canFilterMixedCombinations = intervals.length >= 1 && intervals.length <= 2;
 
-  // 4. Calculate A + A - lambda * A (blended colors)
-  const renderAPlusAMinusLambdaA = useMemo(() => {
+  // 4. Calculate A + A - m * A (blended colors)
+  const renderAPlusAMinusMA = useMemo(() => {
     let result = [];
     const hiddenKeys = new Set(hiddenMixedComboKeys);
     mixedCombinations.forEach(combo => {
@@ -741,8 +744,8 @@ function IntervalVisualizer({ onSwitchToCandela }) {
 
       let sumStart = combo.int1.start + combo.int2.start;
       let sumEnd = (combo.int1.start + combo.int1.width) + (combo.int2.start + combo.int2.width);
-      let scaledStart = -lambda * combo.int3.start;
-      let scaledEnd = -lambda * (combo.int3.start + combo.int3.width);
+      let scaledStart = -m * combo.int3.start;
+      let scaledEnd = -m * (combo.int3.start + combo.int3.width);
       let s = sumStart + Math.min(scaledStart, scaledEnd);
       let e = sumEnd + Math.max(scaledStart, scaledEnd);
       getWrappedSegments(s, e).forEach(seg => {
@@ -750,14 +753,14 @@ function IntervalVisualizer({ onSwitchToCandela }) {
       });
     });
     return result;
-  }, [mixedCombinations, canFilterMixedCombinations, hiddenMixedComboKeys, lambda]);
+  }, [mixedCombinations, canFilterMixedCombinations, hiddenMixedComboKeys, m]);
 
   const disjointA = useMemo(() => getDisjointSegments(renderA), [renderA]);
   const measureA = disjointA.measure;
   
   const measureAPlusA = useMemo(() => calculateMeasure(renderAPlusA), [renderAPlusA]);
-  const measureLambdaA = useMemo(() => calculateMeasure(renderLambdaA), [renderLambdaA]);
-  const measureAPlusAMinusLambdaA = useMemo(() => calculateMeasure(renderAPlusAMinusLambdaA), [renderAPlusAMinusLambdaA]);
+  const measureMA = useMemo(() => calculateMeasure(renderMA), [renderMA]);
+  const measureAPlusAMinusMA = useMemo(() => calculateMeasure(renderAPlusAMinusMA), [renderAPlusAMinusMA]);
   
   const totalIntervalLength = useMemo(() => (
     intervals.reduce((sum, interval) => sum + interval.width, 0)
@@ -779,18 +782,18 @@ function IntervalVisualizer({ onSwitchToCandela }) {
       width: Number(interval.width.toFixed(6)),
       color: interval.color,
     })),
-    lambda,
+    m,
     fixTotalLength,
     targetTotalLength: Number(displayedTotalLength.toFixed(6)),
     hiddenMixedComboKeys,
-  }), [intervals, lambda, fixTotalLength, displayedTotalLength, hiddenMixedComboKeys]);
+  }), [intervals, m, fixTotalLength, displayedTotalLength, hiddenMixedComboKeys]);
 
   const shareUrl = useMemo(() => buildShareUrl(shareState), [shareState]);
   const currentStateJson = useMemo(() => JSON.stringify(shareState, null, 2), [shareState]);
 
   const applySetup = useCallback((setup) => {
     setIntervals(setup.intervals);
-    setLambda(setup.lambda);
+    setM(setup.m);
     setHiddenMixedComboKeys(setup.hiddenMixedComboKeys);
     setFixTotalLength(setup.fixTotalLength);
     setTargetTotalLength(setup.targetTotalLength);
@@ -942,7 +945,7 @@ function IntervalVisualizer({ onSwitchToCandela }) {
   }, []);
 
   const RADIUS_A = 60;
-  const RADIUS_LAMBDA = 100;
+  const RADIUS_M = 100;
   const RADIUS_PLUS = 140;
   const RADIUS_MIXED = 180;
 
@@ -955,7 +958,7 @@ function IntervalVisualizer({ onSwitchToCandela }) {
             <div>
               <h1 className="text-3xl font-bold text-slate-900 mb-2">Circle Group Visualizer</h1>
               <p className="text-slate-600">
-                Explore additive combinatorics on the circle group <InlineMath>{'\\mathbb{T} = \\mathbb{R}/\\mathbb{Z}'}</InlineMath>. Visualizing interval sets <InlineMath>{'A'}</InlineMath>, sumsets <InlineMath>{'A+A'}</InlineMath>, dilations <InlineMath>{'\\lambda A'}</InlineMath>, and mixed sets <InlineMath>{'A+A-\\lambda A'}</InlineMath>.
+                Explore additive combinatorics on the circle group <InlineMath>{'\\mathbb{T} = \\mathbb{R}/\\mathbb{Z}'}</InlineMath>. Visualizing interval sets <InlineMath>{'A'}</InlineMath>, sumsets <InlineMath>{'A+A'}</InlineMath>, dilations <InlineMath>{'mA'}</InlineMath>, and mixed sets <InlineMath>{'A+A-mA'}</InlineMath>.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
@@ -999,7 +1002,7 @@ function IntervalVisualizer({ onSwitchToCandela }) {
 
               {/* Background Tracks */}
               <circle cx="0" cy="0" r={RADIUS_A} stroke="#f1f5f9" strokeWidth="16" fill="none" />
-              <circle cx="0" cy="0" r={RADIUS_LAMBDA} stroke="#f1f5f9" strokeWidth="16" fill="none" />
+              <circle cx="0" cy="0" r={RADIUS_M} stroke="#f1f5f9" strokeWidth="16" fill="none" />
               <circle cx="0" cy="0" r={RADIUS_PLUS} stroke="#f1f5f9" strokeWidth="16" fill="none" />
               <circle cx="0" cy="0" r={RADIUS_MIXED} stroke="#f1f5f9" strokeWidth="16" fill="none" />
 
@@ -1019,13 +1022,13 @@ function IntervalVisualizer({ onSwitchToCandela }) {
                   style={{ touchAction: 'none' }}
                 />
               ))}
-              {renderLambdaA.map((seg, i) => (
-                <Arc key={`L-${i}`} r={RADIUS_LAMBDA} start={seg.start} end={seg.end} color={seg.color} />
+              {renderMA.map((seg, i) => (
+                <Arc key={`L-${i}`} r={RADIUS_M} start={seg.start} end={seg.end} color={seg.color} />
               ))}
               {renderAPlusA.map((seg, i) => (
                 <Arc key={`P-${i}`} r={RADIUS_PLUS} start={seg.start} end={seg.end} color={seg.color} />
               ))}
-              {renderAPlusAMinusLambdaA.map((seg, i) => (
+              {renderAPlusAMinusMA.map((seg, i) => (
                 <Arc key={`M-${i}`} r={RADIUS_MIXED} start={seg.start} end={seg.end} color={seg.color} />
               ))}
             </svg>
@@ -1039,8 +1042,8 @@ function IntervalVisualizer({ onSwitchToCandela }) {
               </div>
               <div className="flex items-center gap-2">
                 <div className="font-medium text-sm text-slate-500">Middle Ring:</div>
-                <span className="font-bold text-sm text-slate-800">{lambda}A.</span>
-                <span className="font-bold text-sm text-slate-500 font-mono">{measureLambdaA.toFixed(3)}</span>
+                <span className="font-bold text-sm text-slate-800">{m}A.</span>
+                <span className="font-bold text-sm text-slate-500 font-mono">{measureMA.toFixed(3)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <div className="font-medium text-sm text-slate-500">Third Ring:</div>
@@ -1049,8 +1052,8 @@ function IntervalVisualizer({ onSwitchToCandela }) {
               </div>
               <div className="flex items-center gap-2">
                 <div className="font-medium text-sm text-slate-500">Outer Ring:</div>
-                <span className="font-bold text-sm text-slate-800">A + A - {lambda}A.</span>
-                <span className="font-bold text-sm text-slate-500 font-mono">{measureAPlusAMinusLambdaA.toFixed(3)}</span>
+                <span className="font-bold text-sm text-slate-800">A + A - {m}A.</span>
+                <span className="font-bold text-sm text-slate-500 font-mono">{measureAPlusAMinusMA.toFixed(3)}</span>
               </div>
             </div>
           </div>
@@ -1213,33 +1216,33 @@ function IntervalVisualizer({ onSwitchToCandela }) {
           </div>
 
           <div className="w-full xl:w-[420px] xl:shrink-0 flex flex-col gap-6">
-            {/* Lambda Multiplier */}
+            {/* m Multiplier */}
             <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-              <h2 className="font-bold text-lg mb-4">Scalar Multiplier (<InlineMath>{'\\lambda'}</InlineMath>)</h2>
+              <h2 className="font-bold text-lg mb-4">Scalar Multiplier (<InlineMath>{'m'}</InlineMath>)</h2>
               
               <div>
                 <div className="flex justify-between text-sm mb-2">
-                  <label className="font-medium text-slate-700">Value of <InlineMath>{'\\lambda'}</InlineMath></label>
-                  <span className="text-emerald-600 font-bold font-mono">{lambda}</span>
+                  <label className="font-medium text-slate-700">Value of <InlineMath>{'m'}</InlineMath></label>
+                  <span className="text-emerald-600 font-bold font-mono">{m}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <button 
-                    onClick={() => setLambda(l => l - 1)}
+                    onClick={() => setM(value => value - 1)}
                     className="w-10 h-10 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors font-bold text-lg"
                   >
                     -
                   </button>
                   <input 
                     type="number" step="1" 
-                    value={lambda}
+                    value={m}
                     onChange={(e) => {
                       const val = parseInt(e.target.value);
-                      setLambda(isNaN(val) ? 0 : val);
+                      setM(isNaN(val) ? 0 : val);
                     }}
                     className="w-full text-center text-lg font-mono font-bold bg-slate-50 border border-slate-200 rounded-lg h-10 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                   <button 
-                    onClick={() => setLambda(l => l + 1)}
+                    onClick={() => setM(value => value + 1)}
                     className="w-10 h-10 flex items-center justify-center bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg transition-colors font-bold text-lg"
                   >
                     +
