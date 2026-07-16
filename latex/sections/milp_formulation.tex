@@ -107,6 +107,26 @@ for all subsets \(S\) of a chosen size can also express inductive information,
 for example a previously proved bound for every smaller subunion.  This is a
 possible bridge from computations at fixed \(N\) to a theoretical induction.
 
+\subsection{Scale, visualization, and state sharing}
+
+The number of interval interactions grows as
+\[
+    \#\{(i,j,\ell):0\leq i\leq j<N,\ 0\leq\ell<N\}
+    =\frac{N^2(N+1)}2.
+\]
+Even before branch-and-bound, this explains why a direct case split is
+unlikely to scale: every term \(I_i+I_j-mI_\ell\) has a choice of integer lift,
+and these choices are coupled by the ordering of the intervals.
+
+The interactive visualizer at
+\href{https://ferranespuna.github.io/interval_proofs/}{ferranespuna.github.io/interval\_proofs}
+is a companion tool.  Its circle mode displays a finite union of intervals
+together with the pieces of \(A+A-mA\), and its discrete mode displays the
+Candela--Gonz\'alez-S\'anchez--Grynkiewicz construction.  Both modes accept
+serialized state, so a MILP solution can be linked directly from a solver run.
+This is useful for discovering active endpoint constraints, but the picture is
+not itself a certificate.
+
 \subsection{Numerical and exact certification}
 
 The implementation uses \code{scipy.optimize.milp}, backed by HiGHS
@@ -119,19 +139,20 @@ The implementation uses \code{scipy.optimize.milp}, backed by HiGHS
           status; and
     \item an exact rational check for every claimed construction.
 \end{itemize}
+
+There are three possible mathematical outputs of the interval program:
+\begin{enumerate}
+    \item a counterexample, which can often be rationalized and checked by a
+          finite endpoint certificate;
+    \item a conjectural structural pattern, such as a removable family of
+          interactions, which should guide a human inequality proof; or
+    \item a computer-assisted upper bound, which requires exact rational
+          branch certificates or independently checkable dual certificates.
+\end{enumerate}
+The current implementation is strongest as the first two.
+
 A zero requested relative MIP gap still produces a floating-point solver
 certificate.  A formal computer-assisted proof would additionally need exact
 rational branch verification, interval arithmetic with rigorous error bounds,
 or an exact solver whose certificate can be checked by a small independent
 program.
-
-\subsection{MILP around the equally spaced base}
-
-The companion script \code{equally\_spaced\_tiny\_interval\_lp.py} fixes the
-base parameters \(q,\delta,a\) from
-Section~\ref{sec:equally-spaced-construction}, adds variable extra intervals,
-and imposes the same lifted constraints.  Pairwise binary variables enforce
-non-overlap because the extra intervals are not assigned to gaps in advance.
-Its role is local discovery: if the solver finds a positive extra length, the
-next step is to recover rational endpoints and produce a finite exact
-certificate.

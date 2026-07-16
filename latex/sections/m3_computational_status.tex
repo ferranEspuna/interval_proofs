@@ -15,26 +15,6 @@ JSON problem files, solution files, exact command lines, and solver logs are
 not all present in this checkout, these values should currently be read as
 strong experimental evidence.
 
-\subsection{Visualization and state sharing}
-
-The interactive visualizer at
-\href{https://ferranespuna.github.io/interval_proofs/}{ferranespuna.github.io/interval\_proofs}
-is a completed companion tool.  Its circle mode displays a finite union of
-intervals together with the pieces of \(A+A-mA\), and its discrete mode displays
-the Candela--Gonz\'alez-S\'anchez--Grynkiewicz construction.  Both modes accept
-serialized state, so a MILP solution can be linked directly from a solver run.
-This is useful for discovering active endpoint constraints, but the picture is
-not itself a certificate.
-
-The number of interval interactions grows as
-\[
-    \#\{(i,j,\ell):0\leq i\leq j<N,\ 0\leq\ell<N\}
-    =\frac{N^2(N+1)}2.
-\]
-Even before branch-and-bound, this explains why a direct case split is
-unlikely to scale: each term \(I_i+I_j-3I_\ell\) has a choice of integer lift,
-and these choices are coupled by the ordering of the intervals.
-
 \subsection{Symmetry normalization and removable interactions}
 
 In the translated-missing-point model, a reported useful normalization is:
@@ -67,17 +47,3 @@ configuration
 \]
 Thus an interaction may be unnecessary on an open region of parameter space
 yet still be essential at one boundary point.
-
-\subsection{What would turn the computation into mathematics}
-
-There are three possible outputs of the interval program:
-\begin{enumerate}
-    \item a counterexample, which can often be rationalized and checked by a
-          finite endpoint certificate;
-    \item a conjectural structural pattern, such as a removable family of
-          interactions, which should guide a human inequality proof; or
-    \item a computer-assisted upper bound, which requires exact rational
-          branch certificates or independently checkable dual certificates.
-\end{enumerate}
-The current implementation is strongest as the first two.  Floating-point
-MILP optimality alone is not yet an exact proof of \(M_N(3)\leq1/5\).

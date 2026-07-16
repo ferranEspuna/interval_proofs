@@ -1,0 +1,45 @@
+\section{Extra intervals beyond the equally spaced construction}
+\label{sec:extra-intervals}
+
+The script \code{equally_spaced_tiny_interval_lp.py} fixes the base parameters
+\(q,\delta,a\) from Section~\ref{sec:equally-spaced-construction}, adds a
+chosen number of variable intervals, and imposes the lifted constraints from
+Section~\ref{sec:milp-formulation}.  Pairwise binary variables enforce
+non-overlap because the extra intervals are not assigned to gaps in advance.
+This is a local discovery model: if the solver finds a positive extra length,
+the next step is to recover rational endpoints and produce a finite exact
+certificate.
+
+These small MILPs sometimes find that a short extra interval can be added to
+the optimized equally spaced configuration.  The first example occurs for
+\(m=4\), where the density improves from \(1/6\) to
+\[
+    \frac{11}{64}=\frac16+\frac1{192}.
+\]
+The exact three-interval certificate is given in
+Section~\ref{sec:explicit-m4-m5}.
+
+Experiments for many values of \(m\), up to \(100\), suggest that an
+improvement is possible when
+\[
+    m\equiv0,1\pmod4,
+\]
+with \(m=5\) as an exception.  This is currently only a numerical pattern.
+The desired theoretical output is an explicit formula for the location and
+length of every added interval, followed by a finite certificate like those
+in Section~\ref{sec:explicit-m4-m5}, and a proof that the equally spaced
+construction is at least locally optimal when \(m\equiv2,3\pmod4\).
+
+Concrete questions are:
+\begin{enumerate}
+    \item For which values of \(m\) can one add positive measure to the
+          optimized equally spaced construction?
+    \item Is one extra interval always enough to realize the best local
+          improvement?
+    \item Are the added intervals genuine new components, or do they arise
+          from a different rounding of the same discrete construction?
+    \item Does every improvement have size \(o(1)\), so that the asymptotic
+          density remains \(1/8\)?
+    \item More generally, is it true that
+          \(\lim_{m\to\infty} d_m(\T)=1/8\)?
+\end{enumerate}
