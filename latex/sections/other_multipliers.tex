@@ -32,7 +32,8 @@ script \code{equally_spaced_tiny_interval_lp.py} fixes the structured base,
 adds a chosen number of variable intervals, and optimizes the total length
 subject to all lifted sum-free constraints and pairwise non-overlap.
 
-The working notes report a congruence pattern \(m\equiv0,1\pmod4\), except when\(m=5\). 
+Trying many values of m (up to 100) suggests a
+congruence pattern \(m\equiv0,1\pmod4\), except for \(m=5\).
 This pattern for now is just a conjecture.
 The desired theoretical output is an explicit
 formula for the location and length of every added interval, followed by a
@@ -42,12 +43,14 @@ is at least locally optimal for \(m\equiv2,3\pmod4\).
 
 Concrete questions are:
 \begin{enumerate}
-    \item For which residues of \(m\) can one add positive measure to the
-          optimized equally spaced construction?
-    \item Is one extra interval always enough to realize the best local
-          improvement?
-    \item Are the added intervals genuine new components, or do they arise
-          from a different rounding of the same discrete construction?
-    \item Does every improvement have size \(O(m^{-2})\), so that the
-          asymptotic density remains \(1/8\)?
+      \item For which values of \(m\) can one add positive measure to the
+            optimized equally spaced construction?
+      \item Is one extra interval always enough to realize the best local
+            improvement?
+      \item Are the added intervals genuine new components, or do they arise
+            from a different rounding of the same discrete construction?
+      \item Does every improvement have size \(o(1)\), so that the asymptotic
+            density remains \(1/8\)?
+      \item More generally, is it true that
+            \(\lim_{m\to\infty} d_m(\mathbb{T}_m) = 1/8\)?
 \end{enumerate}
