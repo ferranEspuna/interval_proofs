@@ -1,0 +1,85 @@
+\section{Problem, notation, and scope}
+\label{sec:problem-and-scope}
+
+Write \(\T=\mathbb R/\mathbb Z\), with normalized Haar measure \(\mu\).  For an
+integer \(m\geq 3\), a measurable set \(A\subset\T\) is \emph{\(m\)-sum-free}
+when the equation
+\[
+    x+y=mz
+\]
+has no solution \((x,y,z)\in A^3\).  Equivalently,
+\[
+    (A+A)\cap mA=\varnothing
+    \qquad\text{or}\qquad
+    0\notin A+A-mA.
+\]
+For a compact abelian group \(G\), set
+\[
+    d_m(G)=\sup\{\mu_G(A):A\subset G\text{ is measurable and }m\text{-sum-free}\}.
+\]
+The main objective is to determine, or sharply bound, \(d_m(\T)\), with
+particular emphasis on \(m=3\) and on the behavior as \(m\to\infty\).
+
+Candela and Sisask prove that, for every fixed finite family of linear forms in
+at least three variables, the corresponding extremal densities in \(\Zp\)
+converge to the density on \(\T\) as \(p\to\infty\) through primes
+\cite[Theorem~1.3]{CandelaSisask2011}.  Applied to \(x+y-mz\), this gives
+\[
+    \lim_{\substack{p\to\infty\\p\ \mathrm{prime}}}d_m(\Zp)=d_m(\T).
+\]
+Consequently, a circle construction gives asymptotic finite-group lower
+bounds, and uniform finite-group upper bounds can be transferred back to the
+circle.  The project therefore moves between \(\T\), where unions of intervals
+are geometric, and \(\Zp\), where inverse additive theorems are available.
+
+\subsection{Status at a glance}
+
+The word \emph{computed} below means a numerical MILP result at the stated
+solver tolerance.  It does not mean an exact theorem unless a separate proof
+is supplied.
+
+\begin{center}
+\small
+\begin{tabularx}{\textwidth}{@{}>{\raggedright\arraybackslash}p{0.20\textwidth}
+>{\raggedright\arraybackslash}p{0.16\textwidth}
+>{\raggedright\arraybackslash}X@{}}
+\toprule
+Topic & Status & Current conclusion \\
+\midrule
+\(m=3\), two closed intervals & \statusproved & Measure at least \(1/5\)
+forces \(A+A-3A=\T\); see Section~\ref{sec:closed-two-interval-proof}. \\
+\(m=3\), two open intervals at measure \(1/5\) & \statusproved & The only
+non-covering endpoint configuration, up to the stated symmetries, is
+\((0,1/10)\cup(1/2,3/5)\); see Sections~\ref{sec:open-two-interval-r5}
+and~\ref{sec:open-two-interval-r6}. \\
+\(m=3\), \(3\leq N\leq 8\) intervals & \statuscomputed & Reported MILP runs
+give optimum \(1/5\).  Reproducible solver artifacts for all these runs still
+need to be archived. \\
+Omitted interval interactions & \statuscomputed & For \(N=2,3,4,5\), reported
+relaxed MILPs identify maximal families of terms \(I_i+I_j-3I_\ell\) that can
+be omitted without changing the numerical \(1/5\) optimum. \\
+\(m=4\) & \statusproved & Three explicit open intervals give density
+\(11/64>1/6\); see Section~\ref{sec:explicit-m4-m5}. \\
+\(m=5\) & \statusproved & Two explicit open intervals give density
+\(6/35>1/7\); see Section~\ref{sec:explicit-m4-m5}. \\
+General \(m\) lower bound & \statusproved & Equally spaced intervals give
+\(\lfloor(m+2)^2/8\rfloor/(m(m+2))>1/8\); see
+Section~\ref{sec:equally-spaced-construction}. \\
+General \(m\) upper bound & literature & For each fixed \(m\geq3\),
+\(d_m(\T)\leq1/3.1955\), via the finite-group theorem and transference
+\cite[Theorem~1.5]{CandelaGonzalezSanchezGrynkiewicz2021}. \\
+Exact asymptotics as \(m\to\infty\) & \statusopen & The present lower bound
+tends to \(1/8\), while the cited upper bound is uniform and stays above
+\(0.31\). \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\subsection{How to read this document}
+
+Sections containing complete proofs are intended to be stable.  Sections on
+the MILP, excluded interactions, and tiny added intervals describe a discovery
+tool and must retain solver metadata before their output can serve as a
+computer-assisted certificate.  The final roadmap states the missing steps
+explicitly so that experimental observations are not silently promoted to
+claims.

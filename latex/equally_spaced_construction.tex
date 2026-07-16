@@ -1,3 +1,8 @@
+\ifdefined\IntervalProjectMaster
+\def\IntervalProjectEnd{}
+\section{The equally spaced construction}
+\label{sec:equally-spaced-construction}
+\else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -13,10 +18,12 @@
 \title{An equally spaced construction for $m$-sum-free sets}
 \author{Ferran Espu\~na}
 \date{\today}
+\def\IntervalProjectEnd{\end{document}}
 
 \begin{document}
 
 \maketitle
+\fi
 
 We work in \(\mathbb T=\mathbb R/\mathbb Z\). We will build open sets
 \[
@@ -330,4 +337,4 @@ Thus the construction above should be viewed as a robust general lower bound,
 not as a sharp formula for every \(m\).
 \end{remark}
 
-\end{document}
+\IntervalProjectEnd

@@ -1,3 +1,8 @@
+\ifdefined\IntervalProjectMaster
+\def\IntervalProjectEnd{}
+\section{The open two-interval endpoint case: the \texorpdfstring{$R_5$}{R5}-first proof}
+\label{sec:open-two-interval-r5}
+\else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -11,10 +16,12 @@
 \title{The endpoint case for two open intervals}
 \author{Ferran Espu\~na}
 \date{\today}
+\def\IntervalProjectEnd{\end{document}}
 
 \begin{document}
 
 \maketitle
+\fi
 
 \begin{theorem}\label{thm:open_two_intervals_endpoint}
 Let $A \subset \mathbb T$ be a union of two non-empty disjoint open intervals with
@@ -41,7 +48,7 @@ $A$ or by replacing $A$ by $-A$. As in the closed-interval proof, we may therefo
 where
 \begin{align}
     0<\alpha < x < x+\beta <1, \label{cond:order} \\
-    \alpha \geq \beta, \label{cond:alpha_geq_beta} \\
+    \alpha \geq \beta, \label{cond:alpha_geq_beta_open_R5} \\
     x-\alpha \leq 1-(x+\beta). \label{cond:shorter_gap}
 \end{align}
 Since $\mu(A)=\frac15$, we have
@@ -239,4 +246,4 @@ union
 This completes the proof.
 \end{proof}
 
-\end{document}
+\IntervalProjectEnd

@@ -14,6 +14,7 @@ LATEX_DIR = PROJECT_ROOT / "latex"
 PDF_DIR = PROJECT_ROOT / "pdf"
 BUILD_DIR = PROJECT_ROOT / "build"
 DIST_DIR = PROJECT_ROOT / "dist"
+MAIN_TARGET = "project_status"
 GENERATED_DIRS = {
     ".git",
     ".venv",
@@ -25,6 +26,7 @@ GENERATED_DIRS = {
     "build",
     "dist",
     "pdf",
+    "json_results_tmp",
 }
 
 
@@ -145,11 +147,20 @@ def package_release(pdf_paths: list[Path]) -> Path:
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build LaTeX PDFs.")
-    parser.add_argument(
+    selection = parser.add_mutually_exclusive_group()
+    selection.add_argument(
         "--target",
         choices=sorted(TARGETS),
         action="append",
-        help="Build one target. May be passed multiple times. Defaults to all targets.",
+        help=(
+            "Build one target. May be passed multiple times. "
+            f"Defaults to {MAIN_TARGET}."
+        ),
+    )
+    selection.add_argument(
+        "--all",
+        action="store_true",
+        help="Build the central document and every standalone paper.",
     )
     parser.add_argument(
         "--package",
@@ -179,7 +190,16 @@ def main() -> None:
     if not TARGETS:
         raise SystemExit("No LaTeX files found in latex/.")
 
-    target_names = args.target or list(TARGETS)
+    if args.all:
+        target_names = list(TARGETS)
+    elif args.target:
+        target_names = args.target
+    elif MAIN_TARGET in TARGETS:
+        target_names = [MAIN_TARGET]
+    else:
+        raise SystemExit(
+            f"Default LaTeX target '{MAIN_TARGET}' was not found in {LATEX_DIR}."
+        )
     pdf_paths = [build_target(TARGETS[name]) for name in target_names]
 
     if args.package:

@@ -1,0 +1,43 @@
+\section{Comparison with the finite-group \texorpdfstring{$1/8$}{1/8} construction}
+\label{sec:construction-comparison}
+
+Candela, Gonz\'alez-S\'anchez, and Grynkiewicz give a construction in
+\(\Zp\), following an idea of Schoen, for primes
+\[
+    p=4m^2n+1
+\]
+\cite[Lemma~3.1]{CandelaGonzalezSanchezGrynkiewicz2021}.  In its basic form it
+chooses an interval \(J\) of integers and retains selected residue classes
+modulo \(m\).  It has density at least \((1-1/p)/8\), with small improvements
+depending on the parameters and on \(m\bmod4\).
+
+The apparent geometry changes after multiplication by \(4mn\), which is
+invertible modulo \(p\).  Since
+\[
+    4m^2n=p-1\equiv-1\pmod p,
+\]
+each progression of common difference \(m\) becomes a consecutive block in
+the reverse direction.  Consecutive selected residue classes are separated
+after dilation by \(4mn/p\sim1/m\).  The dilated set therefore consists of
+about \(m/4\) interval-like blocks, each of normalized length about \(1/(2m)\).
+This is exactly the large-\(m\) geometry of
+Section~\ref{sec:equally-spaced-construction}, where
+\[
+    q\sim\frac m4,
+    \qquad
+    \delta\sim\frac1{2m},
+    \qquad
+    \mu(A)\sim\frac18.
+\]
+
+Thus the continuous and discrete constructions share the same structural
+template after dilation.  The circle optimization retains the rounding term
+explicitly and proves the slightly stronger fixed-\(m\) lower bound
+\[
+    \frac{\lfloor(m+2)^2/8\rfloor}{m(m+2)}>\frac18.
+\]
+An exact parameter-by-parameter equivalence, including the exceptional extra
+sets used in two congruence classes in the finite construction, remains to be
+written.  A clean comparison should specify the correspondence between
+\((q,\delta,a)\) on the circle and the integer parameters in the finite model,
+then bound the endpoint and rounding errors as \(n\to\infty\).

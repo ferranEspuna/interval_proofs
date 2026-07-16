@@ -16,16 +16,18 @@ ordered in the representative interval `[0, 1]`, and maximizes
 `A + A - mA`. It also has an optional translated-missing-point formulation
 that asks whether some point, not necessarily `0`, is outside `A + A - mA`.
 
-The proof that the sharp bound is `1/5` for `N=2`, `m=3` is in:
+The central research document is:
 
 ```text
-latex/2_interval_proof.tex
-pdf/2_interval_proof.pdf
+latex/project_status.tex
+pdf/project_status.pdf
 ```
 
-That proof shows that any union of two closed intervals in `T` of measure at
-least `1/5` satisfies `A + A - 3A = T`. In the MILP's normalized missing-point
-formulation, this corresponds to a supremum of `1/5` for `N=2`, `m=3`.
+It summarizes the literature, proved results, computations, and open research
+directions. The existing papers in `latex/` are included as sections of this
+document and can still be compiled independently. In particular, the closed
+two-interval proof shows that any union of two closed intervals in `T` of
+measure at least `1/5` satisfies `A + A - 3A = T`.
 
 ## Setup
 
@@ -39,6 +41,7 @@ python3 -m venv .venv
 Run the small MILP wrapper test:
 
 ```bash
+.venv/bin/python test_milp_problem.py
 ```
 
 ## Visualizer Website
@@ -681,24 +684,35 @@ print(solution.parameters)
 
 ## Automated PDF build
 
-This repository builds its LaTeX PDFs with a cross-platform Python wrapper around `latexmk`.
-Generated PDFs are ignored by git and are published by GitHub Actions on every push.
+This repository builds its LaTeX PDFs with a cross-platform Python wrapper
+around `latexmk`. Generated PDFs are ignored by git. Pull requests build and
+upload the central PDF as a workflow artifact; pushes to `main` also update the
+automated PDF release.
 
-Build all PDFs locally:
-
-```bash
-python scripts/build.py
-```
-
-Clean and create a release zip:
+Build the central project document locally:
 
 ```bash
-python scripts/build.py --clean --package
+python3 scripts/build.py
 ```
 
-Outputs:
-- `pdf/2_interval_proof.pdf`
-- `pdf/open_two_intervals_R6_main.pdf`
-- `pdf/open_two_intervals_original_R6_patch.pdf`
+The output is `pdf/project_status.pdf`.
 
-The release zip is written to `dist/interval_proofs-release.zip` and contains the PDFs plus a buildable source tree.
+Build every standalone paper as well:
+
+```bash
+python3 scripts/build.py --all
+```
+
+Build one named paper:
+
+```bash
+python3 scripts/build.py --target 2_interval_proof
+```
+
+Clean and create a release zip containing the central PDF and buildable source:
+
+```bash
+python3 scripts/build.py --clean --package
+```
+
+The release zip is written to `dist/interval_proofs-release.zip`.

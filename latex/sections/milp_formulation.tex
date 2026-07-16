@@ -1,0 +1,137 @@
+\section{Mixed-integer linear programming formulation}
+\label{sec:milp-formulation}
+
+This section records the mathematical model implemented in
+\code{circle\_intervals.py}.  It is included so that the computation can be
+audited independently of the Python variable names.
+
+\subsection{Variables and interval geometry}
+
+Represent a non-wrapping union of \(N\) intervals by
+\[
+    A=\bigcup_{i=0}^{N-1}I_i,
+    \qquad
+    I_i=[x_i,x_i+\alpha_i]\subset[0,1].
+\]
+The continuous variables satisfy
+\[
+    0\leq x_i\leq1,
+    \qquad
+    \alpha_i\geq0,
+    \qquad
+    x_i+\alpha_i\leq1,
+\]
+and the ordering constraints are
+\[
+    x_{i-1}+\alpha_{i-1}\leq x_i
+    \qquad(1\leq i<N).
+\]
+Zero-length intervals are allowed, so an \(N\)-interval model also contains
+all configurations with fewer components.
+
+For \(i\leq j\) and any \(\ell\), the real lift of the corresponding sumset
+piece is
+\[
+    I_i+I_j-mI_\ell=[L_{ij\ell},R_{ij\ell}],
+\]
+where
+\begin{align*}
+    L_{ij\ell}
+      &=x_i+x_j-mx_\ell-m\alpha_\ell,\\
+    R_{ij\ell}
+      &=x_i+x_j+\alpha_i+\alpha_j-mx_\ell.
+\end{align*}
+
+\subsection{Avoiding a point modulo one}
+
+In the standard model, the missing point is fixed to \(t=0\).  In the
+translated model, \(t\in[0,1]\) is a continuous variable.  For every triple
+\((i,j,\ell)\), an integer variable \(n_{ij\ell}\) selects a unit gap and the
+model imposes
+\begin{equation}
+    n_{ij\ell}+t+\varepsilon\leq L_{ij\ell}
+    \leq R_{ij\ell}
+    \leq n_{ij\ell}+t+1-\varepsilon.
+    \label{eq:lifted-milp-constraint}
+\end{equation}
+For \(\varepsilon>0\), this places the whole sumset piece a positive distance
+from every lift of \(t\).  With \(\varepsilon=0\), equality at an integer
+endpoint is allowed.  This is the closed relaxation used to compute a
+supremum; it should not be described as strict avoidance for closed intervals.
+
+The objective is
+\[
+    \text{maximize}\qquad \sum_{i=0}^{N-1}\alpha_i.
+\]
+The constraints are linear once \(n_{ij\ell}\) is declared integral, so this
+is a MILP.
+
+\subsection{Valid cuts and symmetry breaking}
+
+The code can add the following constraints.
+\begin{itemize}
+    \item The width cut
+    \[
+        \alpha_i+\alpha_j+m\alpha_\ell\leq1-2\varepsilon
+    \]
+    is implied by~\eqref{eq:lifted-milp-constraint}.
+    \item Ordering implies monotonicity of the lifts: they move right as
+    \(i\) or \(j\) increases and left as \(\ell\) increases.  Adding these
+    integer inequalities can reduce branch-and-bound work.
+    \item In translated mode, translation fixes \(x_0=0\).  One may select a
+    shortest interval by imposing \(\alpha_0\leq\alpha_i\) for every \(i\).
+    Reflection can then choose \(\alpha_1\leq\alpha_{N-1}\).
+    \item In the alternative endpoint convention, reflection is used to add
+    \(\alpha_{N-1}\leq\alpha_0\).  It must not be combined blindly with a
+    different symmetry convention.
+\end{itemize}
+These cuts preserve the intended optimum only when their stated symmetry
+normalization is valid.  The command-line flags keep them individually
+switchable for audit runs.
+
+\subsection{Relaxing selected interactions}
+
+The program may omit an exact triple \((i,j,\ell)\), or every triple supported
+on a chosen set of interval indices.  Omitting a triple removes its lift
+variable, containment inequalities, width cut, and adjacent monotonicity
+links.  The result is a relaxation.  If its certified optimum is still at
+most \(1/5\), then the retained constraints suffice for that finite model.  If
+its optimum grows, one may only conclude that the omitted interactions matter
+to the relaxation.
+
+Subset bounds of the form
+\[
+    \sum_{i\in S}\alpha_i\leq b
+\]
+for all subsets \(S\) of a chosen size can also express inductive information,
+for example a previously proved bound for every smaller subunion.  This is a
+possible bridge from computations at fixed \(N\) to a theoretical induction.
+
+\subsection{Numerical and exact certification}
+
+The implementation uses \code{scipy.optimize.milp}, backed by HiGHS
+\cite{SciPy2020,HiGHS2020}.  A trustworthy experiment should archive:
+\begin{itemize}
+    \item the full command line and git commit;
+    \item Python, SciPy, and HiGHS versions;
+    \item the serialized variables, constraints, and objective;
+    \item primal solution, dual bound, MIP gap, node count, and termination
+          status; and
+    \item an exact rational check for every claimed construction.
+\end{itemize}
+A zero requested relative MIP gap still produces a floating-point solver
+certificate.  A formal computer-assisted proof would additionally need exact
+rational branch verification, interval arithmetic with rigorous error bounds,
+or an exact solver whose certificate can be checked by a small independent
+program.
+
+\subsection{MILP around the equally spaced base}
+
+The companion script \code{equally\_spaced\_tiny\_interval\_lp.py} fixes the
+base parameters \(q,\delta,a\) from
+Section~\ref{sec:equally-spaced-construction}, adds variable extra intervals,
+and imposes the same lifted constraints.  Pairwise binary variables enforce
+non-overlap because the extra intervals are not assigned to gaps in advance.
+Its role is local discovery: if the solver finds a positive extra length, the
+next step is to recover rational endpoints and produce a finite exact
+certificate.

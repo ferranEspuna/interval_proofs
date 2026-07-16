@@ -1,0 +1,61 @@
+\section{Research roadmap}
+\label{sec:research-roadmap}
+
+The following ordering emphasizes tasks that either validate an existing
+claim or unlock several later directions.
+
+\subsection{Immediate validation and consolidation}
+
+\begin{enumerate}
+    \item Read the two open-interval endpoint proofs in
+    Sections~\ref{sec:open-two-interval-r5} and~\ref{sec:open-two-interval-r6}
+    line by line.  They currently provide two checks of the same classification,
+    but the project notes record that they were initially AI-assisted.
+    \item Reproduce the full \(m=3\), \(N\leq8\) computation with a fixed
+    environment.  Commit small JSON certificates and attach large logs to a
+    tagged release.
+    \item Regenerate the maximal removable families for \(N=2,3,4,5\), and
+    include a machine-readable summary plus the command used for every row.
+\end{enumerate}
+
+\subsection{Upper bounds}
+
+\begin{enumerate}[resume]
+    \item Carry out the constant optimization described in
+    Section~\ref{sec:inverse-sumset-route} using the 2024 high-density
+    \(3k-4\) theorem.  Record explicitly whether it improves \(1/3.1955\).
+    \item Develop an \(m\)-dependent upper-bound mechanism.  A first target is
+    any bound strictly below \(1/3.1955\) for all sufficiently large \(m\); a
+    longer-term target is \(1/8+o(1)\).
+    \item Study the LP relaxation or dual of the \(m=3\) interval model.  The
+    goal is a reusable inequality, not a larger fixed-\(N\) case split.
+\end{enumerate}
+
+\subsection{Constructions}
+
+\begin{enumerate}[resume]
+    \item Prove or disprove the two-interval formula
+    \(M_2(m)=2(m-2)/(m(m+2))\) for \(m\geq4\).
+    \item Verify the reported congruence pattern for tiny added intervals,
+    rationalize the successful solutions, and search for a uniform formula.
+    \item Complete the exact comparison between the dilated finite-group
+    construction and the circle construction, including all rounding cases.
+\end{enumerate}
+
+\subsection{A possible route beyond fixed \texorpdfstring{$N$}{N}}
+
+Proving \(M_N(3)\leq1/5\) separately for larger \(N\) will not settle the
+measurable problem unless the proof is uniform.  A useful theoretical result
+would have one of the following forms:
+\begin{itemize}
+    \item a bounded subconfiguration principle: every union of intervals of
+          measure $>1/5$ contains a small subunion whose relevant sumset
+          already covers the missing point;
+    \item an induction in which bounds for all proper subunions yield a fixed
+          collection of inequalities for the full union; or
+    \item a compactness/approximation argument paired with a bound independent
+          of the number of components.
+\end{itemize}
+The removable-interaction experiments are relevant precisely when they expose
+such a uniform principle.  Merely increasing \(N\) in the MILP is not expected
+to do so on its own.

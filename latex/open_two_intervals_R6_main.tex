@@ -1,3 +1,8 @@
+\ifdefined\IntervalProjectMaster
+\def\IntervalProjectEnd{}
+\section{The open two-interval endpoint case: the \texorpdfstring{$R_6$}{R6}-first proof}
+\label{sec:open-two-interval-r6}
+\else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -12,10 +17,12 @@
 \title{The endpoint case using $J+J-3J$ as the main final interval}
 \author{Ferran Espu\~na}
 \date{\today}
+\def\IntervalProjectEnd{\end{document}}
 
 \begin{document}
 
 \maketitle
+\fi
 
 \begin{theorem}\label{thm:open_two_intervals_endpoint_R6}
 Let $A \subset \mathbb T$ be a union of two non-empty disjoint open intervals with
@@ -249,4 +256,4 @@ be used as the main replacement for $R_5$, but $R_5$ still has to be mentioned t
 this one artificial endpoint.
 \end{remark}
 
-\end{document}
+\IntervalProjectEnd

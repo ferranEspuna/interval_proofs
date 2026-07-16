@@ -1,0 +1,53 @@
+\section{Experimental questions for other multipliers}
+\label{sec:other-multipliers}
+
+The experiments for \(m\geq4\) show that a single interval is generally not
+extremal.  The explicit certificates in Section~\ref{sec:explicit-m4-m5}
+establish
+\[
+    d_4(\T)\geq\frac{11}{64}>\frac16,
+    \qquad
+    d_5(\T)\geq\frac6{35}>\frac17.
+\]
+For \(m=5\), searches with up to six intervals have so far only reproduced a
+four-interval splitting of the same density \(6/35\); this is evidence, not an
+upper bound.
+
+For two intervals, the observed formula is
+\begin{equation}
+    M_2(m)=\frac{2(m-2)}{m(m+2)},\qquad m\geq4,
+    \label{eq:two-interval-conjecture}
+\end{equation}
+where the restriction \(m\geq4\) is essential because the proved value for
+\(m=3\) is \(1/5\).  Formula~\eqref{eq:two-interval-conjecture} agrees with the
+reported values \(M_2(6)=1/6\) and \(M_2(7)=10/63\), and it is the \(q=2\)
+case of the equally spaced construction below.  No general two-interval upper
+bound proving~\eqref{eq:two-interval-conjecture} is currently included.
+
+\subsection{Tiny intervals added to the structured construction}
+
+Small MILPs sometimes add a short extra interval to the optimized equally
+spaced configuration; the \(m=4\) density \(11/64\) is the first example.  The
+script \code{equally_spaced_tiny_interval_lp.py} fixes the structured base,
+adds a chosen number of variable intervals, and optimizes the total length
+subject to all lifted sum-free constraints and pairwise non-overlap.
+
+The working notes report a congruence pattern \(m\equiv0,1\pmod4\), except when\(m=5\). 
+This pattern for now is just a conjecture.
+The desired theoretical output is an explicit
+formula for the location and length of every added interval, followed by a
+finite certificate like those in Section~\ref{sec:explicit-m4-m5},
+and a proof that the equally spaced construction
+is at least locally optimal for \(m\equiv2,3\pmod4\).
+
+Concrete questions are:
+\begin{enumerate}
+    \item For which residues of \(m\) can one add positive measure to the
+          optimized equally spaced construction?
+    \item Is one extra interval always enough to realize the best local
+          improvement?
+    \item Are the added intervals genuine new components, or do they arise
+          from a different rounding of the same discrete construction?
+    \item Does every improvement have size \(O(m^{-2})\), so that the
+          asymptotic density remains \(1/8\)?
+\end{enumerate}

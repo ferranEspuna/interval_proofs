@@ -1,3 +1,8 @@
+\ifdefined\IntervalProjectMaster
+\def\IntervalProjectEnd{}
+\section{Explicit constructions for \texorpdfstring{$m=4$}{m=4} and \texorpdfstring{$m=5$}{m=5}}
+\label{sec:explicit-m4-m5}
+\else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -10,10 +15,12 @@
 \title{Multi-interval examples improving the one-interval bound}
 \author{Ferran Espu\~na}
 \date{\today}
+\def\IntervalProjectEnd{\end{document}}
 
 \begin{document}
 
 \maketitle
+\fi
 
 We write \(\mathbb T=\mathbb R/\mathbb Z\). A set \(A\subset \mathbb T\) is
 \(m\)-sum-free if
@@ -170,4 +177,4 @@ not included. Therefore every interval \(I_i+I_j-5I_\ell\) misses all integers,
 and \(0\notin A_5+A_5-5A_5\) in \(\mathbb T\).
 \end{proof}
 
-\end{document}
+\IntervalProjectEnd

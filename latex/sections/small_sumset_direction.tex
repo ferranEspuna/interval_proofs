@@ -1,0 +1,87 @@
+\section{The inverse-sumset route to upper bounds}
+\label{sec:inverse-sumset-route}
+
+For an \(m\)-sum-free set in \(\Zp\), with \(p\nmid m\), the sets \(2A\) and
+\(mA\) are disjoint.  Since multiplication by \(m\) is a bijection,
+\[
+    |2A|+|A|\leq p.
+\]
+Together with Cauchy--Davenport, \(|2A|\geq2|A|-1\), this gives the baseline
+upper bound \(|A|\leq(p+1)/3\).  A density close to \(1/3\) forces \(2A\) to be
+small, so an inverse theorem for small sumsets can place \(A\) inside a short
+arithmetic progression.  One can then use the disjointness of \(2A\) and
+\(mA\) again, now with the extra progression structure, to improve the bound.
+
+This is the route developed on the circle by Candela and de Roton
+\cite{CandelaDeRoton2019}.  Their continuous small-doubling theorem, using the
+then available Serra--Z\'emor constant \(10^{-4}\), yields
+\[
+    d_m(\T)\leq \frac{1}{3.0001}
+\]
+for all \(m\geq3\).  Candela, Gonz\'alez-S\'anchez, and Grynkiewicz subsequently
+proved a finite-group inverse result optimized for the density range of this
+application and obtained the stronger uniform estimate
+\[
+    d_m(\T)
+    =\lim_{p\to\infty}d_m(\Zp)
+    \leq \frac1{3.1955}
+\]
+\cite[Theorem~1.5]{CandelaGonzalezSanchezGrynkiewicz2021}.  These works build on
+the prime-cyclic \(3k-4\) program, including the theorem of Serra and Z\'emor
+\cite{SerraZemor2009}.
+
+\subsection{What the 2024 theorem contributes}
+
+Grynkiewicz proves new high-density forms of the \(3k-4\) theorem for general
+sumsets \(A+B\) in \(\Zp\) \cite{Grynkiewicz2024}.  Two features are relevant
+here: tangible small-doubling constants in a high-density regime, and a result
+under the conjecturally ideal density restriction.  The hypotheses are not
+identical to those used to prove the bound \(1/3.1955\).  Therefore the paper is
+an input to a new calculation, not by itself a new \(m\)-sum-free density
+bound.
+
+A concrete next task is to repeat the optimization in
+\cite[Section~3]{CandelaGonzalezSanchezGrynkiewicz2021} with the strongest
+applicable 2024 inverse statement.  Write
+\[
+    |A|=\eta p,
+    \qquad
+    |2A|=2|A|+r,
+    \qquad
+    3|A|+r\leq p.
+\]
+For every branch of the inverse theorem one must:
+\begin{enumerate}
+    \item translate its hypotheses into inequalities in \(\eta\) and \(r/p\);
+    \item determine the density range in which those hypotheses are automatic;
+    \item insert the resulting progression lengths into the intersection
+          argument for \(2A\) and \(mA\); and
+    \item optimize the final one-variable inequality in \(\eta\).
+\end{enumerate}
+This calculation should be written independently of any numerical interval
+model: it concerns arbitrary subsets of \(\Zp\).
+
+\subsection{The gap as \texorpdfstring{$m\to\infty$}{m tends to infinity}}
+
+The construction in Section~\ref{sec:equally-spaced-construction} gives
+\[
+    d_m(\T)\geq
+    \frac{\lfloor(m+2)^2/8\rfloor}{m(m+2)}
+    =\frac18+\frac{1}{4m}+O\!\left(\frac1{m^2}\right),
+\]
+up to the bounded rounding term in the numerator.  The uniform upper bound
+\(1/3.1955\) does not approach this scale.  There are therefore two distinct
+upper-bound projects:
+\begin{itemize}
+    \item improve the best uniform constant by importing stronger inverse
+          sumset results; and
+    \item obtain an \(m\)-dependent argument that uses the large multiplier,
+          with the eventual target \(d_m(\T)\leq1/8+o(1)\).
+\end{itemize}
+
+The second goal needs information that the coarse inequality
+\(\mu(2A)+\mu(mA)\leq1\) discards.  Promising quantities to retain are the
+number and arrangement of components of \(m^{-1}(2A)\), the distribution of
+\(A\) among arcs of length \(1/m\), and the interaction between a progression
+containing \(A\) and its dilation by \(m\).  At present these are research
+directions, not established reductions.

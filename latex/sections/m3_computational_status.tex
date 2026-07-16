@@ -1,0 +1,86 @@
+\section{Computational picture for finite unions when \texorpdfstring{$m=3$}{m=3}}
+\label{sec:m3-computational-picture}
+
+Let
+\[
+    M_N(3)=\sup\{\mu(A): A\subset\T\text{ is a union of at most }N
+    \text{ intervals and is }3\text{-sum-free}\}.
+\]
+The elementary one-interval construction gives \(M_1(3)=1/5\), and
+Section~\ref{sec:closed-two-interval-proof} proves the sharp upper bound
+\(M_2(3)=1/5\).  The MILP described in Section~\ref{sec:milp-formulation} has
+reported the same optimum for \(N\leq8\).  The runs become expensive quickly:
+the reported \(N=8\) computation took several hours.  Since the corresponding
+JSON problem files, solution files, exact command lines, and solver logs are
+not all present in this checkout, these values should currently be read as
+strong experimental evidence.
+
+\subsection{Visualization and state sharing}
+
+The interactive visualizer at
+\href{https://ferranespuna.github.io/interval_proofs/}{ferranespuna.github.io/interval\_proofs}
+is a completed companion tool.  Its circle mode displays a finite union of
+intervals together with the pieces of \(A+A-mA\), and its discrete mode displays
+the Candela--Gonz\'alez-S\'anchez--Grynkiewicz construction.  Both modes accept
+serialized state, so a MILP solution can be linked directly from a solver run.
+This is useful for discovering active endpoint constraints, but the picture is
+not itself a certificate.
+
+The number of interval interactions grows as
+\[
+    \#\{(i,j,\ell):0\leq i\leq j<N,\ 0\leq\ell<N\}
+    =\frac{N^2(N+1)}2.
+\]
+Even before branch-and-bound, this explains why a direct case split is
+unlikely to scale: each term \(I_i+I_j-3I_\ell\) has a choice of integer lift,
+and these choices are coupled by the ordering of the intervals.
+
+\subsection{Symmetry normalization and removable interactions}
+
+In the translated-missing-point model, a reported useful normalization is:
+\begin{itemize}
+    \item the first interval starts at \(0\) and is chosen to be shortest;
+    \item after reflection, the second interval is no longer than the last.
+\end{itemize}
+Under these assumptions, experiments ask which terms
+\(I_i+I_j-3I_\ell\) can be dropped while the relaxed model still has optimum
+\(1/5\).  This is a deliberately stronger statement than solving the full
+model: if the relaxation still proves the same upper bound, then the omitted
+terms were not needed for that numerical certificate.
+
+Reported runs found maximal removable families for \(N=2,3,4,5\).  For
+\(N=3\), there are seven reported maximal families: five of size three and two
+of size four.  The output formerly linked from the project notes is associated
+with the repository's \code{json_results/} directory, but a complete set of
+artifacts should be regenerated before the family list is quoted as a stable
+result.  The script \code{find_excludable_sum_free_triples.py} automates this
+search and filters the successful relaxations to inclusion-maximal families.
+
+For two intervals \(I,J\), the endpoint proofs below explain why numerical
+redundancy must be handled carefully.  A five-term covering argument can leave
+a single artificial endpoint.  In the \(R_5\)-first proof, the term
+\(J+J-3J\) removes the configuration
+\[
+    I=(0,1/10),\qquad J=(1/4,7/20),
+\]
+while in the alternative \(R_6\)-first proof, the term \(I+J-3J\) removes the
+configuration
+\[
+    I=(0,9/65),\qquad J=(15/65,19/65).
+\]
+Thus an interaction may be unnecessary on an open region of parameter space
+yet still be essential at one boundary point.
+
+\subsection{What would turn the computation into mathematics}
+
+There are three possible outputs of the interval program:
+\begin{enumerate}
+    \item a counterexample, which can often be rationalized and checked by a
+          finite endpoint certificate;
+    \item a conjectural structural pattern, such as a removable family of
+          interactions, which should guide a human inequality proof; or
+    \item a computer-assisted upper bound, which requires exact rational
+          branch certificates or independently checkable dual certificates.
+\end{enumerate}
+The current implementation is strongest as the first two.  Floating-point
+MILP optimality alone is not yet an exact proof of \(M_N(3)\leq1/5\).

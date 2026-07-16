@@ -1,7 +1,10 @@
-name: Build PDFs
+name: Build Project PDF
 
 on:
   push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -22,12 +25,32 @@ jobs:
       - name: Install TeX dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y --no-install-recommends             cm-super             latexmk             texlive-bibtex-extra             texlive-fonts-recommended             texlive-lang-european             texlive-latex-base             texlive-latex-extra             texlive-latex-recommended             texlive-pictures             texlive-science
+          sudo apt-get install -y --no-install-recommends \
+            cm-super \
+            latexmk \
+            texlive-bibtex-extra \
+            texlive-fonts-recommended \
+            texlive-lang-european \
+            texlive-latex-base \
+            texlive-latex-extra \
+            texlive-latex-recommended \
+            texlive-pictures \
+            texlive-science
 
       - name: Build PDFs and release package
-        run: python scripts/build.py --clean --package
+        run: python3 scripts/build.py --clean --package
+
+      - name: Upload PDF artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: project-status-pdf
+          path: |
+            pdf/project_status.pdf
+            dist/interval_proofs-release.zip
+          if-no-files-found: error
 
       - name: Compute release tag
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         id: release
         shell: bash
         run: |
@@ -35,6 +58,7 @@ jobs:
           echo "tag=pdf-build-${safe_ref}" >> "$GITHUB_OUTPUT"
 
       - name: Publish GitHub release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ steps.release.outputs.tag }}
@@ -47,7 +71,7 @@ jobs:
 
           title="Automated PDFs (${GITHUB_REF_NAME})"
           notes="Automated build for ${GITHUB_SHA}."
-          assets=(pdf/*.pdf dist/interval_proofs-release.zip)
+          assets=(pdf/project_status.pdf dist/interval_proofs-release.zip)
 
           if gh release view "$TAG" >/dev/null 2>&1; then
             gh release upload "$TAG" "${assets[@]}" --clobber

@@ -1,3 +1,8 @@
+\ifdefined\IntervalProjectMaster
+\def\IntervalProjectEnd{}
+\section{The sharp closed two-interval theorem for \texorpdfstring{$m=3$}{m=3}}
+\label{sec:closed-two-interval-proof}
+\else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
 \usepackage{amsmath}
@@ -11,10 +16,12 @@
 \title{Maximum length of a $3$-sum-free set consisting of $2$ intervals}
 \author{Ferran Espuña}
 \date{\today}
+\def\IntervalProjectEnd{\end{document}}
 
 \begin{document}
 
     \maketitle
+\fi
 
     \begin{theorem}\label{thm:2intervals}
         Let $A$ be a subset of $\mathbb{T}$ consisting of $2$ disjoint closed intervals 
@@ -83,9 +90,8 @@
             R_4 = I + I - 3 \cdot J &= [-3x - 3\beta,  -3x + 2\alpha], \\
             R_5 = I + J - 3 \cdot J &= [-2x - 3\beta, \alpha + \beta - 2x].
         \end{align*}
-        Note that all of these intervals as written are of the form $[a, b]$ where ${0 < b - a < 1}$,
-        (we say that the intervals are in \emph{proper} form)
-        and therefore checking if a point $y \in \mathbb{T}$ is contained in one of these intervals
+        Each displayed interval has the form $[a,b]$ with $0<b-a<1$; we call
+        this \emph{proper} form. Therefore, checking if a point $y \in \mathbb{T}$ is contained in one of these intervals
         is equivalent to checking if for some integer $k$, $y + k \in [a, b]$.
 
         We denote $U = R_1 \cup R_2 \cup R_3 \cup R_4 \cup R_5$ and $V = \mathbb{T} \setminus U$.
@@ -219,4 +225,4 @@
     \end{proof}
         
 
-\end{document}
+\IntervalProjectEnd
