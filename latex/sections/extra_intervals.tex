@@ -1,14 +1,28 @@
 \section{Extra intervals beyond the equally spaced construction}
 \label{sec:extra-intervals}
 
-The script \code{equally_spaced_tiny_interval_lp.py} fixes the base parameters
-\(q,\delta,a\) from Section~\ref{sec:equally-spaced-construction}, adds a
-chosen number of variable intervals, and imposes the lifted constraints from
+The first evidence for this phenomenon came from the general program
+\code{circle_intervals.py}, in which all interval endpoints and lengths are
+free.  For the small numbers of allowed intervals that were computationally
+feasible, and for the tested multipliers \(m\leq10\), the general MILP again
+reported the same structured optimum: an equally spaced base, together with
+one short extra interval when an improvement was possible.  Thus this shape
+arose without being imposed on the model.  These results concern the tested
+finite-interval models and remain numerical rather than exact global upper
+bounds.
+
+The specialized script \code{equally_spaced_tiny_interval_lp.py} was written
+afterward to test the suggested pattern for a much larger range of
+multipliers.  It fixes the base parameters \(q,\delta,a\) from
+Section~\ref{sec:equally-spaced-construction}, adds a chosen number of variable
+intervals, and imposes the lifted constraints from
 Section~\ref{sec:milp-formulation}.  Pairwise binary variables enforce
 non-overlap because the extra intervals are not assigned to gaps in advance.
-This is a local discovery model: if the solver finds a positive extra length,
-the next step is to recover rational endpoints and produce a finite exact
-certificate.
+Unlike the general program, this is a local extension model: it asks whether
+the fixed structured base can be enlarged, not whether that base is globally
+optimal.  Its lighter formulation made it possible to test all multipliers up
+to \(100\).  When it finds a positive extra length, the next step is to recover
+rational endpoints and produce a finite exact certificate.
 
 These small MILPs sometimes find that a short extra interval can be added to
 the optimized equally spaced configuration.  The first example occurs for
@@ -19,8 +33,8 @@ the optimized equally spaced configuration.  The first example occurs for
 The exact three-interval certificate is given in
 Section~\ref{sec:explicit-m4-m5}.
 
-Experiments for many values of \(m\), up to \(100\), suggest that an
-improvement is possible when
+The specialized scan through \(m=100\) suggests that an improvement is
+possible when
 \[
     m\equiv0,1\pmod4,
 \]
