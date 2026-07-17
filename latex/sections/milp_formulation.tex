@@ -107,6 +107,15 @@ for all subsets \(S\) of a chosen size can also express inductive information,
 for example a previously proved bound for every smaller subunion.  This is a
 possible bridge from computations at fixed \(N\) to a theoretical induction.
 
+Conversely, once an explicit construction of measure \(c\) is known, the
+optional cutoff
+\[
+    \sum_i\alpha_i\geq c
+\]
+may discard branches that cannot improve on it.  This does not prove the
+lower bound and does not change the optimum: its use is justified only by the
+independent construction.
+
 \subsection{Scale, visualization, and state sharing}
 
 The number of interval interactions grows as
@@ -140,6 +149,11 @@ The implementation uses \code{scipy.optimize.milp}, backed by HiGHS
     \item an exact rational check for every claimed construction.
 \end{itemize}
 
+The campaign in \code{json_results/verification_20260716/} records the exact
+commands, serialized problems and solutions, solver diagnostics, and compact
+summaries for the computations quoted in this document.  Large deterministic
+problem files from the \(m\leq100\) scan are stored with gzip compression.
+
 There are three possible mathematical outputs of the interval program:
 \begin{enumerate}
     \item a counterexample, which can often be rationalized and checked by a
@@ -151,7 +165,9 @@ There are three possible mathematical outputs of the interval program:
 \end{enumerate}
 The current implementation is strongest as the first two.
 
-A zero requested relative MIP gap still produces a floating-point solver
+HiGHS has separate relative and absolute MIP-gap stopping rules, so requesting
+zero relative gap alone does not disable its default absolute tolerance.  Even
+when both are set to zero, the result remains a floating-point solver
 certificate.  A formal computer-assisted proof would additionally need exact
 rational branch verification, interval arithmetic with rigorous error bounds,
 or an exact solver whose certificate can be checked by a small independent

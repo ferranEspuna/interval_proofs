@@ -102,8 +102,32 @@ Use `--visualizer-url` to point those generated links at another deployment.
   variables.
 - A command line interface for building, solving, and saving JSON artifacts.
 
-`json_results/` is the default output directory for saved problem and solution
-JSON files.
+`equally_spaced_tiny_interval_lp.py` fixes the equally spaced construction and
+optimizes a chosen number of added intervals.  For example:
+
+```bash
+.venv/bin/python equally_spaced_tiny_interval_lp.py \
+  --m 20 \
+  --tie-choice larger \
+  --extra-count 7 \
+  --extra-length-bound 1/4400 \
+  --ordered-extras \
+  --mip-rel-gap 0 \
+  --mip-abs-gap 0 \
+  --require-success
+```
+
+`--ordered-extras` removes permutation symmetry by sorting the interchangeable
+extras and directly enforcing adjacent non-overlap.  `--extra-length-bound`
+accepts a decimal or fraction; a bound inherited from an independently solved
+one-extra model is valid because deleting the other extras leaves a feasible
+one-extra extension.  This specialized model tests local improvements of the
+fixed base and does not establish global optimality among arbitrary unions.
+
+The two MILP builders, `circle_intervals.py` and
+`equally_spaced_tiny_interval_lp.py`, default to the ignored scratch directory
+`json_results_tmp/`.  Pass an explicit path under `json_results/` when an
+experiment should be retained and reviewed.
 
 ## MILP Model
 
@@ -377,6 +401,26 @@ The option can be repeated:
 --subset-alpha-bound 6:0.2 --subset-alpha-bound 5:0.2
 ```
 
+### Known Construction Cutoff
+
+Use `--total-length-lower-bound BOUND` to add
+
+```text
+sum_i alpha_i >= BOUND.
+```
+
+This is a safe optimization cutoff when a construction of that length is
+already known: it discards only solutions that cannot improve on the known
+lower bound.  For example, an `m=3` run may use
+
+```bash
+--total-length-lower-bound 0.2
+```
+
+because the one-interval construction already has length `1/5`.  The option
+does not prove the lower bound; that construction must be justified
+independently.
+
 ## Command Line Usage
 
 Show all options:
@@ -572,15 +616,27 @@ Avoid saving JSON:
 .venv/bin/python circle_intervals.py -N 7 --m 3 --no-save
 ```
 
-## Profiling Notes
+## Historical Profiling Notes
 
-The `N=5`, `m=3` profiling runs from 2026-06-24 are saved in:
+The repository notes recorded a 32-run `N=5`, `m=3` profiling matrix on
+2026-06-24.  Its raw files and summary tables are no longer present in this
+checkout.  The timings below are therefore historical, machine-dependent
+observations rather than reproducible current benchmarks.
+
+A complete fresh reproduction is retained in
+`json_results/verification_20260716/m3_profile_32/`.  All 32 legal
+configurations again returned objective and dual bound `0.2` with zero MIP
+gap.  The two historical winning configurations reproduced exactly the same
+branch-and-bound node counts (`4,329` and `9,475`); their current wall times
+were `6.58s` and `13.55s` under concurrent solver load.
+
+The former artifact paths were:
 
 ```text
 json_results/N5_translated_profile_20260624/
 ```
 
-The summary files are:
+The former summary paths were:
 
 ```text
 json_results/N5_translated_profile_20260624/profile_summary.csv
@@ -588,7 +644,7 @@ json_results/N5_translated_profile_20260624/profile_summary.json
 ```
 
 All 32 legal runs in that matrix used `--mip-rel-gap 0 --require-success`,
-proved the same bound `0.2`, and ended with zero MIP gap.
+returned the same numerical bound `0.2`, and ended with zero MIP gap.
 
 Fastest original formulation:
 
@@ -633,31 +689,39 @@ Common options:
 --time-limit SECONDS
 --node-limit NODES
 --mip-rel-gap GAP
+--mip-abs-gap GAP
 --presolve / --no-presolve
 --disp
 --threads THREADS
 ```
 
 If no solver options are passed, SciPy/HiGHS uses its defaults. In particular,
-the default relative MIP gap is typically `1e-4`, so a reported optimum is a
-numerical MIP optimum to solver tolerance, not an exact rational proof.
+the default relative MIP gap is typically `1e-4` and the default absolute MIP
+gap is typically `1e-6`, so a reported optimum is a numerical MIP optimum to
+solver tolerance, not an exact rational proof.
 
 Use this for a stronger numerical proof:
 
 ```bash
---mip-rel-gap 0 --require-success
+--mip-rel-gap 0 --mip-abs-gap 0 --require-success
 ```
 
-It may be much slower.
+Both settings are needed: a zero relative tolerance alone leaves HiGHS's
+absolute stopping rule active.  The absolute option is passed through SciPy
+to HiGHS and may produce SciPy's harmless “unrecognized option” warning.  The
+run may be much slower.
 
 ## JSON Output
 
-By default, every run writes:
+By default, every run writes to the ignored scratch directory:
 
 ```text
-json_results/<run>_problem.json
-json_results/<run>_solution.json
+json_results_tmp/<run>_problem.json
+json_results_tmp/<run>_solution.json
 ```
+
+For durable artifacts, pass for example
+`--output-dir json_results/my_experiment`.
 
 The problem JSON includes variables, constraints, objective, and metadata.
 
@@ -681,6 +745,14 @@ solution = MILPSolution.from_json(Path("json_results/run_solution.json").read_te
 print(solution.optimum)
 print(solution.parameters)
 ```
+
+## Reproduced Research Experiments
+
+The campaign under `json_results/verification_20260716/` contains the commands,
+summaries, serialized problems, solutions, and solver diagnostics supporting
+the computational statements in the central LaTeX document.  Its top-level
+manifest distinguishes exhaustive searches, bounded searches, unrestricted
+finite-interval models, and local extension models.
 
 ## Automated PDF build
 

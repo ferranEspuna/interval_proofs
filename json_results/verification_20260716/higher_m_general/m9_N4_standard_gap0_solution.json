@@ -1,0 +1,133 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.1526374859708197,
+  "parameters": {
+    "N": 4,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.09090909090909091,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.09090909090909091,
+      "alpha_1": 0.09090909090909091,
+      "alpha_2": 0.09090909090909091,
+      "alpha_3": 0.09090909090909091
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -10,
+    "integer_lift_upper_bound": 2,
+    "m": 9.0,
+    "output_dir": "json_results/verification_20260716/higher_m_general",
+    "problem_json_path": "json_results/verification_20260716/higher_m_general/m9_N4_standard_gap0_problem.json",
+    "solution_json_path": "json_results/verification_20260716/higher_m_general/m9_N4_standard_gap0_solution.json",
+    "solver_options": {
+      "mip_rel_gap": 0.0
+    },
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false,
+    "visualizer_state": {
+      "fixTotalLength": false,
+      "hiddenMixedComboKeys": [],
+      "intervals": [
+        {
+          "color": "#ef4444",
+          "id": 1,
+          "start": 0.649351,
+          "width": 0.050505
+        },
+        {
+          "color": "#3b82f6",
+          "id": 2,
+          "start": 0.760462,
+          "width": 0.050505
+        },
+        {
+          "color": "#f59e0b",
+          "id": 3,
+          "start": 0.82219,
+          "width": 0.001122
+        },
+        {
+          "color": "#10b981",
+          "id": 4,
+          "start": 0.871573,
+          "width": 0.050505
+        }
+      ],
+      "m": 9,
+      "mode": "interval",
+      "targetTotalLength": 0.152637,
+      "v": 1
+    },
+    "visualizer_url": "https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC42NDkzNTEsIndpZHRoIjowLjA1MDUwNSwiY29sb3IiOiIjZWY0NDQ0In0seyJpZCI6Miwic3RhcnQiOjAuNzYwNDYyLCJ3aWR0aCI6MC4wNTA1MDUsImNvbG9yIjoiIzNiODJmNiJ9LHsiaWQiOjMsInN0YXJ0IjowLjgyMjE5LCJ3aWR0aCI6MC4wMDExMjIsImNvbG9yIjoiI2Y1OWUwYiJ9LHsiaWQiOjQsInN0YXJ0IjowLjg3MTU3Mywid2lkdGgiOjAuMDUwNTA1LCJjb2xvciI6IiMxMGI5ODEifV0sIm0iOjksImZpeFRvdGFsTGVuZ3RoIjpmYWxzZSwidGFyZ2V0VG90YWxMZW5ndGgiOjAuMTUyNjM3LCJoaWRkZW5NaXhlZENvbWJvS2V5cyI6W119"
+  },
+  "problem_name": "9.0-sum-free set problem for 4 intervals",
+  "solver_details": {
+    "mip_dual_bound": 0.1526374859708197,
+    "mip_gap": 0.0,
+    "mip_node_count": 6972
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.050505050505050914,
+    "alpha_1": 0.050505050505050164,
+    "alpha_2": 0.001122334455667697,
+    "alpha_3": 0.050505050505050914,
+    "n_0-0-0": -5,
+    "n_0-0-1": -6,
+    "n_0-0-2": -7,
+    "n_0-0-3": -7,
+    "n_0-1-0": -5,
+    "n_0-1-1": -6,
+    "n_0-1-2": -6,
+    "n_0-1-3": -7,
+    "n_0-2-0": -5,
+    "n_0-2-1": -6,
+    "n_0-2-2": -6,
+    "n_0-2-3": -7,
+    "n_0-3-0": -5,
+    "n_0-3-1": -6,
+    "n_0-3-2": -6,
+    "n_0-3-3": -7,
+    "n_1-1-0": -5,
+    "n_1-1-1": -6,
+    "n_1-1-2": -6,
+    "n_1-1-3": -7,
+    "n_1-2-0": -5,
+    "n_1-2-1": -6,
+    "n_1-2-2": -6,
+    "n_1-2-3": -7,
+    "n_1-3-0": -5,
+    "n_1-3-1": -6,
+    "n_1-3-2": -6,
+    "n_1-3-3": -7,
+    "n_2-2-0": -5,
+    "n_2-2-1": -6,
+    "n_2-2-2": -6,
+    "n_2-2-3": -7,
+    "n_2-3-0": -5,
+    "n_2-3-1": -6,
+    "n_2-3-2": -6,
+    "n_2-3-3": -7,
+    "n_3-3-0": -5,
+    "n_3-3-1": -6,
+    "n_3-3-2": -6,
+    "n_3-3-3": -7,
+    "x_0": 0.6493506493506485,
+    "x_1": 0.7604617604617606,
+    "x_2": 0.8221901555234887,
+    "x_3": 0.8715728715728716
+  }
+}

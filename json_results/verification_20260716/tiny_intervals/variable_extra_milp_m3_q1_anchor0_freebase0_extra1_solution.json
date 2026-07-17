@@ -1,0 +1,65 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.2,
+  "parameters": {
+    "anchor": 0,
+    "base_density": 0.2,
+    "delta": 0.2,
+    "epsilon": 0.0,
+    "extra_alpha_upper_bound": 0.2,
+    "extra_count": 1,
+    "extra_length_bound": null,
+    "formulation": "standard_variable_extra_milp",
+    "free_base_start": false,
+    "integer_lift_lower_bound": -4,
+    "integer_lift_upper_bound": 2,
+    "intervals": [
+      {
+        "fixed_base": true,
+        "index": 0,
+        "label": "base_0",
+        "seed_length": 0.2,
+        "seed_start": 0.3999999999999999
+      },
+      {
+        "fixed_base": false,
+        "index": 1,
+        "label": "extra_0",
+        "seed_length": null,
+        "seed_start": null
+      }
+    ],
+    "m": 3,
+    "problem_json_path": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m3_q1_anchor0_freebase0_extra1_problem.json.gz",
+    "q": 1,
+    "solution_json_path": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m3_q1_anchor0_freebase0_extra1_solution.json",
+    "solver_options": {
+      "mip_rel_gap": 0.0
+    },
+    "tolerance": 1e-09,
+    "translated_missing_point": false
+  },
+  "problem_name": "direct MILP around optimized 3-sum-free equally spaced construction",
+  "solver_details": {
+    "mip_dual_bound": 0.2,
+    "mip_gap": 0.0,
+    "mip_node_count": 0
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.2,
+    "alpha_1": 0.0,
+    "before_0-1": 0,
+    "n_0-0-0": -1,
+    "n_0-0-1": -1,
+    "n_0-1-0": -1,
+    "n_0-1-1": -1,
+    "n_1-1-0": -1,
+    "n_1-1-1": -1,
+    "x_0": 0.3999999999999999,
+    "x_1": 0.3999999999999999
+  }
+}

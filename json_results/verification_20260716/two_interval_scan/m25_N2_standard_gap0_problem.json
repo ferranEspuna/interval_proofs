@@ -1,0 +1,334 @@
+{
+  "constraints": [
+    {
+      "coefficients": {
+        "alpha_0": 1.0,
+        "x_0": 1.0
+      },
+      "name": "inside_unit_0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 1.0,
+        "x_1": 1.0
+      },
+      "name": "inside_unit_1",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 1.0,
+        "x_0": 1.0,
+        "x_1": -1.0
+      },
+      "name": "order_1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": -1.0,
+        "alpha_1": 1.0
+      },
+      "name": "last_interval_at_most_first",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 25.0,
+        "n_0-0-0": 1.0,
+        "x_0": 23.0
+      },
+      "name": "sum_free_left_0-0-0",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 2.0,
+        "n_0-0-0": -1.0,
+        "x_0": -23.0
+      },
+      "name": "sum_free_right_0-0-0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-0-0": -1.0,
+        "n_0-0-1": 1.0
+      },
+      "name": "n_monotone_ell_0-0-1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 25.0,
+        "n_0-0-1": 1.0,
+        "x_0": -2.0,
+        "x_1": 25.0
+      },
+      "name": "sum_free_left_0-0-1",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 2.0,
+        "n_0-0-1": -1.0,
+        "x_0": 2.0,
+        "x_1": -25.0
+      },
+      "name": "sum_free_right_0-0-1",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-0-0": 1.0,
+        "n_0-1-0": -1.0
+      },
+      "name": "n_monotone_j_0-1-0",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 25.0,
+        "n_0-1-0": 1.0,
+        "x_0": 24.0,
+        "x_1": -1.0
+      },
+      "name": "sum_free_left_0-1-0",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 1.0,
+        "alpha_1": 1.0,
+        "n_0-1-0": -1.0,
+        "x_0": -24.0,
+        "x_1": 1.0
+      },
+      "name": "sum_free_right_0-1-0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-0-1": 1.0,
+        "n_0-1-1": -1.0
+      },
+      "name": "n_monotone_j_0-1-1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-1-0": -1.0,
+        "n_0-1-1": 1.0
+      },
+      "name": "n_monotone_ell_0-1-1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 25.0,
+        "n_0-1-1": 1.0,
+        "x_0": -1.0,
+        "x_1": 24.0
+      },
+      "name": "sum_free_left_0-1-1",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 1.0,
+        "alpha_1": 1.0,
+        "n_0-1-1": -1.0,
+        "x_0": 1.0,
+        "x_1": -24.0
+      },
+      "name": "sum_free_right_0-1-1",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-1-0": 1.0,
+        "n_1-1-0": -1.0
+      },
+      "name": "n_monotone_i_1-1-0",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 25.0,
+        "n_1-1-0": 1.0,
+        "x_0": 25.0,
+        "x_1": -2.0
+      },
+      "name": "sum_free_left_1-1-0",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 2.0,
+        "n_1-1-0": -1.0,
+        "x_0": -25.0,
+        "x_1": 2.0
+      },
+      "name": "sum_free_right_1-1-0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_0-1-1": 1.0,
+        "n_1-1-1": -1.0
+      },
+      "name": "n_monotone_i_1-1-1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "n_1-1-0": -1.0,
+        "n_1-1-1": 1.0
+      },
+      "name": "n_monotone_ell_1-1-1",
+      "rhs": 0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 25.0,
+        "n_1-1-1": 1.0,
+        "x_1": 23.0
+      },
+      "name": "sum_free_left_1-1-1",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_1": 2.0,
+        "n_1-1-1": -1.0,
+        "x_1": -23.0
+      },
+      "name": "sum_free_right_1-1-1",
+      "rhs": 1.0,
+      "sense": "<="
+    }
+  ],
+  "metadata": {
+    "N": 2,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.037037037037037035,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.037037037037037035,
+      "alpha_1": 0.037037037037037035
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -26,
+    "integer_lift_upper_bound": 2,
+    "m": 25.0,
+    "output_dir": "json_results/verification_20260716/two_interval_scan",
+    "solver_options": {
+      "mip_rel_gap": 0.0
+    },
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false
+  },
+  "name": "25.0-sum-free set problem for 2 intervals",
+  "objective": {
+    "coefficients": {
+      "alpha_0": 1.0,
+      "alpha_1": 1.0
+    },
+    "sense": "maximize"
+  },
+  "variables": [
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "x_0",
+      "upper_bound": 1.0
+    },
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "alpha_0",
+      "upper_bound": 0.037037037037037035
+    },
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "x_1",
+      "upper_bound": 1.0
+    },
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "alpha_1",
+      "upper_bound": 0.037037037037037035
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_0-0-0",
+      "upper_bound": 2.0
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_0-0-1",
+      "upper_bound": 2.0
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_0-1-0",
+      "upper_bound": 2.0
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_0-1-1",
+      "upper_bound": 2.0
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_1-1-0",
+      "upper_bound": 2.0
+    },
+    {
+      "kind": "integer",
+      "lower_bound": -26.0,
+      "name": "n_1-1-1",
+      "upper_bound": 2.0
+    }
+  ]
+}

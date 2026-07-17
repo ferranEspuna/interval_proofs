@@ -1,0 +1,138 @@
+{
+  "solution_count": 10,
+  "all_success_optimal_zero_gap": true,
+  "maxima": {
+    "max_bound_violation": 0.0,
+    "max_integrality_violation": 2.031826773496448e-07,
+    "max_row_violation": 2.0318267712760019e-07,
+    "objective_error": 0.0
+  },
+  "strict_mip_tolerance_maxima": {
+    "max_bound_violation": 0.0,
+    "max_integrality_violation": 0.0,
+    "max_row_violation": 1.3227588958750162e-11,
+    "objective_error": 0.0
+  },
+  "results": [
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m100_q26_extra2_inductive_bound_nopresolve_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m100_q26_extra2_inductive_bound_nopresolve_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.9317880628477724e-14,
+      "worst_row": "sum_free_right_22-24-26",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m100_q26_extra2_inductive_bound_presolve_on_anomalous_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m100_q26_extra2_inductive_bound_presolve_on_anomalous_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4377388168895777e-14,
+      "worst_row": "sum_free_left_25-25-24",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_extra2_unbounded_nopresolve_mipabsgap0_mipfeastol1e-10_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_extra2_unbounded_nopresolve_mipabsgap0_mipfeastol1e-10_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3227588958750162e-11,
+      "worst_row": "sum_free_left_7-7-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_q9_extra2_unbounded_nopresolve_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_q9_extra2_unbounded_nopresolve_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 2.031826773496448e-07,
+      "max_row_violation": 2.0318267712760019e-07,
+      "worst_row": "sum_free_left_4-5-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_q9_extra2_unbounded_presolve_on_anomalous_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m34_q9_extra2_unbounded_presolve_on_anomalous_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 2.106641261434561e-08,
+      "max_row_violation": 3.552713678800501e-15,
+      "worst_row": "sum_free_right_7-7-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_extra2_unbounded_nopresolve_mipabsgap0_mipfeastol1e-10_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_extra2_unbounded_nopresolve_mipabsgap0_mipfeastol1e-10_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.091868750921162e-12,
+      "worst_row": "sum_free_left_9-9-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_q11_extra2_unbounded_nopresolve_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_q11_extra2_unbounded_nopresolve_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.386024959364022e-11,
+      "worst_row": "sum_free_left_6-9-11",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_q11_extra2_unbounded_presolve_on_anomalous_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/m40_q11_extra2_unbounded_presolve_on_anomalous_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.412055693292974e-09,
+      "worst_row": "sum_free_left_7-9-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/variable_extra_milp_m44_q12_anchor0_freebase0_extra2_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/variable_extra_milp_m44_q12_anchor0_freebase0_extra2_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7221474246653656e-10,
+      "worst_row": "sum_free_left_6-10-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/variable_extra_milp_m46_q12_anchor0_freebase0_extra2_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_two_extra_unbounded_crosschecks/variable_extra_milp_m46_q12_anchor0_freebase0_extra2_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 3.064214837422696e-08,
+      "max_row_violation": 6.66133592730489e-10,
+      "worst_row": "sum_free_right_6-13-12",
+      "objective_error": 0.0
+    }
+  ]
+}

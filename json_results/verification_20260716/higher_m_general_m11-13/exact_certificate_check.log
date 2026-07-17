@@ -1,0 +1,32 @@
+m12_N5: measure=145/1008, intervals=5, triples=75, zero_endpoint_slacks=10, minimum_positive_endpoint_slack=11/144
+m13_N5: measure=73/507, intervals=5, triples=75, zero_endpoint_slacks=10, minimum_positive_endpoint_slack=7/169
+m12_two_extra: measure=73/504, intervals=6, triples=126, zero_endpoint_slacks=13, minimum_positive_endpoint_slack=1/24
+m13_two_extra: measure=122/845, intervals=6, triples=126, zero_endpoint_slacks=13, minimum_positive_endpoint_slack=7/169
+m12_three_extra: measure=251/1728, intervals=7, triples=196, zero_endpoint_slacks=14, minimum_positive_endpoint_slack=1/144
+m16_four_extra: measure=9/64, intervals=9, triples=405, zero_endpoint_slacks=20, minimum_positive_endpoint_slack=1/32
+m17_four_extra: measure=769/5491, intervals=9, triples=405, zero_endpoint_slacks=18, minimum_positive_endpoint_slack=9/289
+m20_six_extra: measure=303/2200, intervals=12, triples=936, zero_endpoint_slacks=27, minimum_positive_endpoint_slack=1/40
+m21_six_extra: measure=464/3381, intervals=12, triples=936, zero_endpoint_slacks=30, minimum_positive_endpoint_slack=11/441
+	Command being timed: ".venv/bin/python json_results/verification_20260716/higher_m_general_m11-13/verify_exact_constructions.py"
+	User time (seconds): 0.12
+	System time (seconds): 0.00
+	Percent of CPU this job got: 93%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.14
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 11752
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1396
+	Voluntary context switches: 0
+	Involuntary context switches: 5
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

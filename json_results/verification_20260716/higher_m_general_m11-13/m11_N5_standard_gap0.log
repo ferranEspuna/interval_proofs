@@ -1,0 +1,191 @@
+11.0-sum-free set problem for 5 intervals: 85 variables (75 integer), 320 constraints
+MILPSolution('11.0-sum-free set problem for 5 intervals')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.146853
+  values:
+    alpha_0 = 0.048951
+    alpha_1 = 0
+    alpha_2 = 0.048951
+    alpha_3 = 0
+    alpha_4 = 0.048951
+    n_0-0-0 = -3
+    n_0-0-1 = -4
+    n_0-0-2 = -4
+    n_0-0-3 = -5
+    n_0-0-4 = -5
+    n_0-1-0 = -3
+    n_0-1-1 = -4
+    n_0-1-2 = -4
+    n_0-1-3 = -5
+    n_0-1-4 = -5
+    n_0-2-0 = -3
+    n_0-2-1 = -4
+    n_0-2-2 = -4
+    n_0-2-3 = -5
+    n_0-2-4 = -5
+    n_0-3-0 = -3
+    n_0-3-1 = -4
+    n_0-3-2 = -4
+    n_0-3-3 = -5
+    n_0-3-4 = -5
+    n_0-4-0 = -3
+    n_0-4-1 = -4
+    n_0-4-2 = -4
+    n_0-4-3 = -5
+    n_0-4-4 = -5
+    n_1-1-0 = -3
+    n_1-1-1 = -4
+    n_1-1-2 = -4
+    n_1-1-3 = -5
+    n_1-1-4 = -5
+    n_1-2-0 = -3
+    n_1-2-1 = -4
+    n_1-2-2 = -4
+    n_1-2-3 = -5
+    n_1-2-4 = -5
+    n_1-3-0 = -3
+    n_1-3-1 = -4
+    n_1-3-2 = -4
+    n_1-3-3 = -5
+    n_1-3-4 = -5
+    n_1-4-0 = -3
+    n_1-4-1 = -4
+    n_1-4-2 = -4
+    n_1-4-3 = -5
+    n_1-4-4 = -5
+    n_2-2-0 = -3
+    n_2-2-1 = -4
+    n_2-2-2 = -4
+    n_2-2-3 = -5
+    n_2-2-4 = -5
+    n_2-3-0 = -3
+    n_2-3-1 = -4
+    n_2-3-2 = -4
+    n_2-3-3 = -5
+    n_2-3-4 = -5
+    n_2-4-0 = -3
+    n_2-4-1 = -4
+    n_2-4-2 = -4
+    n_2-4-3 = -5
+    n_2-4-4 = -5
+    n_3-3-0 = -3
+    n_3-3-1 = -4
+    n_3-3-2 = -4
+    n_3-3-3 = -5
+    n_3-3-4 = -5
+    n_3-4-0 = -3
+    n_3-4-1 = -4
+    n_3-4-2 = -4
+    n_3-4-3 = -5
+    n_3-4-4 = -5
+    n_4-4-0 = -3
+    n_4-4-1 = -4
+    n_4-4-2 = -4
+    n_4-4-3 = -5
+    n_4-4-4 = -5
+    x_0 = 0.273504
+    x_1 = 0.364413
+    x_2 = 0.364413
+    x_3 = 0.455322
+    x_4 = 0.455322
+  parameters:
+    N = 5
+    add_endpoint_length_cut = True
+    add_first_interval_shortest_cut = False
+    add_monotonicity_cuts = True
+    add_second_interval_at_most_last_cut = False
+    add_width_cuts = False
+    alpha_upper_bound = 0.07692307692307693
+    alpha_upper_bounds = {'alpha_0': 0.07692307692307693, 'alpha_1': 0.07692307692307693, 'alpha_2': 0.07692307692307693, 'alpha_3': 0.07692307692307693, 'alpha_4': 0.07692307692307693}
+    epsilon = 0.0
+    exclude_sum_free_exact_triples = []
+    exclude_sum_free_head_size = 0
+    exclude_sum_free_interval_sets = []
+    exclude_sum_free_tail_size = 0
+    excluded_sum_free_head_indices = []
+    excluded_sum_free_tail_indices = []
+    excluded_sum_free_triple_count = 0
+    integer_lift_lower_bound = -12
+    integer_lift_upper_bound = 2
+    m = 11.0
+    output_dir = /home/ferran/interval_proofs/json_results/verification_20260716/higher_m_general_m11-13
+    solver_options = {'mip_rel_gap': 0.0}
+    subset_alpha_bounds = []
+    total_length_lower_bound = None
+    use_translated_missing_point = False
+  solver details:
+    mip_dual_bound = 0.146853
+    mip_gap = 0
+    mip_node_count = 104167
+
+Saved problem JSON: /home/ferran/interval_proofs/json_results/verification_20260716/higher_m_general_m11-13/m11_N5_standard_gap0_problem.json
+Saved solution JSON: /home/ferran/interval_proofs/json_results/verification_20260716/higher_m_general_m11-13/m11_N5_standard_gap0_solution.json
+
+Visualizer state JSON:
+{
+  "v": 1,
+  "mode": "interval",
+  "intervals": [
+    {
+      "id": 1,
+      "start": 0.273504,
+      "width": 0.048951,
+      "color": "#ef4444"
+    },
+    {
+      "id": 2,
+      "start": 0.364413,
+      "width": 0.0,
+      "color": "#3b82f6"
+    },
+    {
+      "id": 3,
+      "start": 0.364413,
+      "width": 0.048951,
+      "color": "#f59e0b"
+    },
+    {
+      "id": 4,
+      "start": 0.455322,
+      "width": 0.0,
+      "color": "#10b981"
+    },
+    {
+      "id": 5,
+      "start": 0.455322,
+      "width": 0.048951,
+      "color": "#8b5cf6"
+    }
+  ],
+  "m": 11,
+  "fixTotalLength": false,
+  "targetTotalLength": 0.146853,
+  "hiddenMixedComboKeys": []
+}
+
+Visualizer state URL:
+https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC4yNzM1MDQsIndpZHRoIjowLjA0ODk1MSwiY29sb3IiOiIjZWY0NDQ0In0seyJpZCI6Miwic3RhcnQiOjAuMzY0NDEzLCJ3aWR0aCI6MC4wLCJjb2xvciI6IiMzYjgyZjYifSx7ImlkIjozLCJzdGFydCI6MC4zNjQ0MTMsIndpZHRoIjowLjA0ODk1MSwiY29sb3IiOiIjZjU5ZTBiIn0seyJpZCI6NCwic3RhcnQiOjAuNDU1MzIyLCJ3aWR0aCI6MC4wLCJjb2xvciI6IiMxMGI5ODEifSx7ImlkIjo1LCJzdGFydCI6MC40NTUzMjIsIndpZHRoIjowLjA0ODk1MSwiY29sb3IiOiIjOGI1Y2Y2In1dLCJtIjoxMSwiZml4VG90YWxMZW5ndGgiOmZhbHNlLCJ0YXJnZXRUb3RhbExlbmd0aCI6MC4xNDY4NTMsImhpZGRlbk1peGVkQ29tYm9LZXlzIjpbXX0
+
+	Command being timed: ".venv/bin/python circle_intervals.py -N 5 --m 11 --mip-rel-gap 0 --require-success --output-dir /home/ferran/interval_proofs/json_results/verification_20260716/higher_m_general_m11-13 --run-name m11_N5_standard_gap0"
+	User time (seconds): 188.84
+	System time (seconds): 2.63
+	Percent of CPU this job got: 101%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:08.81
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 116008
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 25152
+	Voluntary context switches: 734
+	Involuntary context switches: 29427
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 168
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

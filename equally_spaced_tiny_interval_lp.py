@@ -77,6 +77,10 @@ def nonnegative_float(text: str) -> float:
     return value
 
 
+def filename_float(value: float) -> str:
+    return f"{value:g}".replace("-", "neg").replace(".", "p")
+
+
 def normalize_mod_one(value: float) -> float:
     normalized = value % 1.0
     if math.isclose(normalized, 1.0, abs_tol=TOLERANCE):
@@ -180,6 +184,7 @@ def build_variable_extra_interval_milp(
     epsilon: float = 0.0,
     extra_length_bound: float | None = None,
     free_base_start: bool = False,
+    order_extra_intervals: bool = False,
 ) -> MILPProblem:
     """Build the direct standard MILP with unseeded extra intervals."""
     if m < 3:
@@ -245,6 +250,7 @@ def build_variable_extra_interval_milp(
         "extra_length_bound": extra_length_bound,
         "extra_alpha_upper_bound": extra_upper,
         "free_base_start": free_base_start,
+        "order_extra_intervals": order_extra_intervals,
         "formulation": "standard_variable_extra_milp",
         "translated_missing_point": False,
         "integer_lift_lower_bound": n_lower_bound,
@@ -301,11 +307,34 @@ def build_variable_extra_interval_milp(
                 rhs=delta,
             )
 
-    # The interval list is not ordered: extras may land in any gap.  Pairwise
-    # order binaries enforce non-overlap without choosing a slot in advance.
+    # By default the interval list is not ordered: extras may land in any gap.
+    # Pairwise order binaries enforce non-overlap without choosing a slot in
+    # advance.  Since the extra labels are interchangeable, an optional
+    # symmetry convention orders them by start and removes their mutual
+    # pairwise binaries.
+    if order_extra_intervals:
+        first_extra = len(base)
+        for index in range(first_extra, total - 1):
+            problem.add_inequality(
+                name=f"ordered_extra_nonoverlap_{index}_{index + 1}",
+                coefficients={
+                    f"x_{index}": 1,
+                    f"alpha_{index}": 1,
+                    f"x_{index + 1}": -1,
+                },
+                sense="<=",
+                rhs=0,
+            )
+
     for i in range(total):
         for j in range(i + 1, total):
             if intervals[i]["fixed_base"] and intervals[j]["fixed_base"]:
+                continue
+            if (
+                order_extra_intervals
+                and not intervals[i]["fixed_base"]
+                and not intervals[j]["fixed_base"]
+            ):
                 continue
 
             order_name = f"before_{i}-{j}"
@@ -383,6 +412,8 @@ def solver_options_from_args(args: argparse.Namespace) -> dict[str, object]:
         options["time_limit"] = args.time_limit
     if args.mip_rel_gap is not None:
         options["mip_rel_gap"] = args.mip_rel_gap
+    if args.mip_abs_gap is not None:
+        options["mip_abs_gap"] = args.mip_abs_gap
     if args.presolve is not None:
         options["presolve"] = args.presolve
     if args.disp:
@@ -481,6 +512,15 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--ordered-extras",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help=(
+            "order interchangeable extra intervals by start, adding direct "
+            "non-overlap constraints and removing their mutual order binaries"
+        ),
+    )
+    parser.add_argument(
         "--time-limit",
         type=float,
         default=None,
@@ -491,6 +531,15 @@ def build_parser() -> argparse.ArgumentParser:
         type=nonnegative_float,
         default=None,
         help="relative MIP gap termination tolerance passed to HiGHS",
+    )
+    parser.add_argument(
+        "--mip-abs-gap",
+        type=nonnegative_float,
+        default=None,
+        help=(
+            "absolute MIP gap termination tolerance passed to HiGHS; set this "
+            "as well as --mip-rel-gap when both must be zero"
+        ),
     )
     parser.add_argument(
         "--presolve",
@@ -548,6 +597,7 @@ def main() -> None:
             epsilon=args.epsilon,
             extra_length_bound=args.extra_length_bound,
             free_base_start=args.free_base_start,
+            order_extra_intervals=args.ordered_extras,
         )
     except ValueError as exc:
         parser.error(str(exc))
@@ -604,11 +654,23 @@ def main() -> None:
             )
 
     if not args.no_save:
+        epsilon_part = (
+            "" if args.epsilon == 0 else f"_eps{filename_float(args.epsilon)}"
+        )
+        extra_bound_part = (
+            ""
+            if args.extra_length_bound is None
+            else f"_extrabound{filename_float(args.extra_length_bound)}"
+        )
+        ordered_part = "_ordered1" if args.ordered_extras else ""
         run_name = args.run_name or (
             f"variable_extra_milp_m{args.m}_q{problem.metadata['q']}"
             f"_anchor{problem.metadata['anchor']}"
             f"_freebase{int(args.free_base_start)}"
             f"_extra{args.extra_count}"
+            f"{ordered_part}"
+            f"{epsilon_part}"
+            f"{extra_bound_part}"
         )
         problem_path, solution_path = save_json_outputs(
             problem,

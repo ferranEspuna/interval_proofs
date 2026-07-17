@@ -1,0 +1,5 @@
+N=5: computing full-model bound
+N=5: testing 75 singleton exclusions
+N=5: 32 singleton-removable triples; searching maximal families
+N=5: wrote 0 families to json_results/verification_20260716/removable_interactions_subset_bound/maximal_excludable_triples_m3_N5_capped.txt after 1919.7s
+Final report written to json_results/verification_20260716/removable_interactions_subset_bound/maximal_excludable_triples_m3_N5_capped.txt

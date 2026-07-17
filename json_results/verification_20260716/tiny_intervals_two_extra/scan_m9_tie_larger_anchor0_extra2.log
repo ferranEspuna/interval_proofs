@@ -1,0 +1,136 @@
+direct MILP around optimized 9-sum-free equally spaced construction: 92 variables (82 integer), 175 constraints
+base: m=9, q=3, delta=0.0505050505051, density=0.151515151515, anchor=0, extra_count=2, free_base_start=False
+
+MILPSolution('direct MILP around optimized 9-sum-free equally spaced construction')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.152637
+  values:
+    alpha_0 = 0.0505051
+    alpha_1 = 0.0505051
+    alpha_2 = 0.0505051
+    alpha_3 = 0
+    alpha_4 = 0.00112233
+    before_0-3 = 1
+    before_0-4 = 0
+    before_1-3 = 1
+    before_1-4 = 0
+    before_2-3 = 0
+    before_2-4 = 0
+    before_3-4 = 0
+    n_0-0-0 = -1
+    n_0-0-1 = -2
+    n_0-0-2 = -9
+    n_0-0-3 = -9
+    n_0-0-4 = -1
+    n_0-1-0 = -1
+    n_0-1-1 = -2
+    n_0-1-2 = -9
+    n_0-1-3 = -9
+    n_0-1-4 = -1
+    n_0-2-0 = 0
+    n_0-2-1 = -1
+    n_0-2-2 = -8
+    n_0-2-3 = -8
+    n_0-2-4 = 0
+    n_0-3-0 = 0
+    n_0-3-1 = -1
+    n_0-3-2 = -8
+    n_0-3-3 = -8
+    n_0-3-4 = 0
+    n_0-4-0 = -1
+    n_0-4-1 = -2
+    n_0-4-2 = -9
+    n_0-4-3 = -9
+    n_0-4-4 = -1
+    n_1-1-0 = -1
+    n_1-1-1 = -2
+    n_1-1-2 = -9
+    n_1-1-3 = -9
+    n_1-1-4 = 0
+    n_1-2-0 = 0
+    n_1-2-1 = -1
+    n_1-2-2 = -8
+    n_1-2-3 = -8
+    n_1-2-4 = 0
+    n_1-3-0 = 0
+    n_1-3-1 = -1
+    n_1-3-2 = -8
+    n_1-3-3 = -8
+    n_1-3-4 = 0
+    n_1-4-0 = -1
+    n_1-4-1 = -2
+    n_1-4-2 = -9
+    n_1-4-3 = -9
+    n_1-4-4 = -1
+    n_2-2-0 = 1
+    n_2-2-1 = 0
+    n_2-2-2 = -7
+    n_2-2-3 = -7
+    n_2-2-4 = 1
+    n_2-3-0 = 1
+    n_2-3-1 = 0
+    n_2-3-2 = -7
+    n_2-3-3 = -7
+    n_2-3-4 = 1
+    n_2-4-0 = 0
+    n_2-4-1 = -1
+    n_2-4-2 = -8
+    n_2-4-3 = -8
+    n_2-4-4 = 0
+    n_3-3-0 = 1
+    n_3-3-1 = 0
+    n_3-3-2 = -7
+    n_3-3-3 = -7
+    n_3-3-4 = 1
+    n_3-4-0 = 0
+    n_3-4-1 = -1
+    n_3-4-2 = -8
+    n_3-4-3 = -8
+    n_3-4-4 = 0
+    n_4-4-0 = -1
+    n_4-4-1 = -2
+    n_4-4-2 = -9
+    n_4-4-3 = -9
+    n_4-4-4 = -1
+    x_0 = 0.046176
+    x_1 = 0.157287
+    x_2 = 0.935065
+    x_3 = 0.935065
+    x_4 = 0.0338304
+  parameters:
+    anchor = 0
+    base_density = 0.15151515151515152
+    delta = 0.050505050505050504
+    epsilon = 0.0
+    extra_alpha_upper_bound = 0.09090909090909091
+    extra_count = 2
+    extra_length_bound = None
+    formulation = standard_variable_extra_milp
+    free_base_start = False
+    integer_lift_lower_bound = -10
+    integer_lift_upper_bound = 2
+    intervals = [{'index': 0, 'label': 'base_1', 'seed_start': 0.04617604617604609, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 1, 'label': 'base_2', 'seed_start': 0.15728715728715725, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 2, 'label': 'base_0', 'seed_start': 0.935064935064935, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 3, 'label': 'extra_0', 'seed_start': None, 'seed_length': None, 'fixed_base': False}, {'index': 4, 'label': 'extra_1', 'seed_start': None, 'seed_length': None, 'fixed_base': False}]
+    m = 9
+    q = 3
+    solver_options = {'mip_rel_gap': 0.0}
+    tolerance = 1e-09
+    translated_missing_point = False
+  solver details:
+    mip_dual_bound = 0.152637
+    mip_gap = 0
+    mip_node_count = 54
+
+base density: 0.151515151515
+MILP density: 0.152637485971
+gain:         0.00112233445567
+improved:     True (tolerance=1e-09)
+
+Intervals:
+  0: base_1   (0.046176046176, 0.0966810966811) length=0.0505050505051
+  1: base_2   (0.157287157287, 0.207792207792) length=0.0505050505051
+  2: base_0   (0.935064935065, 0.98556998557) length=0.0505050505051
+  3: extra_0  (0.935064935065, 0.935064935065) length=-0
+  4: extra_1  (0.0338303671637, 0.0349527016194) length=0.00112233445567
+
+Saved problem JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m9_q3_anchor0_freebase0_extra2_problem.json
+Saved solution JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m9_q3_anchor0_freebase0_extra2_solution.json

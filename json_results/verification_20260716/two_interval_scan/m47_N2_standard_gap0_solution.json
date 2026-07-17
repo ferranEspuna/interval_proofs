@@ -1,0 +1,81 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.039079461571903715,
+  "parameters": {
+    "N": 2,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.02040816326530612,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.02040816326530612,
+      "alpha_1": 0.02040816326530612
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -48,
+    "integer_lift_upper_bound": 2,
+    "m": 47.0,
+    "output_dir": "json_results/verification_20260716/two_interval_scan",
+    "problem_json_path": "json_results/verification_20260716/two_interval_scan/m47_N2_standard_gap0_problem.json",
+    "solution_json_path": "json_results/verification_20260716/two_interval_scan/m47_N2_standard_gap0_solution.json",
+    "solver_options": {
+      "mip_rel_gap": 0.0
+    },
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false,
+    "visualizer_state": {
+      "fixTotalLength": false,
+      "hiddenMixedComboKeys": [],
+      "intervals": [
+        {
+          "color": "#ef4444",
+          "id": 1,
+          "start": 0.112925,
+          "width": 0.01954
+        },
+        {
+          "color": "#3b82f6",
+          "id": 2,
+          "start": 0.134202,
+          "width": 0.01954
+        }
+      ],
+      "m": 47,
+      "mode": "interval",
+      "targetTotalLength": 0.03908,
+      "v": 1
+    },
+    "visualizer_url": "https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC4xMTI5MjUsIndpZHRoIjowLjAxOTU0LCJjb2xvciI6IiNlZjQ0NDQifSx7ImlkIjoyLCJzdGFydCI6MC4xMzQyMDIsIndpZHRoIjowLjAxOTU0LCJjb2xvciI6IiMzYjgyZjYifV0sIm0iOjQ3LCJmaXhUb3RhbExlbmd0aCI6ZmFsc2UsInRhcmdldFRvdGFsTGVuZ3RoIjowLjAzOTA4LCJoaWRkZW5NaXhlZENvbWJvS2V5cyI6W119"
+  },
+  "problem_name": "47.0-sum-free set problem for 2 intervals",
+  "solver_details": {
+    "mip_dual_bound": 0.039079461571903715,
+    "mip_gap": 0.0,
+    "mip_node_count": 65
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.019539730785930142,
+    "alpha_1": 0.019539730785973576,
+    "n_0-0-0": -6,
+    "n_0-0-1": -7,
+    "n_0-1-0": -6,
+    "n_0-1-1": -7,
+    "n_1-1-0": -6,
+    "n_1-1-1": -7,
+    "x_0": 0.11292517006802799,
+    "x_1": 0.1342017658126847
+  }
+}

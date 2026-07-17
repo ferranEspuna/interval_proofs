@@ -3,57 +3,202 @@
 
 The first evidence for this phenomenon came from the general program
 \code{circle_intervals.py}, in which all interval endpoints and lengths are
-free.  For the small numbers of allowed intervals that were computationally
-feasible, and for the tested multipliers \(m\leq10\), the general MILP again
-reported the same structured optimum: an equally spaced base, together with
-one short extra interval when an improvement was possible.  Thus this shape
-arose without being imposed on the model.  These results concern the tested
-finite-interval models and remain numerical rather than exact global upper
-bounds.
+free.  Fresh runs with at most five intervals, for every
+\(4\leq m\leq13\), reported the following objectives.  Every entry was
+obtained with zero reported MIP gap.
+\begin{center}
+\begin{tabular}{@{}c cc@{}}
+\toprule
+\(m\) & equally spaced density & free-endpoint \(N=5\) objective \\
+\midrule
+4  & \(1/6\)    & \(11/64\) \\
+5  & \(6/35\)   & \(6/35\) \\
+6  & \(1/6\)    & \(1/6\) \\
+7  & \(10/63\)  & \(10/63\) \\
+8  & \(3/20\)   & \(49/320\) \\
+9  & \(5/33\)   & \(136/891\) \\
+10 & \(3/20\)   & \(3/20\) \\
+11 & \(21/143\) & \(21/143\) \\
+12 & \(1/7\)    & \(145/1008\) \\
+13 & \(28/195\) & \(73/507\) \\
+\bottomrule
+\end{tabular}
+\end{center}
+The displayed objectives are rational reconstructions of the floating-point
+solutions.  Thus the free-endpoint model reported a strict improvement only
+for \(m=4,8,9,12,13\) in this range, and in each case its positive intervals
+form the equally spaced base plus one short component.  This shape arose
+without being imposed.  Lower-\(N\) cross-checks already find the improvement
+with three allowed intervals for \(m=4\), four for \(m=8,9\), and five for
+\(m=12,13\).  Exact rational replay verifies all five reconstructed unions as
+constructions.  The artifacts are in
+\code{json_results/verification_20260716/higher_m_general/} and
+\code{higher_m_general_m11-13/}.  Optimality within these finite-interval
+models remains a numerical result, not an exact upper bound for arbitrary
+measurable sets.
 
-The specialized script \code{equally_spaced_tiny_interval_lp.py} was written
-afterward to test the suggested pattern for a much larger range of
-multipliers.  It fixes the base parameters \(q,\delta,a\) from
-Section~\ref{sec:equally-spaced-construction}, adds a chosen number of variable
+\subsection{The specialized fixed-base experiment}
+
+The script \code{equally_spaced_tiny_interval_lp.py} was written afterward to
+test the shape suggested by the general program over a much larger range.  It
+fixes the equally spaced base parameters \(q,\delta,a\) from
+Section~\ref{sec:equally-spaced-construction}, adds a chosen number of free
 intervals, and imposes the lifted constraints from
-Section~\ref{sec:milp-formulation}.  Pairwise binary variables enforce
-non-overlap because the extra intervals are not assigned to gaps in advance.
-Unlike the general program, this is a local extension model: it asks whether
-the fixed structured base can be enlarged, not whether that base is globally
-optimal.  Its lighter formulation made it possible to test all multipliers up
-to \(100\).  When it finds a positive extra length, the next step is to recover
-rational endpoints and produce a finite exact certificate.
+Section~\ref{sec:milp-formulation}.  The extra intervals are not assigned to
+gaps in advance, so binary variables impose their ordering and disjointness.
+This is a local extension model: it asks whether this fixed base can be
+enlarged, not whether the base is globally optimal.
 
-These small MILPs sometimes find that a short extra interval can be added to
-the optimized equally spaced configuration.  The first example occurs for
-\(m=4\), where the density improves from \(1/6\) to
+The zero-gap one-extra scan tested every \(3\leq m\leq100\), using one
+representative anchor because the other anchor choices are translates.  On
+the larger optimizing choice of \(q\), it found a positive gain precisely for
+\(m\equiv0,1\pmod4\), except for \(m=5\).  The observed gain was
 \[
-    \frac{11}{64}=\frac16+\frac1{192}.
+ \frac1{192}\quad(m=4),\qquad
+ \frac{2}{m^2(m+2)}\quad(4\mid m,\ m\geq8),
 \]
-The exact three-interval certificate is given in
-Section~\ref{sec:explicit-m4-m5}.
-
-The specialized scan through \(m=100\) suggests that an improvement is
-possible when
+and
 \[
-    m\equiv0,1\pmod4,
+ \frac{1}{m^2(m+2)}
+ \quad(m\equiv1\!\!\pmod4,\ m\geq9).
 \]
-with \(m=5\) as an exception.  This is currently only a numerical pattern.
-The desired theoretical output is an explicit formula for the location and
-length of every added interval, followed by a finite certificate like those
-in Section~\ref{sec:explicit-m4-m5}, and a proof that the equally spaced
-construction is at least locally optimal when \(m\equiv2,3\pmod4\).
+The numerical gains agreed with these fractions to within
+\(2\times10^{-11}\).  If \(4\mid m\), two adjacent choices of \(q\) maximize
+the base density.  The smaller choice \(q=m/4\) admitted no gain above
+\(10^{-9}\) in any tested case; the improvement occurs on the larger choice
+\(q=m/4+1\).  All 123 saved one-extra assignments, including both tied
+branches, also pass an independent replay of their bounds, integrality, and
+linear constraints.
 
-Concrete questions are:
-\begin{enumerate}
-    \item For which values of \(m\) can one add positive measure to the
-          optimized equally spaced construction?
-    \item Is one extra interval always enough to realize the best local
-          improvement?
-    \item Are the added intervals genuine new components, or do they arise
-          from a different rounding of the same discrete construction?
-    \item Does every improvement have size \(o(1)\), so that the asymptotic
-          density remains \(1/8\)?
-    \item More generally, is it true that
-          \(\lim_{m\to\infty} d_m(\T)=1/8\)?
-\end{enumerate}
+The complete two-extra scan used the larger branch for every
+\(3\leq m\leq100\) and the smaller branch in every tied case, again giving
+123 runs.  The first 44 were solved without a specialized upper bound.  For
+the remaining 79, each extra length was bounded by the independently computed
+one-extra optimum.  This is a valid redundant constraint: deleting the other
+extra leaves a feasible one-extra extension of the same base.  Both extras
+are positive from \(m=12\) onward in the two relevant congruence classes, and
+the total gain is
+\[
+ \frac{4}{m^2(m+2)}\quad(4\mid m,\ m\geq12),
+ \qquad
+ \frac{2}{m^2(m+2)}
+ \quad(m\equiv1\!\!\pmod4,\ m\geq13).
+\]
+For \(m=4,8,9\), the second variable has zero length.  No smaller tied branch
+improves.  All 123 canonical runs report optimal status and zero stored gap;
+their assignments pass independent constraint replay.  Strict no-presolve
+reruns replaced noisy canonical results at \(m=34,40,100\), while the original
+outputs were retained as diagnostics.  In particular, presolve at \(m=100\)
+had stopped one interval exactly \(10^{-6}\) short despite reporting
+optimality, illustrating why exact reconstruction and replay are necessary.
+
+The one- and two-extra artifacts, summaries, and replay reports are in
+\code{json_results/verification_20260716/tiny_intervals/} and
+\code{tiny_intervals_two_extra/}.  Exact fraction arithmetic verifies every
+positive two-extra output.  At \(m=12\), the two intervals have length
+\(1/1008\), giving density \(73/504\); at \(m=13\), both have length
+\(1/2535\), giving \(122/845\).
+
+\subsection{More extras and exact families}
+
+A third extra interval changes the first of these examples.  For \(m=12\),
+the specialized model finds lengths
+\[
+ \frac1{1008},\qquad \frac5{12096},\qquad \frac1{1008},
+\]
+and hence the seven-interval density
+\[
+ \frac17+\frac{29}{12096}=\frac{251}{1728}.
+\]
+All 196 lifted interactions of the rationalized union have been checked
+exactly.  At \(m=13\), a third variable remains zero.  At \(m=16,17\), three
+extras are positive, and subsequent experiments reveal a longer regular
+pattern.
+
+To state that pattern, let \(B_m\) denote the larger optimizing equally
+spaced base and put \(b=a+1/m\), with representatives chosen on the real
+line.  If \(4\mid m\), set
+\[
+ q=\frac m4+1,
+ \qquad \delta=\frac1{2(m+2)},
+ \qquad g=\frac2{m^2(m+2)},
+ \qquad
+ s_j=b-\frac{m-4j}{4m^2}.
+\]
+For every tested \(m=16,20,\ldots,100\), the union of \(B_m\) with the
+intervals of length \(g\) starting at
+\[
+ s_j\quad\hbox{and}\quad s_j+\frac1m,
+ \qquad 2\leq j\leq\frac{m-4}{4},
+\]
+is \(m\)-sum-free.  It has \((m-8)/2\) extra intervals and density
+\begin{equation}
+ \frac{m^3+4m^2+8m-64}{8m^2(m+2)}
+ =\mu(B_m)+\frac{m-8}{m^2(m+2)}.
+ \label{eq:mod0-extra-family}
+\end{equation}
+
+If \(m\equiv1\pmod4\), set
+\[
+ q=\frac{m+3}{4},
+ \qquad \delta=\frac{m+1}{2m(m+2)},
+ \qquad g=\frac1{m^2(m+2)},
+ \qquad
+ s_j=b-\frac{m-(4j+1)}{4m^2}.
+\]
+For every tested \(m=13,17,\ldots,97\), take the intervals of length \(g\)
+starting at
+\[
+ s_j\quad\hbox{and}\quad s_j+\frac1m,
+ \qquad 2\leq j\leq\frac{m-5}{4}.
+\]
+Together with \(B_m\), these form an exactly checked \(m\)-sum-free union
+with \((m-9)/2\) extras and density
+\begin{equation}
+ \frac{m^3+4m^2+7m-36}{8m^2(m+2)}
+ =\mu(B_m)+\frac{m-9}{2m^2(m+2)}.
+ \label{eq:mod1-extra-family}
+\end{equation}
+The endpoint and lift verifiers checked more than \(2.28\) million images for
+these two finite families using exact rational arithmetic.  Their reports are
+archived in \code{tiny_intervals_mod0_doubled_tail_exact/} and
+\code{tiny_intervals_mod1_full_family_exact/}.  These checks prove the listed
+lower-bound constructions; they do not prove the formulas for untested
+multipliers or establish local optimality.
+
+The aggregate gains in~\eqref{eq:mod0-extra-family}
+and~\eqref{eq:mod1-extra-family} are \(O(m^{-2})\), even though the number of
+extra components is linear in \(m\).  They therefore do not change the
+\(1/8\) limit of the equally spaced densities.  This does not show that every
+possible improvement is \(O(m^{-2})\); merely proving that the best aggregate
+improvement is \(o(1)\) would suffice to preserve the limit \(1/8\).
+
+As a numerical saturation check, the fixed-base model was solved with one
+more extra variable than the number eventually used in the following cases:
+\begin{center}
+\begin{tabular}{@{}c c c c@{}}
+\toprule
+\(m\) & positive extras & exact constructed density & next tested count \\
+\midrule
+12 & 3 & \(251/1728\) & 5 variables, still 3 positive \\
+13 & 2 & \(122/845\)  & 5 variables, still 2 positive \\
+16 & 4 & \(9/64\)     & 5 variables, still 4 positive \\
+17 & 4 & \(769/5491\) & 6 variables, still 4 positive \\
+20 & 6 & \(303/2200\) & 7 variables, still 6 positive \\
+21 & 6 & \(464/3381\) & 7 variables, still 6 positive \\
+\bottomrule
+\end{tabular}
+\end{center}
+These runs requested both zero relative and zero absolute MIP gaps.  Ordering
+the exchangeable extra variables is a useful symmetry reduction: for example,
+the \(m=16\), five-variable model fell from 238840 branch-and-bound nodes to
+3873 without changing the optimum.  The saturation results support the exact
+families above, but remain finite numerical optimality statements inside the
+fixed-base model.  The case \(m=12\) is a genuine exception to the equal-length
+family: its middle extra has length \(5/12096\).
+
+The remaining theoretical questions are to prove the two displayed families
+uniformly, determine whether they are locally optimal for the fixed base, and
+decide whether free endpoints or entirely different constructions give a
+larger aggregate improvement.  In particular, it remains open whether
+\(d_m(\T)\to1/8\).

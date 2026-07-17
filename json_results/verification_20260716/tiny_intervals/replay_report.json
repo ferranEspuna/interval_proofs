@@ -1,0 +1,1119 @@
+{
+  "solution_count": 123,
+  "all_problem_paths_exist": true,
+  "maxima": {
+    "max_bound_violation": 0.0,
+    "max_integrality_violation": 0.0,
+    "max_row_violation": 2.428873768778317e-11,
+    "objective_error": 0.0
+  },
+  "results": [
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m100_q25_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m100_q25_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.509903313490213e-14,
+      "worst_row": "sum_free_right_23-23-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m100_q26_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m100_q26_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4377388168895777e-14,
+      "worst_row": "sum_free_left_25-25-24",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m10_q3_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m10_q3_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.881784197001252e-16,
+      "worst_row": "sum_free_left_2-2-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m11_q3_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m11_q3_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1102230246251565e-15,
+      "worst_row": "sum_free_right_1-1-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m12_q3_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m12_q3_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-15,
+      "worst_row": "sum_free_right_1-1-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m12_q4_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m12_q4_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7208456881689926e-15,
+      "worst_row": "sum_free_left_3-3-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m13_q4_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m13_q4_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.9984014443252818e-15,
+      "worst_row": "sum_free_right_2-2-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m14_q4_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m14_q4_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.5543122344752192e-15,
+      "worst_row": "sum_free_left_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m15_q4_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m15_q4_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.887379141862766e-15,
+      "worst_row": "sum_free_left_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m16_q4_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m16_q4_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-15,
+      "worst_row": "sum_free_left_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m16_q5_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m16_q5_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7763568394002505e-15,
+      "worst_row": "sum_free_left_4-4-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m17_q5_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m17_q5_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-15,
+      "worst_row": "sum_free_right_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m18_q5_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m18_q5_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7763568394002505e-15,
+      "worst_row": "sum_free_left_4-4-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m19_q5_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m19_q5_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-15,
+      "worst_row": "sum_free_right_3-3-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m20_q5_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m20_q5_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-15,
+      "worst_row": "sum_free_left_4-4-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m20_q6_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m20_q6_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.6645352591003757e-15,
+      "worst_row": "sum_free_right_4-4-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m21_q6_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m21_q6_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.1086244689504383e-15,
+      "worst_row": "sum_free_right_4-4-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m22_q6_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m22_q6_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-15,
+      "worst_row": "sum_free_right_4-4-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m23_q6_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m23_q6_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.886579864025407e-15,
+      "worst_row": "sum_free_right_4-4-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m24_q6_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m24_q6_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.886579864025407e-15,
+      "worst_row": "sum_free_right_4-4-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m24_q7_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m24_q7_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.9968028886505635e-15,
+      "worst_row": "sum_free_right_4-5-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m25_q7_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m25_q7_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.9976021664879227e-15,
+      "worst_row": "sum_free_left_6-6-5",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m26_q7_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m26_q7_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.112332512069666e-14,
+      "worst_row": "sum_free_left_0-2-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m27_q7_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m27_q7_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.218847493575595e-15,
+      "worst_row": "sum_free_right_5-5-5",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m28_q7_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m28_q7_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.3306690738754696e-15,
+      "worst_row": "sum_free_right_5-5-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m28_q8_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m28_q8_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.774758283725532e-15,
+      "worst_row": "sum_free_right_6-6-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m29_q8_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m29_q8_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.218847493575595e-15,
+      "worst_row": "sum_free_right_4-5-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m30_q8_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m30_q8_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.886579864025407e-15,
+      "worst_row": "sum_free_right_6-6-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m31_q8_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m31_q8_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.552713678800501e-15,
+      "worst_row": "sum_free_right_6-6-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m32_q8_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m32_q8_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.1094237467877974e-15,
+      "worst_row": "sum_free_left_7-7-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m32_q9_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m32_q9_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.6645352591003757e-15,
+      "worst_row": "sum_free_right_4-7-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m33_q9_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m33_q9_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.10702591327572e-15,
+      "worst_row": "sum_free_left_8-8-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m34_q9_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m34_q9_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.552713678800501e-15,
+      "worst_row": "sum_free_right_7-7-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m35_q9_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m35_q9_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.885780586188048e-15,
+      "worst_row": "sum_free_left_8-8-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m36_q10_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m36_q10_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.439293542825908e-15,
+      "worst_row": "sum_free_right_8-8-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m36_q9_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m36_q9_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.8795543825037935e-11,
+      "worst_row": "nonoverlap_9_before_4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m37_q10_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m37_q10_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.37702000180862e-15,
+      "worst_row": "sum_free_left_8-8-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m38_q10_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m38_q10_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.884981308350689e-15,
+      "worst_row": "sum_free_left_9-9-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m39_q10_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m39_q10_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.218847493575595e-15,
+      "worst_row": "sum_free_left_9-9-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m3_q1_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m3_q1_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 0.0,
+      "worst_row": null,
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m40_q10_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m40_q10_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.329070518200751e-15,
+      "worst_row": "sum_free_right_8-8-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m40_q11_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m40_q11_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.505107646466058e-14,
+      "worst_row": "sum_free_left_9-9-11",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m41_q11_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m41_q11_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.884981308350689e-15,
+      "worst_row": "sum_free_left_10-10-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m42_q11_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m42_q11_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.884981308350689e-15,
+      "worst_row": "sum_free_left_10-10-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m43_q11_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m43_q11_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.329070518200751e-15,
+      "worst_row": "sum_free_right_9-9-5",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m44_q11_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m44_q11_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.551115123125783e-15,
+      "worst_row": "sum_free_right_9-9-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m44_q12_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m44_q12_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.884981308350689e-15,
+      "worst_row": "sum_free_right_10-10-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m45_q12_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m45_q12_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.2535843673874836e-13,
+      "worst_row": "sum_free_left_10-10-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m46_q12_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m46_q12_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.6629367034256575e-15,
+      "worst_row": "sum_free_left_11-11-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m47_q12_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m47_q12_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.438494264988549e-15,
+      "worst_row": "sum_free_left_11-11-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m48_q12_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m48_q12_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.9968028886505635e-15,
+      "worst_row": "sum_free_left_11-11-11",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m48_q13_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m48_q13_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.103828801926284e-15,
+      "worst_row": "sum_free_right_1-5-13",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m49_q13_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m49_q13_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.6629367034256575e-15,
+      "worst_row": "sum_free_left_12-12-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m4_q1_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m4_q1_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1102230246251565e-16,
+      "worst_row": "sum_free_left_0-0-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m4_q2_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m4_q2_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.996003610813204e-16,
+      "worst_row": "sum_free_left_1-1-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m50_q13_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m50_q13_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.439293542825908e-15,
+      "worst_row": "sum_free_left_12-12-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m51_q13_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m51_q13_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.88418203051333e-15,
+      "worst_row": "sum_free_left_12-12-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m52_q13_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m52_q13_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.662137425588298e-15,
+      "worst_row": "sum_free_left_12-12-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m52_q14_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m52_q14_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.661338147750939e-15,
+      "worst_row": "sum_free_right_12-12-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m53_q14_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m53_q14_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.884981308350689e-15,
+      "worst_row": "sum_free_left_13-13-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m54_q14_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m54_q14_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.217248937900877e-15,
+      "worst_row": "sum_free_left_13-13-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m55_q14_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m55_q14_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.995204332975845e-15,
+      "worst_row": "sum_free_left_13-13-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m56_q14_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m56_q14_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.882583474838611e-15,
+      "worst_row": "sum_free_left_13-13-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m56_q15_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m56_q15_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.329070518200751e-15,
+      "worst_row": "sum_free_right_13-13-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m57_q15_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m57_q15_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.8833827526759706e-15,
+      "worst_row": "sum_free_right_13-13-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m58_q15_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m58_q15_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.549516567451064e-15,
+      "worst_row": "sum_free_left_14-14-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m59_q15_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m59_q15_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.105427357601002e-15,
+      "worst_row": "sum_free_right_13-13-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m5_q2_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m5_q2_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-16,
+      "worst_row": "sum_free_right_0-0-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m60_q15_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m60_q15_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.021405182655144e-14,
+      "worst_row": "sum_free_left_14-14-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m60_q16_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m60_q16_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.318944953254686e-13,
+      "worst_row": "sum_free_right_12-13-16",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m61_q16_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m61_q16_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.0436096431476471e-14,
+      "worst_row": "sum_free_left_0-1-16",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m62_q16_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m62_q16_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.993605777301127e-15,
+      "worst_row": "sum_free_left_15-15-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m63_q16_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m63_q16_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.438494264988549e-15,
+      "worst_row": "sum_free_left_15-15-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m64_q16_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m64_q16_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.440892098500626e-16,
+      "worst_row": "sum_free_right_14-14-14",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m64_q17_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m64_q17_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.552713678800501e-15,
+      "worst_row": "sum_free_left_0-7-17",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m65_q17_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m65_q17_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.993605777301127e-15,
+      "worst_row": "sum_free_right_15-15-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m66_q17_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m66_q17_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.428873768778317e-11,
+      "worst_row": "sum_free_left_16-16-17",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m67_q17_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m67_q17_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3307855681982692e-13,
+      "worst_row": "nonoverlap_17_before_15",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m68_q17_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m68_q17_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.43769498715119e-15,
+      "worst_row": "sum_free_right_15-15-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m68_q18_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m68_q18_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.716050021144838e-15,
+      "worst_row": "sum_free_left_17-17-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m69_q18_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m69_q18_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.484501741648273e-14,
+      "worst_row": "sum_free_right_1-2-18",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m6_q2_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m6_q2_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.440892098500626e-16,
+      "worst_row": "sum_free_left_1-1-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m70_q18_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m70_q18_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.43769498715119e-15,
+      "worst_row": "nonoverlap_18_before_17",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m71_q18_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m71_q18_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.24082966124206e-11,
+      "worst_row": "sum_free_right_16-16-18",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m72_q18_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m72_q18_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.2656542480726785e-14,
+      "worst_row": "sum_free_right_16-16-15",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m72_q19_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m72_q19_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.43769498715119e-15,
+      "worst_row": "sum_free_right_17-17-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m73_q19_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m73_q19_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.19824158875781e-14,
+      "worst_row": "sum_free_right_16-17-19",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m74_q19_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m74_q19_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.0436096431476471e-14,
+      "worst_row": "nonoverlap_19_before_18",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m75_q19_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m75_q19_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1435297153639112e-14,
+      "worst_row": "sum_free_left_18-18-8",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m76_q19_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m76_q19_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.580247209811181e-12,
+      "worst_row": "sum_free_left_18-18-19",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m76_q20_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m76_q20_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.881784197001252e-15,
+      "worst_row": "sum_free_right_18-18-18",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m77_q20_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m77_q20_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7186252421197423e-13,
+      "worst_row": "sum_free_left_18-18-20",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m78_q20_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m78_q20_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.199040866595169e-14,
+      "worst_row": "sum_free_left_19-19-11",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m79_q20_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m79_q20_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3655743202889425e-14,
+      "worst_row": "sum_free_left_19-19-14",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m7_q2_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m7_q2_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.440892098500626e-16,
+      "worst_row": "sum_free_right_0-0-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m80_q20_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m80_q20_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 8.215650382226158e-15,
+      "worst_row": "sum_free_left_19-19-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m80_q21_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m80_q21_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.904787935331115e-14,
+      "worst_row": "sum_free_left_3-3-21",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m81_q21_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m81_q21_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-14,
+      "worst_row": "sum_free_right_19-19-5",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m82_q21_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m82_q21_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.0309531834072914e-11,
+      "worst_row": "sum_free_right_19-19-21",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m83_q21_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m83_q21_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.2212453270876722e-14,
+      "worst_row": "sum_free_right_19-19-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m84_q21_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m84_q21_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.021405182655144e-14,
+      "worst_row": "sum_free_right_19-19-15",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m84_q22_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m84_q22_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 3.6442474472125896e-14,
+      "worst_row": "sum_free_left_3-21-22",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m85_q22_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m85_q22_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.992007221626409e-15,
+      "worst_row": "sum_free_right_20-20-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m86_q22_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m86_q22_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.0658141036401503e-14,
+      "worst_row": "sum_free_left_21-21-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m87_q22_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m87_q22_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4876988529977098e-14,
+      "worst_row": "sum_free_right_20-20-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m88_q22_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m88_q22_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.176836406102666e-14,
+      "worst_row": "sum_free_right_20-20-20",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m88_q23_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m88_q23_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.529709940470639e-14,
+      "worst_row": "sum_free_left_12-20-23",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m89_q23_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m89_q23_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1268763699945339e-14,
+      "worst_row": "sum_free_left_22-22-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m8_q2_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m8_q2_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.440892098500626e-16,
+      "worst_row": "sum_free_right_0-0-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m8_q3_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m8_q3_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1102230246251565e-16,
+      "worst_row": "sum_free_left_2-2-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m90_q23_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m90_q23_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4210854715202004e-14,
+      "worst_row": "sum_free_right_21-21-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m91_q23_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m91_q23_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4210854715202004e-14,
+      "worst_row": "sum_free_right_21-21-16",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m92_q23_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m92_q23_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1324274851176597e-14,
+      "worst_row": "sum_free_right_21-21-15",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m92_q24_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m92_q24_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.4932499681208355e-14,
+      "worst_row": "sum_free_left_23-23-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m93_q24_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m93_q24_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7201795543542175e-12,
+      "worst_row": "sum_free_right_21-22-24",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m94_q24_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m94_q24_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.992007221626409e-15,
+      "worst_row": "sum_free_right_22-22-12",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m95_q24_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m95_q24_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1324274851176597e-14,
+      "worst_row": "sum_free_left_23-23-19",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m96_q24_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m96_q24_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.547918011776346e-15,
+      "worst_row": "sum_free_right_22-22-22",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m96_q25_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m96_q25_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.1546319456101628e-14,
+      "worst_row": "sum_free_right_23-23-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m97_q25_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m97_q25_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.1736392947532295e-14,
+      "worst_row": "sum_free_right_17-23-25",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m98_q25_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m98_q25_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-14,
+      "worst_row": "sum_free_right_23-23-10",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m99_q25_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m99_q25_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.2656542480726785e-14,
+      "worst_row": "sum_free_left_24-24-9",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m9_q3_anchor0_freebase0_extra1_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals/variable_extra_milp_m9_q3_anchor0_freebase0_extra1_problem.json.gz",
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.661338147750939e-16,
+      "worst_row": "sum_free_right_1-1-0",
+      "objective_error": 0.0
+    }
+  ]
+}

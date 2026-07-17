@@ -1,0 +1,136 @@
+direct MILP around optimized 10-sum-free equally spaced construction: 92 variables (82 integer), 175 constraints
+base: m=10, q=3, delta=0.05, density=0.15, anchor=0, extra_count=2, free_base_start=False
+
+MILPSolution('direct MILP around optimized 10-sum-free equally spaced construction')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.15
+  values:
+    alpha_0 = 0.05
+    alpha_1 = 0.05
+    alpha_2 = 0.05
+    alpha_3 = 0
+    alpha_4 = 0
+    before_0-3 = 0
+    before_0-4 = 0
+    before_1-3 = 0
+    before_1-4 = 0
+    before_2-3 = 0
+    before_2-4 = 0
+    before_3-4 = 0
+    n_0-0-0 = -1
+    n_0-0-1 = -2
+    n_0-0-2 = -10
+    n_0-0-3 = -1
+    n_0-0-4 = -1
+    n_0-1-0 = -1
+    n_0-1-1 = -2
+    n_0-1-2 = -10
+    n_0-1-3 = -1
+    n_0-1-4 = -1
+    n_0-2-0 = 0
+    n_0-2-1 = -1
+    n_0-2-2 = -9
+    n_0-2-3 = 0
+    n_0-2-4 = 0
+    n_0-3-0 = -1
+    n_0-3-1 = -2
+    n_0-3-2 = -10
+    n_0-3-3 = -1
+    n_0-3-4 = -1
+    n_0-4-0 = -1
+    n_0-4-1 = -2
+    n_0-4-2 = -10
+    n_0-4-3 = -1
+    n_0-4-4 = -1
+    n_1-1-0 = -1
+    n_1-1-1 = -2
+    n_1-1-2 = -10
+    n_1-1-3 = -1
+    n_1-1-4 = -1
+    n_1-2-0 = 0
+    n_1-2-1 = -1
+    n_1-2-2 = -9
+    n_1-2-3 = 0
+    n_1-2-4 = 0
+    n_1-3-0 = -1
+    n_1-3-1 = -2
+    n_1-3-2 = -10
+    n_1-3-3 = -1
+    n_1-3-4 = -1
+    n_1-4-0 = -1
+    n_1-4-1 = -2
+    n_1-4-2 = -10
+    n_1-4-3 = -1
+    n_1-4-4 = -1
+    n_2-2-0 = 1
+    n_2-2-1 = 0
+    n_2-2-2 = -8
+    n_2-2-3 = 1
+    n_2-2-4 = 1
+    n_2-3-0 = 0
+    n_2-3-1 = -1
+    n_2-3-2 = -9
+    n_2-3-3 = 0
+    n_2-3-4 = 0
+    n_2-4-0 = 0
+    n_2-4-1 = -1
+    n_2-4-2 = -9
+    n_2-4-3 = 0
+    n_2-4-4 = 0
+    n_3-3-0 = -1
+    n_3-3-1 = -2
+    n_3-3-2 = -10
+    n_3-3-3 = -1
+    n_3-3-4 = -1
+    n_3-4-0 = -1
+    n_3-4-1 = -2
+    n_3-4-2 = -10
+    n_3-4-3 = -1
+    n_3-4-4 = -1
+    n_4-4-0 = -1
+    n_4-4-1 = -2
+    n_4-4-2 = -10
+    n_4-4-3 = -1
+    n_4-4-4 = -1
+    x_0 = 0.0375
+    x_1 = 0.1375
+    x_2 = 0.9375
+    x_3 = 0.0375
+    x_4 = 0.0375
+  parameters:
+    anchor = 0
+    base_density = 0.15000000000000002
+    delta = 0.05
+    epsilon = 0.0
+    extra_alpha_upper_bound = 0.08333333333333333
+    extra_count = 2
+    extra_length_bound = None
+    formulation = standard_variable_extra_milp
+    free_base_start = False
+    integer_lift_lower_bound = -11
+    integer_lift_upper_bound = 2
+    intervals = [{'index': 0, 'label': 'base_1', 'seed_start': 0.03750000000000009, 'seed_length': 0.05, 'fixed_base': True}, {'index': 1, 'label': 'base_2', 'seed_start': 0.13749999999999996, 'seed_length': 0.05, 'fixed_base': True}, {'index': 2, 'label': 'base_0', 'seed_start': 0.9375, 'seed_length': 0.05, 'fixed_base': True}, {'index': 3, 'label': 'extra_0', 'seed_start': None, 'seed_length': None, 'fixed_base': False}, {'index': 4, 'label': 'extra_1', 'seed_start': None, 'seed_length': None, 'fixed_base': False}]
+    m = 10
+    q = 3
+    solver_options = {'mip_rel_gap': 0.0}
+    tolerance = 1e-09
+    translated_missing_point = False
+  solver details:
+    mip_dual_bound = 0.15
+    mip_gap = 0
+    mip_node_count = 63
+
+base density: 0.15
+MILP density: 0.15
+gain:         0
+improved:     False (tolerance=1e-09)
+
+Intervals:
+  0: base_1   (0.0375, 0.0875) length=0.05
+  1: base_2   (0.1375, 0.1875) length=0.05
+  2: base_0   (0.9375, 0.9875) length=0.05
+  3: extra_0  (0.0375, 0.0375) length=0
+  4: extra_1  (0.0375, 0.0375) length=0
+
+Saved problem JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m10_q3_anchor0_freebase0_extra2_problem.json
+Saved solution JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m10_q3_anchor0_freebase0_extra2_solution.json

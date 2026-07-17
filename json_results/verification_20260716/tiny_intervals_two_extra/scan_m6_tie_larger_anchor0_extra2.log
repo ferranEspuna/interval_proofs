@@ -1,0 +1,96 @@
+direct MILP around optimized 6-sum-free equally spaced construction: 53 variables (45 integer), 98 constraints
+base: m=6, q=2, delta=0.0833333333333, density=0.166666666667, anchor=0, extra_count=2, free_base_start=False
+
+MILPSolution('direct MILP around optimized 6-sum-free equally spaced construction')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.166667
+  values:
+    alpha_0 = 0.0833333
+    alpha_1 = 0.0833333
+    alpha_2 = 0
+    alpha_3 = 0
+    before_0-2 = 0
+    before_0-3 = 0
+    before_1-2 = 0
+    before_1-3 = 0
+    before_2-3 = 1
+    n_0-0-0 = -1
+    n_0-0-1 = -6
+    n_0-0-2 = -1
+    n_0-0-3 = -1
+    n_0-1-0 = 0
+    n_0-1-1 = -5
+    n_0-1-2 = 0
+    n_0-1-3 = 0
+    n_0-2-0 = -1
+    n_0-2-1 = -6
+    n_0-2-2 = -1
+    n_0-2-3 = -1
+    n_0-3-0 = -1
+    n_0-3-1 = -6
+    n_0-3-2 = -1
+    n_0-3-3 = -1
+    n_1-1-0 = 1
+    n_1-1-1 = -4
+    n_1-1-2 = 1
+    n_1-1-3 = 1
+    n_1-2-0 = 0
+    n_1-2-1 = -5
+    n_1-2-2 = 0
+    n_1-2-3 = 0
+    n_1-3-0 = 0
+    n_1-3-1 = -5
+    n_1-3-2 = 0
+    n_1-3-3 = 0
+    n_2-2-0 = -1
+    n_2-2-1 = -6
+    n_2-2-2 = -1
+    n_2-2-3 = -1
+    n_2-3-0 = -1
+    n_2-3-1 = -6
+    n_2-3-2 = -1
+    n_2-3-3 = -1
+    n_3-3-0 = -1
+    n_3-3-1 = -6
+    n_3-3-2 = -1
+    n_3-3-3 = -1
+    x_0 = 0.0416667
+    x_1 = 0.875
+    x_2 = 0.0416667
+    x_3 = 0.0416667
+  parameters:
+    anchor = 0
+    base_density = 0.16666666666666666
+    delta = 0.08333333333333333
+    epsilon = 0.0
+    extra_alpha_upper_bound = 0.125
+    extra_count = 2
+    extra_length_bound = None
+    formulation = standard_variable_extra_milp
+    free_base_start = False
+    integer_lift_lower_bound = -7
+    integer_lift_upper_bound = 2
+    intervals = [{'index': 0, 'label': 'base_1', 'seed_start': 0.04166666666666674, 'seed_length': 0.08333333333333333, 'fixed_base': True}, {'index': 1, 'label': 'base_0', 'seed_start': 0.875, 'seed_length': 0.08333333333333333, 'fixed_base': True}, {'index': 2, 'label': 'extra_0', 'seed_start': None, 'seed_length': None, 'fixed_base': False}, {'index': 3, 'label': 'extra_1', 'seed_start': None, 'seed_length': None, 'fixed_base': False}]
+    m = 6
+    q = 2
+    solver_options = {'mip_rel_gap': 0.0}
+    tolerance = 1e-09
+    translated_missing_point = False
+  solver details:
+    mip_dual_bound = 0.166667
+    mip_gap = 0
+    mip_node_count = 1
+
+base density: 0.166666666667
+MILP density: 0.166666666667
+gain:         0
+improved:     False (tolerance=1e-09)
+
+Intervals:
+  0: base_1   (0.0416666666667, 0.125) length=0.0833333333333
+  1: base_0   (0.875, 0.958333333333) length=0.0833333333333
+  2: extra_0  (0.0416666666667, 0.0416666666667) length=0
+  3: extra_1  (0.0416666666667, 0.0416666666667) length=0
+
+Saved problem JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m6_q2_anchor0_freebase0_extra2_problem.json
+Saved solution JSON: json_results/verification_20260716/tiny_intervals_two_extra/variable_extra_milp_m6_q2_anchor0_freebase0_extra2_solution.json

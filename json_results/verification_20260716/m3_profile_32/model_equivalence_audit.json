@@ -1,0 +1,49 @@
+{
+  "checked_at": "2026-07-17T00:58:32+02:00",
+  "change": "The optional total_length_lower_bound parameter and CLI flag were added while the sequential matrix was running.",
+  "artifact_partition": {
+    "runs_1_through_20": {
+      "solution_count": 20,
+      "total_length_lower_bound_metadata": "key absent"
+    },
+    "runs_21_through_32": {
+      "solution_count": 12,
+      "total_length_lower_bound_metadata": null
+    }
+  },
+  "command_effect": "No matrix command supplied --total-length-lower-bound, so the parameter had its default None value and added no constraint.",
+  "comparison_method": "Using the post-change build_circle_interval_problem with m=3.0 and total_length_lower_bound left at its default, rebuild each representative configuration; remove metadata; serialize the remaining name, variables, objective, and constraints as sorted compact JSON; compare it with the corresponding saved problem core and compute SHA-256.",
+  "representative_checks": [
+    {
+      "run_name": "profile_t0_w0_mono1_ep1_min0_sll0",
+      "saved_artifact_has_metadata_key": false,
+      "rebuilt_default_value": null,
+      "model_core_equal": true,
+      "saved_core_sha256": "af3aeb4dceb32fe89e05d95f3afc119e88b5ae811fddfa6db884a9735ea6d30e",
+      "rebuilt_core_sha256": "af3aeb4dceb32fe89e05d95f3afc119e88b5ae811fddfa6db884a9735ea6d30e",
+      "variable_count": 85,
+      "constraint_count": 320
+    },
+    {
+      "run_name": "profile_t1_w0_mono1_ep0_min1_sll1",
+      "saved_artifact_has_metadata_key": false,
+      "rebuilt_default_value": null,
+      "model_core_equal": true,
+      "saved_core_sha256": "2c532bd0424910a117e8f47a5e3727286f3bf8bdcf263cc90c366d2a27baef78",
+      "rebuilt_core_sha256": "2c532bd0424910a117e8f47a5e3727286f3bf8bdcf263cc90c366d2a27baef78",
+      "variable_count": 86,
+      "constraint_count": 325
+    },
+    {
+      "run_name": "profile_t1_w1_mono1_ep0_min1_sll1",
+      "saved_artifact_has_metadata_key": true,
+      "rebuilt_default_value": null,
+      "model_core_equal": true,
+      "saved_core_sha256": "90f32974799a58c66571b587dcf966adb538d61b2cfacba962e5d6d1d540e28d",
+      "rebuilt_core_sha256": "90f32974799a58c66571b587dcf966adb538d61b2cfacba962e5d6d1d540e28d",
+      "variable_count": 86,
+      "constraint_count": 400
+    }
+  ],
+  "conclusion": "The transition was metadata-only for this matrix; the saved optimization models are equivalent to the current default-None models."
+}

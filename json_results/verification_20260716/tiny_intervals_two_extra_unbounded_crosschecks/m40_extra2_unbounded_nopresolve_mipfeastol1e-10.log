@@ -1,0 +1,2 @@
+/home/ferran/interval_proofs/milp_problem.py:567: RuntimeWarning: Unrecognized options detected: {'mip_feasibility_tolerance'}. These will be passed to HiGHS verbatim.
+  result: OptimizeResult = milp(**kwargs)

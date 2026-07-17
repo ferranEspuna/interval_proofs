@@ -1,0 +1,32 @@
+N=2: computing full-model bound
+N=2: testing 6 singleton exclusions
+N=2: 2 singleton-removable triples; searching maximal families
+N=2: wrote 2 families to json_results/verification_20260716/removable_interactions/maximal_excludable_triples_m3_N2-3.txt after 0.2s
+N=3: computing full-model bound
+N=3: testing 18 singleton exclusions
+N=3: 7 singleton-removable triples; searching maximal families
+N=3: wrote 7 families to json_results/verification_20260716/removable_interactions/maximal_excludable_triples_m3_N2-3.txt after 14.7s
+Final report written to json_results/verification_20260716/removable_interactions/maximal_excludable_triples_m3_N2-3.txt
+	Command being timed: ".venv/bin/python find_excludable_sum_free_triples.py --n-values 2,3 --m 3 --target-bound 0.2 --mip-rel-gap 0 --output-txt json_results/verification_20260716/removable_interactions/maximal_excludable_triples_m3_N2-3.txt"
+	User time (seconds): 24.09
+	System time (seconds): 0.29
+	Percent of CPU this job got: 157%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:15.43
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 80448
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 13941
+	Voluntary context switches: 536
+	Involuntary context switches: 1746
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 24
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

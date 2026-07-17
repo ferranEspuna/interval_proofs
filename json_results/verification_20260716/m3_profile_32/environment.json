@@ -1,0 +1,25 @@
+{
+  "created_at": "2026-07-17T00:39:41.439617+02:00",
+  "git_commit": "07986a4b6c3ab83aa7de6c5da25fdf1842090dda",
+  "platform": "Linux-6.17.0-40-generic-x86_64-with-glibc2.39",
+  "python": "3.12.3",
+  "scipy": "1.18.0",
+  "highs": "1.12.0",
+  "logical_cpu_count": 20,
+  "load_average_at_start": [
+    5.369140625,
+    4.8291015625,
+    4.41357421875
+  ],
+  "other_circle_intervals_processes_at_start": [
+    "98243       13:51  0.0  0.0 /bin/bash -lc .venv/bin/python circle_intervals.py -N 8 --m 3 --width-cuts --monotonicity-cuts --endpoint-length-cut --subset-alpha-bound 7:0.2 --mip-rel-gap 0 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_with_N7_bound_gap0 >/dev/null",
+    "98251       13:51  103  3.1 .venv/bin/python circle_intervals.py -N 8 --m 3 --width-cuts --monotonicity-cuts --endpoint-length-cut --subset-alpha-bound 7:0.2 --mip-rel-gap 0 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_with_N7_bound_gap0",
+    "98300       13:41  0.0  0.0 /bin/bash -lc .venv/bin/python circle_intervals.py -N 8 --m 3 --width-cuts --monotonicity-cuts --endpoint-length-cut --subset-alpha-bound 7:0.2 --mip-rel-gap 1e-4 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_with_N7_bound_gap1e-4 >/dev/null",
+    "98308       13:41  102  2.1 .venv/bin/python circle_intervals.py -N 8 --m 3 --width-cuts --monotonicity-cuts --endpoint-length-cut --subset-alpha-bound 7:0.2 --mip-rel-gap 1e-4 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_with_N7_bound_gap1e-4",
+    "99933       09:40  0.0  0.0 /bin/bash -lc .venv/bin/python circle_intervals.py -N 8 --m 3 --translated-missing-point --width-cuts --monotonicity-cuts --no-endpoint-length-cut --first-interval-shortest --second-interval-at-most-last --subset-alpha-bound 7:0.2 --mip-rel-gap 0 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_translated_symmetry_N7_bound_gap0 >/dev/null",
+    "99941       09:40  104  2.9 .venv/bin/python circle_intervals.py -N 8 --m 3 --translated-missing-point --width-cuts --monotonicity-cuts --no-endpoint-length-cut --first-interval-shortest --second-interval-at-most-last --subset-alpha-bound 7:0.2 --mip-rel-gap 0 --require-success --output-dir json_results/verification_20260716/m3_full --run-name m3_N8_translated_symmetry_N7_bound_gap0"
+  ],
+  "timing_method": "time.perf_counter around each complete subprocess",
+  "execution_order": "sequential in the order listed in matrix.json",
+  "configuration_count": 32
+}

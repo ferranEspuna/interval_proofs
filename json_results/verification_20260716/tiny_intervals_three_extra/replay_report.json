@@ -1,0 +1,109 @@
+{
+  "solution_count": 8,
+  "all_success_optimal_zero_gap": true,
+  "all_problem_paths_exist": true,
+  "maxima": {
+    "max_bound_violation": 2.851885394505871e-15,
+    "max_integrality_violation": 0.0,
+    "max_row_violation": 6.306066779870889e-14,
+    "objective_error": 0.0
+  },
+  "results": [
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m12_q3_extra3_per_extra_bound_zero_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m12_q3_extra3_per_extra_bound_zero_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-15,
+      "worst_row": "sum_free_right_1-1-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m12_q4_extra3_per_extra_bound_1over1008_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m12_q4_extra3_per_extra_bound_1over1008_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 6.306066779870889e-14,
+      "worst_row": "sum_free_right_3-3-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m13_q4_extra3_per_extra_bound_1over2535_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m13_q4_extra3_per_extra_bound_1over2535_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 1.9786689647860456e-17,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.6048234669804344e-15,
+      "worst_row": "sum_free_left_2-2-6",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m16_q4_extra3_per_extra_bound_zero_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m16_q4_extra3_per_extra_bound_zero_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-15,
+      "worst_row": "sum_free_left_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m16_q5_extra3_per_extra_bound_1over2304_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m16_q5_extra3_per_extra_bound_1over2304_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.0294716468184362e-14,
+      "worst_row": "sum_free_left_2-3-7",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m17_q5_extra3_per_extra_bound_1over5491_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m17_q5_extra3_per_extra_bound_1over5491_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.3322676295501878e-15,
+      "worst_row": "sum_free_right_3-3-0",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m8_q3_extra3_per_extra_bound_1over320_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m8_q3_extra3_per_extra_bound_1over320_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 2.851885394505871e-15,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 4.566486078161347e-14,
+      "worst_row": "sum_free_left_0-2-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/tiny_intervals_three_extra/m9_q3_extra3_per_extra_bound_1over891_gap0_solution.json",
+      "problem": "json_results/verification_20260716/tiny_intervals_three_extra/m9_q3_extra3_per_extra_bound_1over891_gap0_problem.json.gz",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 4.954803928258755e-16,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.739853037312059e-14,
+      "worst_row": "sum_free_left_2-2-5",
+      "objective_error": 0.0
+    }
+  ]
+}

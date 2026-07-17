@@ -1,0 +1,180 @@
+run_index: 25/32
+run_name: profile_t1_w1_mono0_ep1_min0_sll0
+command: /home/ferran/interval_proofs/.venv/bin/python /home/ferran/interval_proofs/circle_intervals.py -N 5 --m 3 --translated-missing-point --width-cuts --no-monotonicity-cuts --endpoint-length-cut --mip-rel-gap 0 --require-success --output-dir json_results/verification_20260716/m3_profile_32 --run-name profile_t1_w1_mono0_ep1_min0_sll0
+started_at: 2026-07-17T00:51:50.169160+02:00
+finished_at: 2026-07-17T00:52:38.328913+02:00
+wall_seconds: 48.159689185
+exit_code: 0
+
+--- stdout ---
+3.0-sum-free set problem for 5 intervals: 86 variables (75 integer), 236 constraints
+MILPSolution('3.0-sum-free set problem for 5 intervals')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.2
+  values:
+    alpha_0 = 0.0333333
+    alpha_1 = 0.0666667
+    alpha_2 = 0
+    alpha_3 = 0.0666667
+    alpha_4 = 0.0333333
+    n_0-0-0 = -1
+    n_0-0-1 = -2
+    n_0-0-2 = -3
+    n_0-0-3 = -3
+    n_0-0-4 = -4
+    n_0-1-0 = 0
+    n_0-1-1 = -1
+    n_0-1-2 = -2
+    n_0-1-3 = -2
+    n_0-1-4 = -3
+    n_0-2-0 = 0
+    n_0-2-1 = -1
+    n_0-2-2 = -2
+    n_0-2-3 = -2
+    n_0-2-4 = -3
+    n_0-3-0 = 0
+    n_0-3-1 = -1
+    n_0-3-2 = -2
+    n_0-3-3 = -2
+    n_0-3-4 = -3
+    n_0-4-0 = 0
+    n_0-4-1 = -1
+    n_0-4-2 = -2
+    n_0-4-3 = -2
+    n_0-4-4 = -3
+    n_1-1-0 = 0
+    n_1-1-1 = -1
+    n_1-1-2 = -2
+    n_1-1-3 = -2
+    n_1-1-4 = -3
+    n_1-2-0 = 0
+    n_1-2-1 = -1
+    n_1-2-2 = -2
+    n_1-2-3 = -2
+    n_1-2-4 = -3
+    n_1-3-0 = 0
+    n_1-3-1 = -1
+    n_1-3-2 = -2
+    n_1-3-3 = -2
+    n_1-3-4 = -3
+    n_1-4-0 = 1
+    n_1-4-1 = 0
+    n_1-4-2 = -1
+    n_1-4-3 = -1
+    n_1-4-4 = -2
+    n_2-2-0 = 1
+    n_2-2-1 = 0
+    n_2-2-2 = -1
+    n_2-2-3 = -1
+    n_2-2-4 = -2
+    n_2-3-0 = 1
+    n_2-3-1 = 0
+    n_2-3-2 = -1
+    n_2-3-3 = -1
+    n_2-3-4 = -2
+    n_2-4-0 = 1
+    n_2-4-1 = 0
+    n_2-4-2 = -1
+    n_2-4-3 = -1
+    n_2-4-4 = -2
+    n_3-3-0 = 1
+    n_3-3-1 = 0
+    n_3-3-2 = -1
+    n_3-3-3 = -1
+    n_3-3-4 = -2
+    n_3-4-0 = 1
+    n_3-4-1 = 0
+    n_3-4-2 = -1
+    n_3-4-3 = -1
+    n_3-4-4 = -2
+    n_4-4-0 = 1
+    n_4-4-1 = 0
+    n_4-4-2 = -1
+    n_4-4-3 = -1
+    n_4-4-4 = -2
+    t = 0.166667
+    x_0 = 0
+    x_1 = 0.3
+    x_2 = 0.633333
+    x_3 = 0.633333
+    x_4 = 0.966667
+  parameters:
+    N = 5
+    add_endpoint_length_cut = True
+    add_first_interval_shortest_cut = False
+    add_monotonicity_cuts = False
+    add_second_interval_at_most_last_cut = False
+    add_width_cuts = True
+    alpha_upper_bound = 0.2
+    alpha_upper_bounds = {'alpha_0': 0.2, 'alpha_1': 0.2, 'alpha_2': 0.2, 'alpha_3': 0.2, 'alpha_4': 0.2}
+    epsilon = 0.0
+    exclude_sum_free_exact_triples = []
+    exclude_sum_free_head_size = 0
+    exclude_sum_free_interval_sets = []
+    exclude_sum_free_tail_size = 0
+    excluded_sum_free_head_indices = []
+    excluded_sum_free_tail_indices = []
+    excluded_sum_free_triple_count = 0
+    integer_lift_lower_bound = -5
+    integer_lift_upper_bound = 2
+    m = 3.0
+    output_dir = json_results/verification_20260716/m3_profile_32
+    solver_options = {'mip_rel_gap': 0.0}
+    subset_alpha_bounds = []
+    total_length_lower_bound = None
+    use_translated_missing_point = True
+  solver details:
+    mip_dual_bound = 0.2
+    mip_gap = 0
+    mip_node_count = 71864
+
+Saved problem JSON: json_results/verification_20260716/m3_profile_32/profile_t1_w1_mono0_ep1_min0_sll0_problem.json
+Saved solution JSON: json_results/verification_20260716/m3_profile_32/profile_t1_w1_mono0_ep1_min0_sll0_solution.json
+
+Visualizer state JSON:
+{
+  "v": 1,
+  "mode": "interval",
+  "intervals": [
+    {
+      "id": 1,
+      "start": 0.0,
+      "width": 0.033333,
+      "color": "#ef4444"
+    },
+    {
+      "id": 2,
+      "start": 0.3,
+      "width": 0.066667,
+      "color": "#3b82f6"
+    },
+    {
+      "id": 3,
+      "start": 0.633333,
+      "width": 0.0,
+      "color": "#f59e0b"
+    },
+    {
+      "id": 4,
+      "start": 0.633333,
+      "width": 0.066667,
+      "color": "#10b981"
+    },
+    {
+      "id": 5,
+      "start": 0.966667,
+      "width": 0.033333,
+      "color": "#8b5cf6"
+    }
+  ],
+  "m": 3,
+  "fixTotalLength": false,
+  "targetTotalLength": 0.2,
+  "hiddenMixedComboKeys": []
+}
+
+Visualizer state URL:
+https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC4wLCJ3aWR0aCI6MC4wMzMzMzMsImNvbG9yIjoiI2VmNDQ0NCJ9LHsiaWQiOjIsInN0YXJ0IjowLjMsIndpZHRoIjowLjA2NjY2NywiY29sb3IiOiIjM2I4MmY2In0seyJpZCI6Mywic3RhcnQiOjAuNjMzMzMzLCJ3aWR0aCI6MC4wLCJjb2xvciI6IiNmNTllMGIifSx7ImlkIjo0LCJzdGFydCI6MC42MzMzMzMsIndpZHRoIjowLjA2NjY2NywiY29sb3IiOiIjMTBiOTgxIn0seyJpZCI6NSwic3RhcnQiOjAuOTY2NjY3LCJ3aWR0aCI6MC4wMzMzMzMsImNvbG9yIjoiIzhiNWNmNiJ9XSwibSI6MywiZml4VG90YWxMZW5ndGgiOmZhbHNlLCJ0YXJnZXRUb3RhbExlbmd0aCI6MC4yLCJoaWRkZW5NaXhlZENvbWJvS2V5cyI6W119
+
+
+--- stderr ---

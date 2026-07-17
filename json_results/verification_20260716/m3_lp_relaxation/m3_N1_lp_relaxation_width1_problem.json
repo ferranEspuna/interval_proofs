@@ -1,0 +1,97 @@
+{
+  "constraints": [
+    {
+      "coefficients": {
+        "alpha_0": 1.0,
+        "x_0": 1.0
+      },
+      "name": "inside_unit_0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 5.0
+      },
+      "name": "sum_free_width_0-0-0",
+      "rhs": 1.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 3.0,
+        "n_0-0-0": 1.0,
+        "x_0": 1.0
+      },
+      "name": "sum_free_left_0-0-0",
+      "rhs": -0.0,
+      "sense": "<="
+    },
+    {
+      "coefficients": {
+        "alpha_0": 2.0,
+        "n_0-0-0": -1.0,
+        "x_0": -1.0
+      },
+      "name": "sum_free_right_0-0-0",
+      "rhs": 1.0,
+      "sense": "<="
+    }
+  ],
+  "metadata": {
+    "N": 1,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": true,
+    "alpha_upper_bound": 0.2,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.2
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "experiment": "naive_lp_relaxation",
+    "integer_lift_lower_bound": -4,
+    "integer_lift_upper_bound": 2,
+    "m": 3,
+    "relaxed_integer_variable_count": 1,
+    "solver_options": {},
+    "subset_alpha_bounds": [],
+    "total_length_lower_bound": null,
+    "use_translated_missing_point": false
+  },
+  "name": "3-sum-free set problem for 1 intervals",
+  "objective": {
+    "coefficients": {
+      "alpha_0": 1.0
+    },
+    "sense": "maximize"
+  },
+  "variables": [
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "x_0",
+      "upper_bound": 1.0
+    },
+    {
+      "kind": "continuous",
+      "lower_bound": 0.0,
+      "name": "alpha_0",
+      "upper_bound": 0.2
+    },
+    {
+      "kind": "continuous",
+      "lower_bound": -4.0,
+      "name": "n_0-0-0",
+      "upper_bound": 2.0
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+N=2: computing full-model bound
+N=2: testing 6 singleton exclusions
+N=2: 2 singleton-removable triples; searching maximal families
+N=2: wrote 2 families to json_results/verification_20260716/removable_interactions_subset_bound/maximal_excludable_triples_m3_N2-3_exhaustive.txt after 0.2s
+N=3: computing full-model bound
+N=3: testing 18 singleton exclusions
+N=3: 7 singleton-removable triples; searching maximal families
+N=3: wrote 7 families to json_results/verification_20260716/removable_interactions_subset_bound/maximal_excludable_triples_m3_N2-3_exhaustive.txt after 15.7s
+Final report written to json_results/verification_20260716/removable_interactions_subset_bound/maximal_excludable_triples_m3_N2-3_exhaustive.txt

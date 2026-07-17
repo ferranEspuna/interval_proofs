@@ -1,0 +1,218 @@
+direct MILP around optimized 9-sum-free equally spaced construction: 150 variables (138 integer), 288 constraints
+base: m=9, q=3, delta=0.0505050505051, density=0.151515151515, anchor=0, extra_count=3, free_base_start=False
+
+MILPSolution('direct MILP around optimized 9-sum-free equally spaced construction')
+  status: optimal (Optimization terminated successfully. (HiGHS Status 7: Optimal))
+  objective: maximize, optimum = 0.152637
+  values:
+    alpha_0 = 0.0505051
+    alpha_1 = 0.0505051
+    alpha_2 = 0.0505051
+    alpha_3 = 0
+    alpha_4 = 0.00112233
+    alpha_5 = 0
+    before_0-3 = 0
+    before_0-4 = 0
+    before_0-5 = 1
+    before_1-3 = 0
+    before_1-4 = 0
+    before_1-5 = 0
+    before_2-3 = 0
+    before_2-4 = 0
+    before_2-5 = 0
+    before_3-4 = 1
+    before_3-5 = 1
+    before_4-5 = 1
+    n_0-0-0 = -1
+    n_0-0-1 = -2
+    n_0-0-2 = -9
+    n_0-0-3 = -1
+    n_0-0-4 = -1
+    n_0-0-5 = -1
+    n_0-1-0 = -1
+    n_0-1-1 = -2
+    n_0-1-2 = -9
+    n_0-1-3 = -1
+    n_0-1-4 = -1
+    n_0-1-5 = -1
+    n_0-2-0 = 0
+    n_0-2-1 = -1
+    n_0-2-2 = -8
+    n_0-2-3 = 0
+    n_0-2-4 = 0
+    n_0-2-5 = 0
+    n_0-3-0 = -1
+    n_0-3-1 = -2
+    n_0-3-2 = -9
+    n_0-3-3 = -1
+    n_0-3-4 = -1
+    n_0-3-5 = -1
+    n_0-4-0 = -1
+    n_0-4-1 = -2
+    n_0-4-2 = -9
+    n_0-4-3 = -1
+    n_0-4-4 = -1
+    n_0-4-5 = -1
+    n_0-5-0 = -1
+    n_0-5-1 = -2
+    n_0-5-2 = -9
+    n_0-5-3 = -1
+    n_0-5-4 = -1
+    n_0-5-5 = -1
+    n_1-1-0 = -1
+    n_1-1-1 = -2
+    n_1-1-2 = -9
+    n_1-1-3 = 0
+    n_1-1-4 = 0
+    n_1-1-5 = -1
+    n_1-2-0 = 0
+    n_1-2-1 = -1
+    n_1-2-2 = -8
+    n_1-2-3 = 0
+    n_1-2-4 = 0
+    n_1-2-5 = 0
+    n_1-3-0 = -1
+    n_1-3-1 = -2
+    n_1-3-2 = -9
+    n_1-3-3 = -1
+    n_1-3-4 = -1
+    n_1-3-5 = -1
+    n_1-4-0 = -1
+    n_1-4-1 = -2
+    n_1-4-2 = -9
+    n_1-4-3 = -1
+    n_1-4-4 = -1
+    n_1-4-5 = -1
+    n_1-5-0 = -1
+    n_1-5-1 = -2
+    n_1-5-2 = -9
+    n_1-5-3 = -1
+    n_1-5-4 = -1
+    n_1-5-5 = -1
+    n_2-2-0 = 1
+    n_2-2-1 = 0
+    n_2-2-2 = -7
+    n_2-2-3 = 1
+    n_2-2-4 = 1
+    n_2-2-5 = 1
+    n_2-3-0 = 0
+    n_2-3-1 = -1
+    n_2-3-2 = -8
+    n_2-3-3 = 0
+    n_2-3-4 = 0
+    n_2-3-5 = 0
+    n_2-4-0 = 0
+    n_2-4-1 = -1
+    n_2-4-2 = -8
+    n_2-4-3 = 0
+    n_2-4-4 = 0
+    n_2-4-5 = 0
+    n_2-5-0 = 0
+    n_2-5-1 = -1
+    n_2-5-2 = -8
+    n_2-5-3 = 0
+    n_2-5-4 = 0
+    n_2-5-5 = 0
+    n_3-3-0 = -1
+    n_3-3-1 = -2
+    n_3-3-2 = -9
+    n_3-3-3 = -1
+    n_3-3-4 = -1
+    n_3-3-5 = -1
+    n_3-4-0 = -1
+    n_3-4-1 = -2
+    n_3-4-2 = -9
+    n_3-4-3 = -1
+    n_3-4-4 = -1
+    n_3-4-5 = -1
+    n_3-5-0 = -1
+    n_3-5-1 = -2
+    n_3-5-2 = -9
+    n_3-5-3 = -1
+    n_3-5-4 = -1
+    n_3-5-5 = -1
+    n_4-4-0 = -1
+    n_4-4-1 = -2
+    n_4-4-2 = -9
+    n_4-4-3 = -1
+    n_4-4-4 = -1
+    n_4-4-5 = -1
+    n_4-5-0 = -1
+    n_4-5-1 = -2
+    n_4-5-2 = -9
+    n_4-5-3 = -1
+    n_4-5-4 = -1
+    n_4-5-5 = -1
+    n_5-5-0 = -1
+    n_5-5-1 = -2
+    n_5-5-2 = -9
+    n_5-5-3 = -1
+    n_5-5-4 = -1
+    n_5-5-5 = -1
+    x_0 = 0.046176
+    x_1 = 0.157287
+    x_2 = 0.935065
+    x_3 = 0.0338304
+    x_4 = 0.0338304
+    x_5 = 0.0966811
+  parameters:
+    anchor = 0
+    base_density = 0.15151515151515152
+    delta = 0.050505050505050504
+    epsilon = 0.0
+    extra_alpha_upper_bound = 0.001122334455667789
+    extra_count = 3
+    extra_length_bound = 0.001122334455667789
+    formulation = standard_variable_extra_milp
+    free_base_start = False
+    integer_lift_lower_bound = -10
+    integer_lift_upper_bound = 2
+    intervals = [{'index': 0, 'label': 'base_1', 'seed_start': 0.04617604617604609, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 1, 'label': 'base_2', 'seed_start': 0.15728715728715725, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 2, 'label': 'base_0', 'seed_start': 0.935064935064935, 'seed_length': 0.050505050505050504, 'fixed_base': True}, {'index': 3, 'label': 'extra_0', 'seed_start': None, 'seed_length': None, 'fixed_base': False}, {'index': 4, 'label': 'extra_1', 'seed_start': None, 'seed_length': None, 'fixed_base': False}, {'index': 5, 'label': 'extra_2', 'seed_start': None, 'seed_length': None, 'fixed_base': False}]
+    m = 9
+    q = 3
+    solver_options = {'mip_rel_gap': 0.0}
+    tolerance = 1e-09
+    translated_missing_point = False
+  solver details:
+    mip_dual_bound = 0.152637
+    mip_gap = 0
+    mip_node_count = 678
+
+base density: 0.151515151515
+MILP density: 0.152637485971
+gain:         0.00112233445567
+improved:     True (tolerance=1e-09)
+
+Intervals:
+  0: base_1   (0.046176046176, 0.0966810966811) length=0.0505050505051
+  1: base_2   (0.157287157287, 0.207792207792) length=0.0505050505051
+  2: base_0   (0.935064935065, 0.98556998557) length=0.0505050505051
+  3: extra_0  (0.0338303671637, 0.0338303671637) length=-0
+  4: extra_1  (0.0338303671637, 0.0349527016194) length=0.00112233445567
+  5: extra_2  (0.0966810966811, 0.0966810966811) length=-0
+
+Saved problem JSON: /home/ferran/interval_proofs/json_results/verification_20260716/tiny_intervals_three_extra/m9_q3_extra3_per_extra_bound_1over891_gap0_problem.json
+Saved solution JSON: /home/ferran/interval_proofs/json_results/verification_20260716/tiny_intervals_three_extra/m9_q3_extra3_per_extra_bound_1over891_gap0_solution.json
+	Command being timed: ".venv/bin/python equally_spaced_tiny_interval_lp.py --m 9 --tie-choice larger --anchor 0 --extra-count 3 --extra-length-bound 0.001122334455667789 --mip-rel-gap 0 --require-success --output-dir /home/ferran/interval_proofs/json_results/verification_20260716/tiny_intervals_three_extra --run-name m9_q3_extra3_per_extra_bound_1over891_gap0"
+	User time (seconds): 3.80
+	System time (seconds): 0.06
+	Percent of CPU this job got: 270%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:01.43
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 83320
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 13933
+	Voluntary context switches: 129
+	Involuntary context switches: 644
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 184
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

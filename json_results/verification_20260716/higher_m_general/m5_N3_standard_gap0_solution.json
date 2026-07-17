@@ -1,0 +1,102 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.17142857142857243,
+  "parameters": {
+    "N": 3,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.14285714285714285,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.14285714285714285,
+      "alpha_1": 0.14285714285714285,
+      "alpha_2": 0.14285714285714285
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -6,
+    "integer_lift_upper_bound": 2,
+    "m": 5.0,
+    "output_dir": "json_results/verification_20260716/higher_m_general",
+    "problem_json_path": "json_results/verification_20260716/higher_m_general/m5_N3_standard_gap0_problem.json",
+    "solution_json_path": "json_results/verification_20260716/higher_m_general/m5_N3_standard_gap0_solution.json",
+    "solver_options": {
+      "mip_rel_gap": 0.0
+    },
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false,
+    "visualizer_state": {
+      "fixTotalLength": false,
+      "hiddenMixedComboKeys": [],
+      "intervals": [
+        {
+          "color": "#ef4444",
+          "id": 1,
+          "start": 0.057143,
+          "width": 0.085714
+        },
+        {
+          "color": "#3b82f6",
+          "id": 2,
+          "start": 0.857143,
+          "width": 0.0
+        },
+        {
+          "color": "#f59e0b",
+          "id": 3,
+          "start": 0.857143,
+          "width": 0.085714
+        }
+      ],
+      "m": 5,
+      "mode": "interval",
+      "targetTotalLength": 0.171428,
+      "v": 1
+    },
+    "visualizer_url": "https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC4wNTcxNDMsIndpZHRoIjowLjA4NTcxNCwiY29sb3IiOiIjZWY0NDQ0In0seyJpZCI6Miwic3RhcnQiOjAuODU3MTQzLCJ3aWR0aCI6MC4wLCJjb2xvciI6IiMzYjgyZjYifSx7ImlkIjozLCJzdGFydCI6MC44NTcxNDMsIndpZHRoIjowLjA4NTcxNCwiY29sb3IiOiIjZjU5ZTBiIn1dLCJtIjo1LCJmaXhUb3RhbExlbmd0aCI6ZmFsc2UsInRhcmdldFRvdGFsTGVuZ3RoIjowLjE3MTQyOCwiaGlkZGVuTWl4ZWRDb21ib0tleXMiOltdfQ"
+  },
+  "problem_name": "5.0-sum-free set problem for 3 intervals",
+  "solver_details": {
+    "mip_dual_bound": 0.17142857142857243,
+    "mip_gap": 0.0,
+    "mip_node_count": 194
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.0857142857142857,
+    "alpha_1": -0.0,
+    "alpha_2": 0.08571428571428671,
+    "n_0-0-0": -1,
+    "n_0-0-1": -5,
+    "n_0-0-2": -5,
+    "n_0-1-0": 0,
+    "n_0-1-1": -4,
+    "n_0-1-2": -4,
+    "n_0-2-0": 0,
+    "n_0-2-1": -4,
+    "n_0-2-2": -4,
+    "n_1-1-0": 1,
+    "n_1-1-1": -3,
+    "n_1-1-2": -3,
+    "n_1-2-0": 1,
+    "n_1-2-1": -3,
+    "n_1-2-2": -3,
+    "n_2-2-0": 1,
+    "n_2-2-1": -3,
+    "n_2-2-2": -3,
+    "x_0": 0.057142857142857134,
+    "x_1": 0.8571428571428571,
+    "x_2": 0.8571428571428557
+  }
+}

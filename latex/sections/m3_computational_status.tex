@@ -12,6 +12,27 @@ Section~\ref{sec:closed-two-interval-proof} proves the sharp upper bound
 reported the same optimum for \(N\leq8\).  The runs become expensive quickly:
 the reported \(N=8\) computation took several hours.
 
+A fresh profile of all 32 legal formulation-and-cut configurations for
+\(N=5\) returned objective and dual bound \(1/5\) with zero MIP gap in every
+case.  The two configurations singled out by the older profile reproduced
+the same branch-and-bound node counts, 4,329 and 9,475, although wall times
+changed with machine load.  The complete matrix, logs, problems, and solutions
+are archived in
+\code{json_results/verification_20260716/m3_profile_32/}.
+
+\subsection{The naive LP relaxation}
+
+Replacing every integer lift \(n_{ij\ell}\) by a continuous variable does not
+expose the \(1/5\) bound.  Fresh LP runs for \(1\leq N\leq8\) returned
+\[
+    \min\{N/5,1\},
+\]
+both with and without the redundant interval-width cuts.  Thus the direct
+relaxation is already non-sharp for \(N=2\); a useful dual argument will need
+additional valid inequalities or a different formulation.  All 16 problems
+and solutions are archived in
+\code{json_results/verification_20260716/m3_lp_relaxation/}.
+
 \subsection{Symmetry normalization and removable interactions}
 
 In the translated-missing-point model, a reported useful normalization is:
@@ -25,10 +46,29 @@ Under these assumptions, experiments ask which terms
 model: if the relaxation still proves the same upper bound, then the omitted
 terms were not needed for that numerical certificate.
 
-We have found maximal removable families for \(N=2,3,4,5\).  For
-\(N=3\), there are seven reported maximal families: five of size three and two
-of size four.  The script \code{find_excludable_sum_free_triples.py} automates this
-search and filters the successful relaxations to inclusion-maximal families.
+The rerun archived in
+\code{json_results/verification_20260716/removable_interactions/} makes the
+scope of this evidence precise.  For \(N=2\), the exhaustive search found two
+maximal families, each consisting of one triple.  For \(N=3\), it found seven
+maximal families: five of size three and two of size four.  For \(N=4\), all
+single-triple exclusions were tested and 16 were removable; a capped search
+then found five maximality-checked families, of sizes
+\(7,7,7,7,8\), but did not enumerate every maximal family.  For \(N=5\), 32
+single triples were removable, but the bounded family search timed out before
+finding a maximal family.  Thus only the \(N=2,3\) family lists are exhaustive.
+The \(N=2,3\) search used the basic translated model, while the more expensive
+\(N=4,5\) search added the redundant interval-width cuts.
+The script \code{find_excludable_sum_free_triples.py} performs these searches
+and records explicitly whether an enumeration completed.
+
+The historical variant that also imposed the previously computed \(1/5\)
+bound on every \((N-1)\)-component subunion was rerun separately.  It
+reproduced the same two and seven exhaustive families for \(N=2,3\), the same
+five capped families for \(N=4\), and the same count of 32 removable single
+triples with no family found before timeout for \(N=5\).  Thus that extra
+inductive cut does not enlarge the established scope: its \(N=4,5\) family
+searches are still partial.  The commands and reports are archived in
+\code{json_results/verification_20260716/removable_interactions_subset_bound/}.
 
 For two intervals \(I,J\), the endpoint proofs below explain why numerical
 redundancy must be handled carefully.  A five-term covering argument can leave

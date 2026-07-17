@@ -1,0 +1,103 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.021955314477593028,
+  "parameters": {
+    "N": 2,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.011235955056179775,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.011235955056179775,
+      "alpha_1": 0.011235955056179775
+    },
+    "epsilon": 0.0,
+    "exact_rational_all_model_rows_feasible": true,
+    "exact_rational_minimum_slack": "0",
+    "exact_rational_optimum": "170/7743",
+    "exact_rational_reconstruction": {
+      "alpha_0": "85/7743",
+      "alpha_1": "85/7743",
+      "n_0-0-0": "-80",
+      "n_0-0-1": "-81",
+      "n_0-1-0": "-80",
+      "n_0-1-1": "-81",
+      "n_1-1-0": "-80",
+      "n_1-1-1": "-81",
+      "x_0": "1407/1513",
+      "x_1": "123922/131631"
+    },
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -88,
+    "integer_lift_upper_bound": 2,
+    "m": 87.0,
+    "output_dir": "json_results/verification_20260716/two_interval_scan_strict",
+    "problem_json_path": "json_results/verification_20260716/two_interval_scan_strict/m87_N2_strict1e-10_gap0_problem.json",
+    "solution_json_path": "json_results/verification_20260716/two_interval_scan_strict/m87_N2_strict1e-10_gap0_solution.json",
+    "solver_options": {
+      "dual_feasibility_tolerance": 1e-10,
+      "mip_feasibility_tolerance": 1e-10,
+      "mip_rel_gap": 0.0,
+      "primal_feasibility_tolerance": 1e-10
+    },
+    "source_problem_json": "json_results/verification_20260716/two_interval_scan/m87_N2_standard_gap0_problem.json",
+    "strict_rerun_source_problem_json": "json_results/verification_20260716/two_interval_scan/m87_N2_standard_gap0_problem.json",
+    "subset_alpha_bounds": [],
+    "use_translated_missing_point": false,
+    "visualizer_state": {
+      "fixTotalLength": false,
+      "hiddenMixedComboKeys": [],
+      "intervals": [
+        {
+          "color": "#ef4444",
+          "id": 1,
+          "start": 0.929941,
+          "width": 0.010978
+        },
+        {
+          "color": "#3b82f6",
+          "id": 2,
+          "start": 0.941435,
+          "width": 0.010978
+        }
+      ],
+      "m": 87,
+      "mode": "interval",
+      "targetTotalLength": 0.021956,
+      "v": 1
+    },
+    "visualizer_url": "https://ferranespuna.github.io/interval_proofs/?state=eyJ2IjoxLCJtb2RlIjoiaW50ZXJ2YWwiLCJpbnRlcnZhbHMiOlt7ImlkIjoxLCJzdGFydCI6MC45Mjk5NDEsIndpZHRoIjowLjAxMDk3OCwiY29sb3IiOiIjZWY0NDQ0In0seyJpZCI6Miwic3RhcnQiOjAuOTQxNDM1LCJ3aWR0aCI6MC4wMTA5NzgsImNvbG9yIjoiIzNiODJmNiJ9XSwibSI6ODcsImZpeFRvdGFsTGVuZ3RoIjpmYWxzZSwidGFyZ2V0VG90YWxMZW5ndGgiOjAuMDIxOTU2LCJoaWRkZW5NaXhlZENvbWJvS2V5cyI6W119"
+  },
+  "problem_name": "87.0-sum-free set problem for 2 intervals",
+  "solver_details": {
+    "max_serialized_constraint_violation": 2.708944180085382e-14,
+    "max_serialized_constraint_violation_row": "sum_free_right_1-1-1",
+    "mip_dual_bound": 0.021955314477593028,
+    "mip_gap": 0.0,
+    "mip_node_count": 104
+  },
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.010977657238796514,
+    "alpha_1": 0.010977657238796514,
+    "n_0-0-0": -80,
+    "n_0-0-1": -81,
+    "n_0-1-0": -80,
+    "n_0-1-1": -81,
+    "n_1-1-0": -80,
+    "n_1-1-1": -81,
+    "x_0": 0.9299405155320554,
+    "x_1": 0.9414347684056185
+  }
+}

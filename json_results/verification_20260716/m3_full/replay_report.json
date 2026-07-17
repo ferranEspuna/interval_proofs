@@ -1,0 +1,97 @@
+{
+  "solution_count": 7,
+  "all_success_optimal_zero_gap": true,
+  "all_problem_paths_exist": true,
+  "maxima": {
+    "max_bound_violation": 5.245803791353865e-15,
+    "max_integrality_violation": 0.0,
+    "max_row_violation": 1.180722186688854e-12,
+    "objective_error": 0.0
+  },
+  "results": [
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N1_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N1_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 0.0,
+      "worst_row": null,
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N2_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N2_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-16,
+      "worst_row": "sum_free_left_0-0-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N3_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N3_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-16,
+      "worst_row": "sum_free_right_0-0-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N4_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N4_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 2.220446049250313e-14,
+      "worst_row": "sum_free_left_1-2-2",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N5_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N5_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.180722186688854e-12,
+      "worst_row": "sum_free_left_0-0-4",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N6_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N6_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 5.245803791353865e-15,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.7541523789077473e-14,
+      "worst_row": "sum_free_right_4-4-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/m3_full/m3_N7_with_N6_bound_gap0_solution.json",
+      "problem": "json_results/verification_20260716/m3_full/m3_N7_with_N6_bound_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 7.238654120556021e-14,
+      "worst_row": "sum_free_right_0-6-5",
+      "objective_error": 0.0
+    }
+  ]
+}

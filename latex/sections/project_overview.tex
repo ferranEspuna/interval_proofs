@@ -55,16 +55,29 @@ and~\ref{sec:open-two-interval-r6}. \\
 \(m=3\), \(3\leq N\leq 8\) intervals & \statuscomputed & Reported MILP runs
 give optimum \(1/5\).  Reproducible solver artifacts for all these runs still
 need to be archived. \\
-Omitted interval interactions & \statuscomputed & For \(N=2,3,4,5\), reported
-relaxed MILPs identify maximal families of terms \(I_i+I_j-3I_\ell\) that can
-be omitted without changing the numerical \(1/5\) optimum. \\
+Omitted interval interactions & \statuscomputed & The maximal-family lists are
+exhaustive for \(N=2,3\).  For \(N=4\) the archived list is capped, and for
+\(N=5\) all singleton exclusions were tested (32 were removable), but the
+bounded family search found no maximal family before timing out. \\
 \(m=4\) & \statusproved & Three explicit open intervals give density
 \(11/64>1/6\); see Section~\ref{sec:explicit-m4-m5}. \\
 \(m=5\) & \statusproved & Two explicit open intervals give density
 \(6/35>1/7\); see Section~\ref{sec:explicit-m4-m5}. \\
+\(m=8,9\) improved lower bounds & \statusproved & Exact rational certificates
+give densities \(49/320>3/20\) and \(136/891>5/33\), respectively; see
+Section~\ref{sec:explicit-constructions}. \\
+\(m=12,13\) improved lower bounds & \statusproved & Exact certificates give
+densities \(251/1728>1/7\) using seven intervals and
+\(122/845>28/195\) using six, respectively; see
+Section~\ref{sec:explicit-constructions}. \\
 General \(m\) lower bound & \statusproved & Equally spaced intervals give
 \(\lfloor(m+2)^2/8\rfloor/(m(m+2))>1/8\); see
 Section~\ref{sec:equally-spaced-construction}. \\
+Tiny added intervals & \statuscomputed & Complete one- and two-extra local
+scans through \(m=100\), followed by saturation tests, expose exact
+doubled-tail families with linearly many components and aggregate
+\(O(m^{-2})\) gain.  More than \(2.28\) million lifted images were checked
+exactly; \(m=12\) is exceptional.  See Section~\ref{sec:extra-intervals}. \\
 General \(m\) upper bound & literature & For each fixed \(m\geq3\),
 \(d_m(\T)\leq1/3.1955\), via the finite-group theorem and transference
 \cite[Theorem~1.5]{CandelaGonzalezSanchezGrynkiewicz2021}. \\

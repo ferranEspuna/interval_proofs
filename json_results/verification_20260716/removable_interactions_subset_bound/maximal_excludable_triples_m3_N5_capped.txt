@@ -1,0 +1,41 @@
+Maximal excludable m-sum-free triples
+======================================
+
+A family is listed when excluding exactly those triples, and no larger
+family found by the search, still lets the translated MILP prove the
+target bound 0.2.
+
+Fixed model settings:
+  m = 3
+  epsilon = 0
+  translated_missing_point = True
+  first_interval_shortest = True
+  second_interval_at_most_last = True
+  endpoint_length_cut = False
+  width_cuts = True
+  monotonicity_cuts = True
+  subset_alpha_bounds = []
+  n_minus_one_alpha_bound = 0.2
+  solver_options = {'mip_rel_gap': 0.0}
+  max_families = 5
+  search_time_limit = 120.0
+
+N = 5
+-----
+Full-model optimum: 0.2000000000000054
+All triples: 75
+Subset alpha bounds used: [(4, 0.2)]
+Singleton-removable triples: 32
+Maximal families found: 0
+Search complete: False
+Stopped by max families: False
+Timed out: True
+Search solves: 81
+Cache hits: 1
+Union-prune successes: 0
+Elapsed seconds: 1919.739
+
+WARNING: this N block is partial. The families below are
+maximality-checked against the singleton-removable triples,
+but the search did not prove that all maximal families
+have been enumerated.

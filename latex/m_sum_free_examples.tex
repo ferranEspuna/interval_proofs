@@ -1,7 +1,8 @@
 \ifdefined\IntervalProjectMaster
 \def\IntervalProjectEnd{}
-\section{Explicit constructions for \texorpdfstring{$m=4$}{m=4} and \texorpdfstring{$m=5$}{m=5}}
+\section{Explicit multi-interval constructions}
 \label{sec:explicit-m4-m5}
+\label{sec:explicit-constructions}
 \else
 \documentclass{article}
 \usepackage[utf8]{inputenc}
@@ -9,8 +10,10 @@
 \usepackage{amssymb}
 \usepackage{amsthm}
 \usepackage{parskip}
+\usepackage{url}
 
 \newtheorem{proposition}{Proposition}
+\newcommand{\code}[1]{\path{#1}}
 
 \title{Multi-interval examples improving the one-interval bound}
 \author{Ferran Espu\~na}
@@ -36,10 +39,12 @@ the trivial one-interval bound is
 \[
     \alpha\leq \frac1{m+2}.
 \]
-The examples below exceed this bound for \(m=4\) and \(m=5\). We also record
+The examples below exceed this bound for \(m=4,5,8,9,12,13\). We also record
 their exact endpoint certificates.  They are concrete examples of the two
 preceding phenomena: the \(m=5\) example realizes the equally spaced lower
-bound, while the \(m=4\) example adds a short third interval to that baseline.
+bound, the \(m=4,8,9\) examples add one short interval to that baseline, and
+the \(m=12\) and \(m=13\) examples add three and two short intervals,
+respectively.
 
 We will use the following finite certificate. If
 \[
@@ -176,6 +181,139 @@ The following table gives an integer \(n\) with
 Again, the intervals are open, so the integer endpoints shown in the table are
 not included. Therefore every interval \(I_i+I_j-5I_\ell\) misses all integers,
 and \(0\notin A_5+A_5-5A_5\) in \(\mathbb T\).
+\end{proof}
+
+\begin{proposition}[Exact constructions recovered for \(m=8,9\)]
+The open sets
+\[
+\begin{split}
+    A_8={}&
+    \left(\frac7{120},\frac{13}{120}\right)
+    \cup\left(\frac{29}{240},\frac{119}{960}\right)
+    \cup\left(\frac{11}{60},\frac7{30}\right)
+    \cup\left(\frac{14}{15},\frac{59}{60}\right),\\
+    A_9={}&
+    \left(\frac{39}{77},\frac{386}{693}\right)
+    \cup\left(\frac{428}{693},\frac{463}{693}\right)
+    \cup\left(\frac{4237}{6237},\frac{4244}{6237}\right)
+    \cup\left(\frac{505}{693},\frac{60}{77}\right)
+\end{split}
+\]
+are respectively \(8\)-sum-free and \(9\)-sum-free.  Consequently,
+\[
+    d_8(\mathbb T)\geq\mu(A_8)=\frac{49}{320},
+    \qquad
+    d_9(\mathbb T)\geq\mu(A_9)=\frac{136}{891}.
+\]
+\end{proposition}
+
+\begin{proof}
+Number the four intervals in each set in their displayed order.  For each
+pair \((i,j)\), the four entries in the corresponding row below give the
+integer \(n\) for \(\ell=1,2,3,4\) in the finite certificate above.
+\[
+\begin{array}{c|rrrr}
+\multicolumn{5}{c}{m=8}\\
+(i,j)\backslash\ell&1&2&3&4\\ \hline
+(1,1)&-1&-1&-2&-8\\
+(1,2)&-1&-1&-2&-8\\
+(1,3)&-1&-1&-2&-8\\
+(1,4)& 0& 0&-1&-7\\
+(2,2)&-1&-1&-2&-8\\
+(2,3)&-1&-1&-2&-8\\
+(2,4)& 0& 0&-1&-7\\
+(3,3)&-1&-1&-2&-8\\
+(3,4)& 0& 0&-1&-7\\
+(4,4)& 1& 0& 0&-6
+\end{array}
+\qquad
+\begin{array}{c|rrrr}
+\multicolumn{5}{c}{m=9}\\
+(i,j)\backslash\ell&1&2&3&4\\ \hline
+(1,1)&-4&-5&-6&-6\\
+(1,2)&-4&-5&-5&-6\\
+(1,3)&-4&-5&-5&-6\\
+(1,4)&-4&-5&-5&-6\\
+(2,2)&-4&-5&-5&-6\\
+(2,3)&-4&-5&-5&-6\\
+(2,4)&-4&-5&-5&-6\\
+(3,3)&-4&-5&-5&-6\\
+(3,4)&-4&-5&-5&-6\\
+(4,4)&-4&-5&-5&-6
+\end{array}
+\]
+Exact substitution of the displayed endpoints gives
+\[
+    n\leq a_i+a_j-mb_\ell
+    <b_i+b_j-ma_\ell\leq n+1
+\]
+in all 40 cases for each multiplier.  The smallest nonzero slack is
+\(1/16\) for \(A_8\) and \(5/81\) for \(A_9\); equality in the remaining
+tight sides is harmless because all intervals are open.  Thus no lifted
+interaction contains an integer.  Finally, the three long components have
+total length \(3/20\) for \(A_8\) and \(5/33\) for \(A_9\), while the short
+components have lengths \(1/320\) and \(1/891\), respectively, giving the
+stated measures.
+\end{proof}
+
+\begin{proposition}[Exact constructions with several added intervals]
+The open sets
+\[
+\begin{split}
+ A_{12}={}&
+ \left(\frac{17}{420},\frac8{105}\right)
+ \cup\left(\frac{23}{280},\frac{419}{5040}\right)
+ \cup\left(\frac{7103}{60480},\frac{33}{280}\right)
+ \cup\left(\frac{13}{105},\frac{67}{420}\right)\\
+ &\cup\left(\frac{139}{840},\frac{839}{5040}\right)
+ \cup\left(\frac{29}{140},\frac{17}{70}\right)
+ \cup\left(\frac{67}{70},\frac{139}{140}\right),\\
+ A_{13}={}&
+ \left(\frac{632}{27885},\frac{643}{27885}\right)
+ \cup\left(\frac{797}{27885},\frac{808}{27885}\right)
+ \cup\left(\frac{74}{2145},\frac{151}{2145}\right)\\
+ &\cup\left(\frac{239}{2145},\frac{316}{2145}\right)
+ \cup\left(\frac{404}{2145},\frac{481}{2145}\right)
+ \cup\left(\frac{2054}{2145},\frac{2131}{2145}\right)
+\end{split}
+\]
+are respectively \(12\)-sum-free and \(13\)-sum-free.  In particular,
+\[
+    d_{12}(\mathbb T)\geq\frac{251}{1728},
+    \qquad
+    d_{13}(\mathbb T)\geq\frac{122}{845}.
+\]
+\end{proposition}
+
+\begin{proof}
+For each set, order the displayed intervals as written and, for every
+\(i\leq j\) and \(\ell\), take
+\[
+    n=\left\lfloor a_i+a_j-mb_\ell\right\rfloor.
+\]
+For \(A_{12}\), direct fraction arithmetic in all 196 cases gives
+\[
+    n\leq a_i+a_j-mb_\ell
+    <b_i+b_j-ma_\ell\leq n+1.
+\]
+There are 14 tight endpoint inequalities, and the minimum positive endpoint
+slack is \(1/144\).  For \(A_{13}\), the same calculation in all 126 cases
+has 13 tight endpoint inequalities and minimum positive slack \(7/169\).
+The finite certificate therefore proves sum-freeness in both cases.
+
+The four base components of \(A_{12}\) contribute \(1/7\); two added
+components have length \(1/1008\), and the third has length \(5/12096\).
+Consequently,
+\[
+    \mu(A_{12})
+    =\frac17+\frac2{1008}+\frac5{12096}
+    =\frac{251}{1728}.
+\]
+Similarly, the four base components of \(A_{13}\) contribute \(28/195\),
+and the other two have length \(1/2535\) each, giving
+\(\mu(A_{13})=122/845\).  Both exact calculations are reproduced in the
+directory \code{tiny_intervals_three_extra_exact/} by the script
+\code{verify_exact_three_extra.py}.
 \end{proof}
 
 \IntervalProjectEnd

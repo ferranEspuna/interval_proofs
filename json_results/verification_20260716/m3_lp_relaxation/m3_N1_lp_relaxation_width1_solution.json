@@ -1,0 +1,51 @@
+{
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "objective_sense": "maximize",
+  "optimum": 0.2,
+  "parameters": {
+    "N": 1,
+    "add_endpoint_length_cut": true,
+    "add_first_interval_shortest_cut": false,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": false,
+    "add_width_cuts": true,
+    "alpha_upper_bound": 0.2,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.2
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "experiment": "naive_lp_relaxation",
+    "independent_replay": {
+      "max_bound_violation": 0.0,
+      "max_row_violation": 0.0,
+      "worst_row": null
+    },
+    "integer_lift_lower_bound": -4,
+    "integer_lift_upper_bound": 2,
+    "m": 3,
+    "problem_json_path": "json_results/verification_20260716/m3_lp_relaxation/m3_N1_lp_relaxation_width1_problem.json",
+    "relaxed_integer_variable_count": 1,
+    "solution_json_path": "json_results/verification_20260716/m3_lp_relaxation/m3_N1_lp_relaxation_width1_solution.json",
+    "solver_options": {},
+    "subset_alpha_bounds": [],
+    "total_length_lower_bound": null,
+    "use_translated_missing_point": false
+  },
+  "problem_name": "3-sum-free set problem for 1 intervals",
+  "solver_details": {},
+  "status": 0,
+  "status_name": "optimal",
+  "success": true,
+  "values": {
+    "alpha_0": 0.2,
+    "n_0-0-0": -0.6000000000000001,
+    "x_0": 0.0
+  }
+}

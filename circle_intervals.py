@@ -107,6 +107,7 @@ def build_circle_interval_problem(
     exclude_sum_free_interval_sets: list[tuple[int, ...]] | None = None,
     exclude_sum_free_exact_triples: list[tuple[int, int, int]] | None = None,
     subset_alpha_bounds: list[tuple[int, float]] | None = None,
+    total_length_lower_bound: float | None = None,
 ) -> MILPProblem:
     m = resolve_multiplier(m, d)
     problem = MILPProblem(f"{m}-sum-free set problem for {N} intervals")
@@ -187,6 +188,11 @@ def build_circle_interval_problem(
             raise ValueError("subset alpha bound size must be between 1 and N")
         if not math.isfinite(bound) or bound < 0:
             raise ValueError("subset alpha bound must be a finite nonnegative number")
+    if total_length_lower_bound is not None:
+        if not math.isfinite(total_length_lower_bound) or total_length_lower_bound < 0:
+            raise ValueError(
+                "total length lower bound must be a finite nonnegative number"
+            )
 
     n_lower_bound, n_upper_bound = integer_lift_bounds(
         m,
@@ -234,6 +240,7 @@ def build_circle_interval_problem(
             {"subset_size": subset_size, "bound": bound}
             for subset_size, bound in subset_alpha_bounds
         ],
+        "total_length_lower_bound": total_length_lower_bound,
         "integer_lift_lower_bound": n_lower_bound,
         "integer_lift_upper_bound": n_upper_bound,
         "alpha_upper_bound": default_alpha_upper_bound,
@@ -314,6 +321,14 @@ def build_circle_interval_problem(
                 sense="<=",
                 rhs=bound,
             )
+
+    if total_length_lower_bound is not None:
+        problem.add_inequality(
+            name="total_length_lower_bound",
+            coefficients={f"alpha_{index}": 1 for index in range(N)},
+            sense=">=",
+            rhs=total_length_lower_bound,
+        )
 
     # Sum-free condition: the interval I_i + I_j - m*I_ell must avoid the
     # chosen missing point. In the original formulation that point is 0; in
@@ -597,6 +612,11 @@ def default_file_stem(args: argparse.Namespace) -> str:
     )
     interval_set_part = filename_interval_sets(args.exclude_sum_free_interval_sets)
     exact_triple_part = filename_triples(args.exclude_sum_free_exact_triples)
+    total_lower_part = (
+        ""
+        if args.total_length_lower_bound is None
+        else f"_totallen_ge{filename_float(args.total_length_lower_bound)}"
+    )
     return (
         f"circle_intervals_N{args.N}_m{filename_float(args.m)}"
         f"_eps{filename_float(args.epsilon)}"
@@ -611,6 +631,7 @@ def default_file_stem(args: argparse.Namespace) -> str:
         f"{interval_set_part}"
         f"{exact_triple_part}"
         f"{subset_bound_part}"
+        f"{total_lower_part}"
     )
 
 
@@ -622,6 +643,8 @@ def solver_options_from_args(args: argparse.Namespace) -> dict[str, object]:
         options["node_limit"] = args.node_limit
     if args.mip_rel_gap is not None:
         options["mip_rel_gap"] = args.mip_rel_gap
+    if args.mip_abs_gap is not None:
+        options["mip_abs_gap"] = args.mip_abs_gap
     if args.presolve is not None:
         options["presolve"] = args.presolve
     if args.disp:
@@ -750,6 +773,15 @@ def build_parser() -> argparse.ArgumentParser:
         ),
     )
     parser.add_argument(
+        "--total-length-lower-bound",
+        type=float,
+        default=None,
+        help=(
+            "add sum_i alpha_i >= BOUND; this is a valid optimization cutoff "
+            "when a construction of that total length is already known"
+        ),
+    )
+    parser.add_argument(
         "--time-limit",
         type=float,
         default=None,
@@ -766,6 +798,15 @@ def build_parser() -> argparse.ArgumentParser:
         type=float,
         default=None,
         help="relative MIP gap termination tolerance",
+    )
+    parser.add_argument(
+        "--mip-abs-gap",
+        type=float,
+        default=None,
+        help=(
+            "absolute MIP gap termination tolerance passed through to HiGHS; "
+            "set this as well as --mip-rel-gap when both must be zero"
+        ),
     )
     parser.add_argument(
         "--presolve",
@@ -871,6 +912,7 @@ def main() -> None:
             exclude_sum_free_interval_sets=args.exclude_sum_free_interval_sets,
             exclude_sum_free_exact_triples=args.exclude_sum_free_exact_triples,
             subset_alpha_bounds=args.subset_alpha_bounds,
+            total_length_lower_bound=args.total_length_lower_bound,
         )
     except ValueError as exc:
         parser.error(str(exc))
