@@ -27,9 +27,16 @@ import argparse
 from collections import defaultdict
 from dataclasses import dataclass
 from fractions import Fraction
+import json
 import math
 from pathlib import Path
 
+from circle_intervals import (
+    DEFAULT_VISUALIZER_URL,
+    has_visualizer_values,
+    solution_visualizer_state,
+    visualizer_state_url,
+)
 from milp_problem import MILPProblem, MILPSolution
 
 
@@ -438,6 +445,28 @@ def save_json_outputs(
     return problem_path, solution_path
 
 
+def add_visualizer_output(
+    solution: MILPSolution,
+    *,
+    interval_count: int,
+    m: int,
+    base_url: str = DEFAULT_VISUALIZER_URL,
+) -> tuple[dict[str, object] | None, str | None]:
+    """Attach and return visualizer output when interval values are available."""
+    if not has_visualizer_values(solution, interval_count):
+        return None, None
+
+    state = solution_visualizer_state(
+        solution,
+        N=interval_count,
+        m=m,
+    )
+    url = visualizer_state_url(state, base_url=base_url)
+    solution.parameters["visualizer_state"] = state
+    solution.parameters["visualizer_url"] = url
+    return state, url
+
+
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -574,6 +603,11 @@ def build_parser() -> argparse.ArgumentParser:
         help="base filename for saved JSON artifacts",
     )
     parser.add_argument(
+        "--visualizer-url",
+        default=DEFAULT_VISUALIZER_URL,
+        help="base URL used when printing the shareable visualizer state link",
+    )
+    parser.add_argument(
         "--require-success",
         action="store_true",
         help="exit with an error if HiGHS does not prove optimality",
@@ -630,6 +664,13 @@ def main() -> None:
     print()
     print(solution)
 
+    visualizer_state, visualizer_url = add_visualizer_output(
+        solution,
+        interval_count=len(problem.metadata["intervals"]),
+        m=args.m,
+        base_url=args.visualizer_url,
+    )
+
     if solution.optimum is not None:
         base_density = float(problem.metadata["base_density"])
         gain = solution.optimum - base_density
@@ -681,6 +722,19 @@ def main() -> None:
         print()
         print(f"Saved problem JSON: {problem_path}")
         print(f"Saved solution JSON: {solution_path}")
+
+    print()
+    if visualizer_state is not None and visualizer_url is not None:
+        print("Visualizer state JSON:")
+        print(json.dumps(visualizer_state, indent=2))
+        print()
+        print("Visualizer state URL:")
+        print(visualizer_url)
+    else:
+        print(
+            "No visualizer state was printed because the solver returned "
+            "no interval values."
+        )
 
     if args.require_success and not solution.success:
         raise SystemExit(solution.message)

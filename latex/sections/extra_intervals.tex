@@ -11,26 +11,41 @@ obtained with zero reported MIP gap.
 \toprule
 \(m\) & equally spaced density & free-endpoint \(N=5\) objective \\
 \midrule
-4  & \(1/6\)    & \(11/64\) \\
-5  & \(6/35\)   & \(6/35\) \\
-6  & \(1/6\)    & \(1/6\) \\
-7  & \(10/63\)  & \(10/63\) \\
-8  & \(3/20\)   & \(49/320\) \\
-9  & \(5/33\)   & \(136/891\) \\
-10 & \(3/20\)   & \(3/20\) \\
-11 & \(21/143\) & \(21/143\) \\
-12 & \(1/7\)    & \(145/1008\) \\
-13 & \(28/195\) & \(73/507\) \\
+4  & \Visualizer{equally-spaced-m4-q2}{\(1/6\)}
+   & \Visualizer{a4}{\(11/64\)} \\
+5  & \Visualizer{equally-spaced-m5-q2}{\(6/35\)}
+   & \Visualizer{equally-spaced-m5-q2}{\(6/35\)} \\
+6  & \Visualizer{equally-spaced-m6-q2}{\(1/6\)}
+   & \Visualizer{equally-spaced-m6-q2}{\(1/6\)} \\
+7  & \Visualizer{equally-spaced-m7-q2}{\(10/63\)}
+   & \Visualizer{equally-spaced-m7-q2}{\(10/63\)} \\
+8  & \Visualizer{equally-spaced-m8-q3}{\(3/20\)}
+   & \Visualizer{a8}{\(49/320\)} \\
+9  & \Visualizer{equally-spaced-m9-q3}{\(5/33\)}
+   & \Visualizer{a9}{\(136/891\)} \\
+10 & \Visualizer{equally-spaced-m10-q3}{\(3/20\)}
+   & \Visualizer{equally-spaced-m10-q3}{\(3/20\)} \\
+11 & \Visualizer{equally-spaced-m11-q3}{\(21/143\)}
+   & \Visualizer{equally-spaced-m11-q3}{\(21/143\)} \\
+12 & \Visualizer{equally-spaced-m12-q4}{\(1/7\)}
+   & \Visualizer{fixed-base-1-extra-m12}{\(145/1008\)} \\
+13 & \Visualizer{equally-spaced-m13-q4}{\(28/195\)}
+   & \Visualizer{fixed-base-1-extra-m13}{\(73/507\)} \\
 \bottomrule
 \end{tabular}
 \end{center}
 The displayed objectives are rational reconstructions of the floating-point
 solutions.  Thus the free-endpoint model reported a strict improvement only
-for \(m=4,8,9,12,13\) in this range, and in each case its positive intervals
+for \(\Visualizer{a4}{m=4}\), \(\Visualizer{a8}{m=8}\),
+\(\Visualizer{a9}{m=9}\),
+\(\Visualizer{fixed-base-1-extra-m12}{m=12}\), and
+\(\Visualizer{fixed-base-1-extra-m13}{m=13}\) in this range, and in each case its positive intervals
 form the equally spaced base plus one short component.  This shape arose
 without being imposed.  Lower-\(N\) cross-checks already find the improvement
-with three allowed intervals for \(m=4\), four for \(m=8,9\), and five for
-\(m=12,13\).  Exact rational replay verifies all five reconstructed unions as
+with three allowed intervals for \(\Visualizer{a4}{m=4}\), four for
+\(\Visualizer{a8}{m=8}\) and \(\Visualizer{a9}{m=9}\), and five for
+\(\Visualizer{fixed-base-1-extra-m12}{m=12}\) and
+\(\Visualizer{fixed-base-1-extra-m13}{m=13}\).  Exact rational replay verifies all five reconstructed unions as
 constructions.  The artifacts are in
 \code{json_results/verification_20260716/higher_m_general/} and
 \code{higher_m_general_m11-13/}.  Optimality within these finite-interval
@@ -54,7 +69,7 @@ representative anchor because the other anchor choices are translates.  On
 the larger optimizing choice of \(q\), it found a positive gain precisely for
 \(m\equiv0,1\pmod4\), except for \(m=5\).  The observed gain was
 \[
- \frac1{192}\quad(m=4),\qquad
+ \Visualizer{fixed-base-1-extra-m4}{\frac1{192}\quad(m=4)},\qquad
  \frac{2}{m^2(m+2)}\quad(4\mid m,\ m\geq8),
 \]
 and
@@ -62,11 +77,18 @@ and
  \frac{1}{m^2(m+2)}
  \quad(m\equiv1\!\!\pmod4,\ m\geq9).
 \]
+Linked representatives of the latter two families are the
+\(\Visualizer{fixed-base-1-extra-m8}{m=8}\) and
+\(\Visualizer{fixed-base-1-extra-m9}{m=9}\) constructions.
 The numerical gains agreed with these fractions to within
 \(2\times10^{-11}\).  If \(4\mid m\), two adjacent choices of \(q\) maximize
 the base density.  The smaller choice \(q=m/4\) admitted no gain above
 \(10^{-9}\) in any tested case; the improvement occurs on the larger choice
-\(q=m/4+1\).  All 123 saved one-extra assignments, including both tied
+\(q=m/4+1\).  For example, these are respectively the
+\(\Visualizer{equally-spaced-m12-q3}{q=3}\) and
+\(\Visualizer{fixed-base-1-extra-m12}{q=4}\) branches at
+\(\Visualizer{fixed-base-1-extra-m12}{m=12}\).
+All 123 saved one-extra assignments, including both tied
 branches, also pass an independent replay of their bounds, integrality, and
 linear constraints.
 
@@ -76,7 +98,8 @@ The complete two-extra scan used the larger branch for every
 the remaining 79, each extra length was bounded by the independently computed
 one-extra optimum.  This is a valid redundant constraint: deleting the other
 extra leaves a feasible one-extra extension of the same base.  Both extras
-are positive from \(m=12\) onward in the two relevant congruence classes, and
+are positive from \(\Visualizer{fixed-base-2-extra-m12}{m=12}\) onward in the
+two relevant congruence classes, and
 the total gain is
 \[
  \frac{4}{m^2(m+2)}\quad(4\mid m,\ m\geq12),
@@ -84,7 +107,12 @@ the total gain is
  \frac{2}{m^2(m+2)}
  \quad(m\equiv1\!\!\pmod4,\ m\geq13).
 \]
-For \(m=4,8,9\), the second variable has zero length.  No smaller tied branch
+Linked representatives are the \(\Visualizer{fixed-base-2-extra-m12}{m=12}\)
+and \(\Visualizer{fixed-base-2-extra-m13}{m=13}\) constructions.
+For \(\Visualizer{fixed-base-1-extra-m4}{m=4}\),
+\(\Visualizer{fixed-base-1-extra-m8}{m=8}\), and
+\(\Visualizer{fixed-base-1-extra-m9}{m=9}\), the second variable has zero
+length.  No smaller tied branch
 improves.  All 123 canonical runs report optimal status and zero stored gap;
 their assignments pass independent constraint replay.  Strict no-presolve
 reruns replaced noisy canonical results at \(m=34,40,100\), while the original
@@ -95,25 +123,30 @@ optimality, illustrating why exact reconstruction and replay are necessary.
 The one- and two-extra artifacts, summaries, and replay reports are in
 \code{json_results/verification_20260716/tiny_intervals/} and
 \code{tiny_intervals_two_extra/}.  Exact fraction arithmetic verifies every
-positive two-extra output.  At \(m=12\), the two intervals have length
-\(1/1008\), giving density \(73/504\); at \(m=13\), both have length
-\(1/2535\), giving \(122/845\).
+positive two-extra output.  At
+\(\Visualizer{fixed-base-2-extra-m12}{m=12}\), the two intervals have length
+\(1/1008\), giving density
+\(\Visualizer{fixed-base-2-extra-m12}{73/504}\); at
+\(\Visualizer{fixed-base-2-extra-m13}{m=13}\), both have length
+\(1/2535\), giving \(\Visualizer{fixed-base-2-extra-m13}{122/845}\).
 
 \subsection{More extras and exact families}
 
-A third extra interval changes the first of these examples.  For \(m=12\),
+A third extra interval changes the first of these examples.  For
+\(\Visualizer{a12}{m=12}\),
 the specialized model finds lengths
 \[
  \frac1{1008},\qquad \frac5{12096},\qquad \frac1{1008},
 \]
 and hence the seven-interval density
 \[
- \frac17+\frac{29}{12096}=\frac{251}{1728}.
+ \Visualizer{a12}{\frac17+\frac{29}{12096}=\frac{251}{1728}}.
 \]
 All 196 lifted interactions of the rationalized union have been checked
-exactly.  At \(m=13\), a third variable remains zero.  At \(m=16,17\), three
-extras are positive, and subsequent experiments reveal a longer regular
-pattern.
+exactly.  At \(\Visualizer{fixed-base-2-extra-m13}{m=13}\), a third variable
+remains zero.  At \(\Visualizer{m16-three-extra-incumbent}{m=16}\) and
+\(\Visualizer{m17-three-extra-incumbent}{m=17}\), three extras are positive,
+and subsequent experiments reveal a longer regular pattern.
 
 To state that pattern, let \(B_m\) denote the larger optimizing equally
 spaced base and put \(b=a+1/m\), with representatives chosen on the real
@@ -137,6 +170,8 @@ is \(m\)-sum-free.  It has \((m-8)/2\) extra intervals and density
  =\mu(B_m)+\frac{m-8}{m^2(m+2)}.
  \label{eq:mod0-extra-family}
 \end{equation}
+A direct example of this family is the
+\(\Visualizer{mod0-doubled-tail-m16}{m=16}\) construction.
 
 If \(m\equiv1\pmod4\), set
 \[
@@ -159,6 +194,8 @@ with \((m-9)/2\) extras and density
  =\mu(B_m)+\frac{m-9}{2m^2(m+2)}.
  \label{eq:mod1-extra-family}
 \end{equation}
+A direct example of this family is the
+\(\Visualizer{mod1-doubled-tail-m13}{m=13}\) construction.
 The endpoint and lift verifiers checked more than \(2.28\) million images for
 these two finite families using exact rational arithmetic.  Their reports are
 archived in \code{tiny_intervals_mod0_doubled_tail_exact/} and
@@ -180,12 +217,18 @@ more extra variable than the number eventually used in the following cases:
 \toprule
 \(m\) & positive extras & exact constructed density & next tested count \\
 \midrule
-12 & 3 & \(251/1728\) & 5 variables, still 3 positive \\
-13 & 2 & \(122/845\)  & 5 variables, still 2 positive \\
-16 & 4 & \(9/64\)     & 5 variables, still 4 positive \\
-17 & 4 & \(769/5491\) & 6 variables, still 4 positive \\
-20 & 6 & \(303/2200\) & 7 variables, still 6 positive \\
-21 & 6 & \(464/3381\) & 7 variables, still 6 positive \\
+12 & 3 & \Visualizer{a12}{\(251/1728\)}
+   & 5 variables, still 3 positive \\
+13 & 2 & \Visualizer{mod1-doubled-tail-m13}{\(122/845\)}
+   & 5 variables, still 2 positive \\
+16 & 4 & \Visualizer{mod0-doubled-tail-m16}{\(9/64\)}
+   & 5 variables, still 4 positive \\
+17 & 4 & \Visualizer{mod1-doubled-tail-m17}{\(769/5491\)}
+   & 6 variables, still 4 positive \\
+20 & 6 & \Visualizer{mod0-doubled-tail-m20}{\(303/2200\)}
+   & 7 variables, still 6 positive \\
+21 & 6 & \Visualizer{mod1-doubled-tail-m21}{\(464/3381\)}
+   & 7 variables, still 6 positive \\
 \bottomrule
 \end{tabular}
 \end{center}
@@ -194,11 +237,159 @@ the exchangeable extra variables is a useful symmetry reduction: for example,
 the \(m=16\), five-variable model fell from 238840 branch-and-bound nodes to
 3873 without changing the optimum.  The saturation results support the exact
 families above, but remain finite numerical optimality statements inside the
-fixed-base model.  The case \(m=12\) is a genuine exception to the equal-length
-family: its middle extra has length \(5/12096\).
+fixed-base model.  The case \(\Visualizer{a12}{m=12}\) is a genuine exception
+to the equal-length family: its middle extra has length
+\(\Visualizer{a12}{5/12096}\).
 
-The remaining theoretical questions are to prove the two displayed families
-uniformly, determine whether they are locally optimal for the fixed base, and
-decide whether free endpoints or entirely different constructions give a
-larger aggregate improvement.  In particular, it remains open whether
-\(d_m(\T)\to1/8\).
+\subsection{Unrestricted seven-interval audit at
+\texorpdfstring{$m=12$}{m=12}}
+
+The fixed-base statement above does not establish optimality among all unions
+of seven intervals.  To test that distinction directly, let \(M_N(12)\) be the
+numerical optimum of the unrestricted standard model with at most \(N\)
+components.  The archived smaller models give the following rational
+reconstructions:
+\begin{center}
+\begin{tabular}{@{}c c c@{}}
+\toprule
+\(N\) & computed \(M_N(12)\) & source of the bound \\
+\midrule
+2 & \Visualizer{equally-spaced-m12-q2}{\(5/42\)}
+  & direct unrestricted run \\
+3 & \Visualizer{equally-spaced-m12-q3}{\(1/7\)}
+  & squeezed by the construction and the \(N=4\) run \\
+4 & \Visualizer{equally-spaced-m12-q4}{\(1/7\)}
+  & direct unrestricted run \\
+5 & \Visualizer{fixed-base-1-extra-m12}{\(145/1008\)}
+  & direct unrestricted run \\
+6 & \Visualizer{fixed-base-2-extra-m12}{\(73/504\)}
+  & direct unrestricted run \\
+\bottomrule
+\end{tabular}
+\end{center}
+Each direct run reports optimal status and zero floating-point MIP gap; these
+remain numerical bounds, not exact branch certificates.  The \(N=7\) audit
+added the corresponding bound to every subunion of sizes \(2,\ldots,6\), and
+used the exact construction \(\Visualizer{a12}{251/1728}\) as a total-length
+cutoff.  These are
+valid accelerations conditional on the smaller numerical bounds: every
+subunion of an \(m\)-sum-free set is again \(m\)-sum-free.
+
+The first monolithic strengthened search exhausted memory because its open
+branch-and-bound tree continued to grow.  The completed audit instead used the
+translated-missing-point formulation, chose positional index \(0\) to be a
+globally shortest interval, and split on the indices of a second- and then a
+third-shortest interval.  There are \(6\cdot5=30\) ordered prefixes.  Every
+length pattern occurs in at least one prefix; ties only make the cases overlap.
+The reflection convention \(\alpha_1\leq\alpha_6\) removes a further symmetry.
+All endpoints and lengths otherwise remain free.
+
+Each case used the same smaller-subunion bounds and the exact construction
+cutoff \(\Visualizer{a12}{\sum_i\alpha_i\geq251/1728}\).  All 30 cases closed:
+26 are infeasible at or above the cutoff, while the prefixes
+\((1,3),(1,5),(3,1),(5,1)\) are zero-gap optimal at
+\(\Visualizer{a12}{251/1728}\).
+The word ``infeasible'' here means that the ordering class contains no point
+at or above the cutoff, not that it contains no \(m\)-sum-free union.  The four
+optimal prefixes are overlapping symmetry and tie representations of the same
+length multiset,
+\[
+ \Visualizer{a12}{
+ 4\times\frac1{28},\qquad
+ 2\times\frac1{1008},\qquad
+ \frac5{12096}}.
+\]
+The final attempts processed \(42749286\) nodes in \(121154.13\) aggregate
+solver-seconds, and none ended at a time or node limit.  The 30 retained
+problem, solution, and log triples are in
+\code{json_results/long_runs/m12_N7_length_order_depth2/}.
+
+Consequently, conditional on the smaller-\(N\) numerical upper bounds, the
+all-endpoints-free model has the zero-gap numerical optimum
+\[
+ \Visualizer{a12}{M_7(12)=\frac{251}{1728}}.
+\]
+This is an optimum among unions of at most seven intervals, not merely among
+extensions of the fixed equally spaced base.  Because the smaller-subunion
+cuts come from rational reconstructions of floating-point solves, however,
+the upper bound is not yet an unconditional exact certificate for the literal
+model.  The exact rational construction and hence the lower bound
+\(\Visualizer{a12}{M_7(12)\geq251/1728}\) are independent of that
+qualification.
+
+\subsection{Why the exceptional short length occurs at
+\texorpdfstring{$m=12$}{m=12}}
+
+The \Visualizer{a12}{exact endpoint certificate} explains the fraction
+\(\Visualizer{a12}{5/12096}\).  Write
+\(\delta=1/28\), \(g=1/1008\), let \(B\) be the base interval starting at
+\(x=29/140\), let \(V\) be the full extra starting at \(v=139/840\), and let
+the short extra \(T\) start at \(y=7103/60480\) with length \(h\).  Two tight
+lifted endpoint inequalities in the certificate are
+\[
+ 2x-12(y+h)=-1,
+ \qquad
+ (v+g)+(x+\delta)-12y=-1.
+\]
+Subtracting them gives
+\[
+ 12h=x-(v+g)-\delta
+     =\frac1{24}-g-\delta
+     =\frac5{1008},
+ \qquad \Visualizer{a12}{h=\frac5{12096}}.
+\]
+Thus the short component is the residual of a half-cell gap after one base
+width and one full-extra width have been consumed, divided by the multiplier
+12.  It is pinned by active certificate equations, not merely recognized by
+fitting a fraction to solver output.
+
+There is also a structural explanation for why this length appears only in
+the observed optimum at \(\Visualizer{a12}{m=12}\).  Put \(m=4k\), and for
+the larger optimized
+base set
+\[
+ \delta=\frac1{2(m+2)},
+ \qquad g=\frac2{m^2(m+2)}.
+\]
+A natural hybrid branch (for example,
+\(\Visualizer{mod0-hybrid-m12}{m=12}\)) has \(k-1\) full extras of length
+\(g\) and one short
+bridge of length
+\[
+ h=\frac{m-2}{m^3(m+2)}
+   =\left(\frac12-\frac1m\right)g.
+\]
+Its gain over the base is
+\[
+ G_H=\frac{m^2-2m-4}{2m^3(m+2)}.
+\]
+The regular doubled-tail branch (for example,
+\(\Visualizer{mod0-doubled-tail-m16}{m=16}\)) instead has \(2(k-2)\) full
+extras and gain
+\[
+ G_D=\frac{m-8}{m^2(m+2)}.
+\]
+Their difference is
+\[
+ G_H-G_D
+ =\frac{-m^2+14m-4}{2m^3(m+2)}.
+\]
+It is positive at \(\Visualizer{mod0-hybrid-m12}{m=12}\), where it equals
+\(\Visualizer{mod0-hybrid-m12}{5/12096}\), but is already
+\(\Visualizer{mod0-hybrid-m16}{-1/4096}\) at
+\(\Visualizer{mod0-hybrid-m16}{m=16}\) and stays negative thereafter.  Exact
+fraction replay checks the hybrid for all 23 values
+\(m=12,16,\ldots,100\) (linked examples:
+\(\Visualizer{mod0-hybrid-m12}{m=12}\) and
+\(\Visualizer{mod0-hybrid-m16}{m=16}\)), covering 468257
+lifted images.  In particular, a short bridge remains feasible beyond
+\(\Visualizer{mod0-hybrid-m12}{m=12}\); it disappears from the optimal lists
+because the \Visualizer{mod0-doubled-tail-m16}{all-full regular tail} has
+become larger.  This explains the observed branch switch, but does
+not prove that these two branches exhaust all fixed-base or unrestricted
+constructions.
+
+The remaining theoretical questions are to prove the displayed families
+uniformly, establish exhaustive fixed-base upper bounds, and decide whether
+free endpoints or entirely different constructions give a larger aggregate
+improvement.  In particular, it remains open whether \(d_m(\T)\to1/8\).

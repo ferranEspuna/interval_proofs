@@ -10,6 +10,8 @@ Candela, Gonz\'alez-S\'anchez, and Grynkiewicz give a construction in
 chooses an interval \(J\) of integers and retains selected residue classes
 modulo \(m\).  It has density at least \((1-1/p)/8\), with small improvements
 depending on the parameters and on \(m\bmod4\).
+See the \Visualizer{candela-m7-p197}{\(m=7,p=197\) example} directly in the
+finite-group visualizer.
 
 The apparent geometry changes after multiplication by \(4mn\), which is
 invertible modulo \(p\).  Since
@@ -20,7 +22,8 @@ each progression of common difference \(m\) becomes a consecutive block in
 the reverse direction.  Consecutive selected residue classes are separated
 after dilation by \(4mn/p\sim1/m\).  The dilated set therefore consists of
 about \(m/4\) interval-like blocks, each of normalized length about \(1/(2m)\).
-This is exactly the large-\(m\) geometry of
+This is exactly the large-\(m\) geometry of the equally spaced circle family
+(\Visualizer{equally-spaced-m20-q6}{example \(m=20\)}) from
 Section~\ref{sec:equally-spaced-construction}, where
 \[
     q\sim\frac m4,
@@ -31,7 +34,10 @@ Section~\ref{sec:equally-spaced-construction}, where
 \]
 
 Thus the continuous and discrete constructions share the same structural
-template after dilation.  The circle optimization retains the rounding term
+template after dilation; compare the
+\Visualizer{candela-m7-p197}{finite \(m=7,p=197\) example} and the
+\Visualizer{equally-spaced-m20-q6}{circle \(m=20\) example}.  The circle
+optimization retains the rounding term
 explicitly and proves the slightly stronger fixed-\(m\) lower bound
 \[
     \frac{\lfloor(m+2)^2/8\rfloor}{m(m+2)}>\frac18.

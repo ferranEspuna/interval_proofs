@@ -131,10 +131,28 @@ The interactive visualizer at
 \href{https://ferranespuna.github.io/interval_proofs/}{ferranespuna.github.io/interval\_proofs}
 is a companion tool.  Its circle mode displays a finite union of intervals
 together with the pieces of \(A+A-mA\), and its discrete mode displays the
-Candela--Gonz\'alez-S\'anchez--Grynkiewicz construction.  Both modes accept
+Candela--Gonz\'alez-S\'anchez--Grynkiewicz construction
+(\Visualizer{candela-m7-p197}{\(m=7,p=197\) example}).  Both modes accept
 serialized state, so a MILP solution can be linked directly from a solver run.
-This is useful for discovering active endpoint constraints, but the picture is
-not itself a certificate.
+For a translated-missing-point solve, the exporter first shifts the intervals
+back to coordinates in which the missing point is zero.  This is useful for
+discovering active endpoint constraints, but the picture is not itself a
+certificate.
+
+Direct state links for every explicit construction quoted in this status,
+together with examples of each general family, are collected in the
+\href{https://github.com/ferranEspuna/interval_proofs/blob/main/VISUALIZER_LINKS.md}{checked construction-link catalog}.
+The script \code{construction_visualizer_links.py} generates the
+\Visualizer{equally-spaced-m20-q6}{equally spaced} and
+\Visualizer{two-interval-m20}{two-interval} families, the
+\Visualizer{mod0-doubled-tail-m16}{\(m\equiv0\pmod4\) doubled-tail} and
+\Visualizer{mod1-doubled-tail-m13}{\(m\equiv1\pmod4\) doubled-tail} families,
+the \Visualizer{mod0-hybrid-m12}{short-bridge hybrid}, and the
+\Visualizer{candela-m7-p197}{finite-group family} for a supplied admissible
+value of \(m\).  Each linked phrase opens a checked representative example.
+The script uses rational endpoints and checks every lifted interaction exactly
+before emitting a link.  Thus the catalog is reproducible rather than a
+hand-maintained list of decimal states.
 
 \subsection{Numerical and exact certification}
 

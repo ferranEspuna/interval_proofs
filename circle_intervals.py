@@ -526,7 +526,7 @@ def parse_sum_free_triple(value: str) -> tuple[int, int, int]:
     return i, j, ell
 
 
-def visualizer_number(value: float, *, digits: int = 6) -> float:
+def visualizer_number(value: float, *, digits: int = 12) -> float:
     rounded = round(float(value), digits)
     if math.isclose(rounded, 0.0, abs_tol=10 ** -digits):
         return 0.0
@@ -551,22 +551,46 @@ def solution_visualizer_state(
     *,
     N: int,
     m: float,
+    translated_missing_point: bool = False,
 ) -> dict[str, object]:
-    intervals: list[dict[str, object]] = []
+    coordinate_shift = 0.0
+    if translated_missing_point:
+        if "t" not in solution.values:
+            raise ValueError("translated solution is missing its t value")
+        if math.isclose(m, 2.0, abs_tol=1e-12):
+            raise ValueError(
+                "cannot normalize a translated missing point when m=2"
+            )
+        # Translating A by s translates A+A-mA by (2-m)s.  Thus
+        # s=t/(m-2) sends the fitted missing point t to zero and produces a
+        # genuine construction for the visualizer's standard coordinates.
+        coordinate_shift = float(solution["t"]) / (m - 2)
+
+    intervals_with_starts: list[tuple[float, dict[str, object]]] = []
     for index in range(N):
-        start = visualizer_number(float(solution[f"x_{index}"]) % 1.0)
+        raw_start = (float(solution[f"x_{index}"]) + coordinate_shift) % 1.0
+        start = visualizer_number(raw_start)
         width = visualizer_number(float(solution[f"alpha_{index}"]))
-        intervals.append(
-            {
-                "id": index + 1,
-                "start": start,
-                "width": width,
-                "color": VISUALIZER_BASE_COLORS[index % len(VISUALIZER_BASE_COLORS)],
-            }
+        intervals_with_starts.append(
+            (
+                raw_start,
+                {
+                    "id": index + 1,
+                    "start": start,
+                    "width": width,
+                    "color": VISUALIZER_BASE_COLORS[
+                        index % len(VISUALIZER_BASE_COLORS)
+                    ],
+                },
+            )
         )
+    intervals = [
+        interval
+        for _, interval in sorted(intervals_with_starts, key=lambda item: item[0])
+    ]
 
     total_length = visualizer_number(
-        sum(float(interval["width"]) for interval in intervals)
+        sum(float(solution[f"alpha_{index}"]) for index in range(N))
     )
     state: dict[str, object] = {
         "v": 1,
@@ -942,6 +966,7 @@ def main() -> None:
             solution,
             N=args.N,
             m=args.m,
+            translated_missing_point=args.translated_missing_point,
         )
         visualizer_url = visualizer_state_url(
             visualizer_state,

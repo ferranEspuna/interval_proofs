@@ -1,11 +1,11 @@
 {
-  "solution_count": 6,
+  "solution_count": 8,
   "all_success_optimal_zero_gap": true,
   "all_problem_paths_exist": true,
   "maxima": {
     "max_bound_violation": 0.0,
     "max_integrality_violation": 0.0,
-    "max_row_violation": 7.1662675793504604e-12,
+    "max_row_violation": 5.646636190848042e-07,
     "objective_error": 0.0
   },
   "results": [
@@ -58,6 +58,18 @@
       "objective_error": 0.0
     },
     {
+      "solution": "json_results/verification_20260716/higher_m_general_m11-13/m12_N6_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/higher_m_general_m11-13/m12_N6_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 5.646636190848042e-07,
+      "worst_row": "sum_free_left_1-1-1",
+      "objective_error": 0.0
+    },
+    {
       "solution": "json_results/verification_20260716/higher_m_general_m11-13/m13_N4_standard_gap0_solution.json",
       "problem": "json_results/verification_20260716/higher_m_general_m11-13/m13_N4_standard_gap0_problem.json",
       "success": true,
@@ -79,6 +91,18 @@
       "max_integrality_violation": 0.0,
       "max_row_violation": 2.6831870059140783e-12,
       "worst_row": "sum_free_right_4-4-3",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/higher_m_general_m11-13/m13_N6_standard_gap0_solution.json",
+      "problem": "json_results/verification_20260716/higher_m_general_m11-13/m13_N6_standard_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 1.2967404927621828e-13,
+      "worst_row": "sum_free_right_0-0-3",
       "objective_error": 0.0
     }
   ]

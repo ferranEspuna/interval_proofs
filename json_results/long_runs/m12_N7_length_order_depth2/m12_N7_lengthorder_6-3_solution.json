@@ -1,0 +1,78 @@
+{
+  "message": "The problem is infeasible. (HiGHS Status 8: model_status is Infeasible; primal_status is None)",
+  "objective_sense": "maximize",
+  "optimum": null,
+  "parameters": {
+    "N": 7,
+    "add_endpoint_length_cut": false,
+    "add_first_interval_shortest_cut": true,
+    "add_monotonicity_cuts": true,
+    "add_second_interval_at_most_last_cut": true,
+    "add_width_cuts": false,
+    "alpha_upper_bound": 0.07142857142857142,
+    "alpha_upper_bounds": {
+      "alpha_0": 0.07142857142857142,
+      "alpha_1": 0.07142857142857142,
+      "alpha_2": 0.07142857142857142,
+      "alpha_3": 0.07142857142857142,
+      "alpha_4": 0.07142857142857142,
+      "alpha_5": 0.07142857142857142,
+      "alpha_6": 0.07142857142857142
+    },
+    "epsilon": 0.0,
+    "exclude_sum_free_exact_triples": [],
+    "exclude_sum_free_head_size": 0,
+    "exclude_sum_free_interval_sets": [],
+    "exclude_sum_free_tail_size": 0,
+    "excluded_sum_free_head_indices": [],
+    "excluded_sum_free_tail_indices": [],
+    "excluded_sum_free_triple_count": 0,
+    "integer_lift_lower_bound": -14,
+    "integer_lift_upper_bound": 2,
+    "length_order_partition_is_exhaustive_at_depth": 2,
+    "length_order_prefix": [
+      6,
+      3
+    ],
+    "m": 12,
+    "output_dir": "json_results/long_runs/m12_N7_length_order_depth2",
+    "problem_json_path": "json_results/long_runs/m12_N7_length_order_depth2/m12_N7_lengthorder_6-3_problem.json",
+    "solution_json_path": "json_results/long_runs/m12_N7_length_order_depth2/m12_N7_lengthorder_6-3_solution.json",
+    "solver_options": {
+      "mip_abs_gap": 0.0,
+      "mip_rel_gap": 0.0,
+      "threads": 1,
+      "time_limit": 7200.0
+    },
+    "subset_alpha_bounds": [
+      {
+        "bound": 0.11904761904761904,
+        "subset_size": 2
+      },
+      {
+        "bound": 0.14285714285714285,
+        "subset_size": 3
+      },
+      {
+        "bound": 0.14285714285714285,
+        "subset_size": 4
+      },
+      {
+        "bound": 0.14384920634920634,
+        "subset_size": 5
+      },
+      {
+        "bound": 0.14484126984126985,
+        "subset_size": 6
+      }
+    ],
+    "total_length_lower_bound": 0.14525462962962962,
+    "use_translated_missing_point": true
+  },
+  "problem_name": "12-sum-free set problem for 7 intervals",
+  "solver_details": {},
+  "status": 2,
+  "status_name": "infeasible",
+  "success": false,
+  "values": {}
+}

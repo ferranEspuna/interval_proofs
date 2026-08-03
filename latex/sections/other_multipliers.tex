@@ -5,26 +5,27 @@ The experiments for \(m\geq4\) show that a single interval is generally not
 extremal.  The explicit certificates in Section~\ref{sec:explicit-m4-m5}
 establish
 \[
-    d_4(\T)\geq\frac{11}{64}>\frac16,
+    \Visualizer{a4}{d_4(\T)\geq\frac{11}{64}>\frac16},
     \qquad
-    d_5(\T)\geq\frac6{35}>\frac17,
+    \Visualizer{a5}{d_5(\T)\geq\frac6{35}>\frac17},
 \]
 and the rational reconstructions produced by the fresh runs give the further
 exact bounds
 \[
-    d_8(\T)\geq\frac{49}{320}>\frac3{20},
+    \Visualizer{a8}{d_8(\T)\geq\frac{49}{320}>\frac3{20}},
     \qquad
-    d_9(\T)\geq\frac{136}{891}>\frac5{33},
+    \Visualizer{a9}{d_9(\T)\geq\frac{136}{891}>\frac5{33}},
 \]
 and
 \[
-    d_{12}(\T)\geq\frac{251}{1728}>\frac17,
+    \Visualizer{a12}{d_{12}(\T)\geq\frac{251}{1728}>\frac17},
     \qquad
-    d_{13}(\T)\geq\frac{122}{845}>\frac{28}{195}.
+    \Visualizer{a13}{d_{13}(\T)\geq\frac{122}{845}>\frac{28}{195}}.
 \]
-The \(m=12\) bound comes from seven intervals: the equally spaced base and
-three short additions.  It supersedes the earlier six-interval value
-\(73/504\).  Exact arithmetic also verifies the systematic bounds
+The \Visualizer{a12}{\(m=12\) bound} comes from seven intervals: the equally
+spaced base and three short additions.  It supersedes the
+\Visualizer{m12-earlier-six-interval}{earlier six-interval value \(73/504\)}.
+Exact arithmetic also verifies the systematic bounds
 \[
  d_m(\T)\geq
  \frac{m^3+4m^2+8m-64}{8m^2(m+2)}
@@ -37,22 +38,27 @@ and
  \quad(m\equiv1\!\!\pmod4,\ 13\leq m\leq97).
 \]
 These are finite, exactly checked families rather than claims about all
-members of the two congruence classes.  Their endpoint formulas and the more
-than \(2.28\) million exact lifted-image checks are described in
+members of the two congruence classes; see the
+\Visualizer{mod0-doubled-tail-m16}{\(m=16\) example} and
+\Visualizer{mod1-doubled-tail-m13}{\(m=13\) example}.  Their endpoint formulas
+and the more than \(2.28\) million exact lifted-image checks are described in
 Section~\ref{sec:extra-intervals}.
 
 For \(m=5\), fresh standard-model runs with at most five and at most six
-intervals both returned the same density \(6/35\), with zero reported MIP gap.
+intervals both returned the same density \Visualizer{a5}{\(6/35\)}, with zero
+reported MIP gap.
 The six-interval run used four positive intervals, each of length \(3/70\),
-and two zero-length intervals.  After rational reconstruction, its four
-components form exactly the twofold preimage, under \(x\mapsto2x\), of the
-reconstructed two-component solution from the five-interval run.  This is the
+and two zero-length intervals.  After rational reconstruction, its
+\Visualizer{a5-twofold-preimage}{four components form exactly the twofold
+preimage}, under \(x\mapsto2x\), of the reconstructed
+\Visualizer{a5}{two-component solution} from the five-interval run.  This is the
 previously observed four-component splitting, and exact arithmetic verifies
 both reconstructed forms as constructions.  The equality of the two finite
 model optima remains numerical; it is not an upper-bound proof for arbitrary
 measurable sets.
 
-For two intervals, the observed formula is
+For two intervals, the observed formula
+(\Visualizer{two-interval-m20}{example \(m=20\)}) is
 \begin{equation}
     M_2(m)=\frac{2(m-2)}{m(m+2)},\qquad m\geq4,
     \label{eq:two-interval-conjecture}
@@ -62,12 +68,13 @@ where the restriction \(m\geq4\) is essential because the proved value for
 \(4\leq m\leq100\) returned values agreeing with
 Formula~\eqref{eq:two-interval-conjecture}; the largest numerical discrepancy
 was less than \(7\times10^{-11}\).  This largest discrepancy came from the
-saved \(m=87\) point, whose constraint replay had a residual of about
+saved \Visualizer{two-interval-m87}{\(m=87\) point}, whose constraint replay had a residual of about
 \(6.1\times10^{-9}\), within the solver's default feasibility tolerance.  A
 rerun with \(10^{-10}\) feasibility tolerances reduced the largest residual to
 less than \(3\times10^{-14}\) and agreed with the formula to less than
 \(4\times10^{-16}\).  The formula is the \(q=2\) case of the equally spaced
-construction in Section~\ref{sec:equally-spaced-construction}.  No general
+construction (\Visualizer{two-interval-m20}{example \(m=20\)}) in
+Section~\ref{sec:equally-spaced-construction}.  No general
 two-interval upper bound proving~\eqref{eq:two-interval-conjecture} is currently
 included.  The full problems and solutions are archived in
 \code{json_results/verification_20260716/two_interval_scan/}, with the strict

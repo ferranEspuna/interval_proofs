@@ -43,19 +43,22 @@ tested component count with a strict gain: respectively `1/1008` and
 `1/2535`.  The unrestricted optimizers reproduce the one-extra construction
 without fixing the base in advance.
 
-## Direct N=6 handoff
+## Completed direct N=6 runs
 
-The immediate unrestricted `N=6` checks for `m=12,13` were launched with the
-same standard zero-relative-gap command and no subset bound.  They were still
-branching when this artifact set was handed back to the parent campaign, so
-they are not counted as completed here and no claim of a direct general-model
-upper bound is made yet.  The exact commands are retained in `run_n6.sh` and
-`run_m13_n6_only.sh`; completed results should be added here only after their
-solution JSONs exist and replay successfully.
+The immediate unrestricted `N=6` checks for `m=12,13` subsequently completed
+with the same standard zero-relative-gap command and no subset bound.  Both
+report `success=true`, `status_name="optimal"`, and stored `mip_gap=0`:
 
-Independently of those pending upper-bound computations, the fixed-base
-specialized campaign supplies exact six-interval lower bounds `73/504` for
-`m=12` and `122/845` for `m=13`.
+| `m` | rational reconstruction | solver objective | nodes | wall time |
+|---:|:---|---:|---:|:---|
+| 12 | `73/504` | `0.14484130121147112` | 1,892,013 | 1:20:00 |
+| 13 | `122/845` | `0.14437869822486266` | 1,743,480 | 1:01:49 |
+
+The small differences from the exact constructions are solver-feasibility
+noise, not improved exact lower bounds.  In particular, the generic replay
+now covering all eight solutions sees a maximum row residual of
+`5.65e-7`.  The exact fixed-base constructions independently certify the
+displayed rational lower bounds.
 
 ## Exact construction certificates
 
@@ -80,7 +83,7 @@ All checks pass.  In particular, the `m=12,13`, `N=5` lower bounds check all
 
 ## Replay validation
 
-The six completed unrestricted assignments were replayed against their stored
-problems with `../replay_artifact_directory.py`.  `replay_report.json` records
-zero bound, integrality, and objective error and maximum row violation
-`7.17e-12`.  Solution artifact links are repository-relative.
+All eight completed unrestricted assignments were replayed against their
+stored problems with `../replay_artifact_directory.py`.  `replay_report.json`
+records zero bound, integrality, and objective error and maximum row violation
+`5.65e-7`.  Solution artifact links are repository-relative.

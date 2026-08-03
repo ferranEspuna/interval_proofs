@@ -1,0 +1,54 @@
+{
+  "m": 12,
+  "interval_count": 7,
+  "interaction_count": 196,
+  "saved_integer_lifts_verified": 196,
+  "exact_measure": "251/1728",
+  "zero_endpoint_slacks": 14,
+  "minimum_positive_endpoint_slack": "1/144",
+  "exact_translated_missing_point": "23/28",
+  "floating_translated_missing_point_error": 1.1102230246251565e-16,
+  "maximum_saved_lift_integrality_error": 0.0,
+  "maximum_floating_start_error": 1.1102230246251565e-16,
+  "maximum_floating_length_error": 3.191891195797325e-16,
+  "floating_objective_error": 2.220446049250313e-16,
+  "intervals": [
+    {
+      "start": "169/5040",
+      "end": "29/840",
+      "length": "1/1008"
+    },
+    {
+      "start": "17/420",
+      "end": "8/105",
+      "length": "1/28"
+    },
+    {
+      "start": "23/280",
+      "end": "4993/60480",
+      "length": "5/12096"
+    },
+    {
+      "start": "589/5040",
+      "end": "33/280",
+      "length": "1/1008"
+    },
+    {
+      "start": "13/105",
+      "end": "67/420",
+      "length": "1/28"
+    },
+    {
+      "start": "29/140",
+      "end": "17/70",
+      "length": "1/28"
+    },
+    {
+      "start": "67/70",
+      "end": "139/140",
+      "length": "1/28"
+    }
+  ],
+  "solver_fixture": "json_results/long_runs/m12_N7_length_order_depth2/m12_N7_lengthorder_1-5_solution.json",
+  "claim": "exact construction certificate and final solver-incumbent replay; the exhaustive upper bound remains conditional on numerical smaller-subunion bounds"
+}

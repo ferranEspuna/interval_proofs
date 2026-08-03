@@ -50,34 +50,45 @@ Topic & Status & Current conclusion \\
 forces \(A+A-3A=\T\); see Section~\ref{sec:closed-two-interval-proof}. \\
 \(m=3\), two open intervals at measure \(1/5\) & \statusproved & The only
 non-covering endpoint configuration, up to the stated symmetries, is
-\((0,1/10)\cup(1/2,3/5)\); see Sections~\ref{sec:open-two-interval-r5}
+\Visualizer{m3-open-endpoint-configuration}{\((0,1/10)\cup(1/2,3/5)\)};
+see Sections~\ref{sec:open-two-interval-r5}
 and~\ref{sec:open-two-interval-r6}. \\
 \(m=3\), \(3\leq N\leq 8\) intervals & \statuscomputed & Reported MILP runs
-give optimum \(1/5\).  Reproducible solver artifacts for all these runs still
-need to be archived. \\
+give optimum \(1/5\), attained by the
+\Visualizer{equally-spaced-m3-q1}{one-interval equally spaced construction}.
+Reproducible solver artifacts for all these runs still need to be archived. \\
 Omitted interval interactions & \statuscomputed & The maximal-family lists are
 exhaustive for \(N=2,3\).  For \(N=4\) the archived list is capped, and for
 \(N=5\) all singleton exclusions were tested (32 were removable), but the
 bounded family search found no maximal family before timing out. \\
-\(m=4\) & \statusproved & Three explicit open intervals give density
+\(m=4\) & \statusproved & \Visualizer{a4}{Three explicit open intervals} give density
 \(11/64>1/6\); see Section~\ref{sec:explicit-m4-m5}. \\
-\(m=5\) & \statusproved & Two explicit open intervals give density
+\(m=5\) & \statusproved & \Visualizer{a5}{Two explicit open intervals} give density
 \(6/35>1/7\); see Section~\ref{sec:explicit-m4-m5}. \\
 \(m=8,9\) improved lower bounds & \statusproved & Exact rational certificates
-give densities \(49/320>3/20\) and \(136/891>5/33\), respectively; see
+give densities \Visualizer{a8}{\(49/320>3/20\)} and
+\Visualizer{a9}{\(136/891>5/33\)}, respectively; see
 Section~\ref{sec:explicit-constructions}. \\
 \(m=12,13\) improved lower bounds & \statusproved & Exact certificates give
-densities \(251/1728>1/7\) using seven intervals and
-\(122/845>28/195\) using six, respectively; see
+densities \Visualizer{a12}{\(251/1728>1/7\) using seven intervals} and
+\Visualizer{a13}{\(122/845>28/195\) using six}, respectively; see
 Section~\ref{sec:explicit-constructions}. \\
+\(m=12\), at most seven intervals & \statuscomputed & An exhaustive 30-case
+all-endpoints-free audit closed with 26 cases infeasible above the cutoff and
+four zero-gap optima at \Visualizer{a12}{\(251/1728\)}.  The upper bound is conditional on the
+numerical smaller-subunion bounds; an unconditional exact certificate remains
+open.  See Section~\ref{sec:extra-intervals}. \\
 General \(m\) lower bound & \statusproved & Equally spaced intervals give
 \(\lfloor(m+2)^2/8\rfloor/(m(m+2))>1/8\); see
-Section~\ref{sec:equally-spaced-construction}. \\
+Section~\ref{sec:equally-spaced-construction}
+(\Visualizer{equally-spaced-m20-q6}{example \(m=20\)}). \\
 Tiny added intervals & \statuscomputed & Complete one- and two-extra local
 scans through \(m=100\), followed by saturation tests, expose exact
-doubled-tail families with linearly many components and aggregate
-\(O(m^{-2})\) gain.  More than \(2.28\) million lifted images were checked
-exactly; \(m=12\) is exceptional.  See Section~\ref{sec:extra-intervals}. \\
+doubled-tail families (\Visualizer{mod0-doubled-tail-m16}{\(m=16\) example},
+\Visualizer{mod1-doubled-tail-m13}{\(m=13\) example}) with linearly many
+components and aggregate \(O(m^{-2})\) gain.  More than \(2.28\) million
+lifted images were checked exactly; the \Visualizer{a12}{\(m=12\)
+construction} is exceptional.  See Section~\ref{sec:extra-intervals}. \\
 General \(m\) upper bound & literature & For each fixed \(m\geq3\),
 \(d_m(\T)\leq1/3.1955\), via the finite-group theorem and transference
 \cite[Theorem~1.5]{CandelaGonzalezSanchezGrynkiewicz2021}. \\

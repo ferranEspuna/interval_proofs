@@ -17,8 +17,8 @@ in their summaries.
 | `removable_interactions/` | translated-model redundant-interaction search | exhaustive for `N=2,3`; capped/timeout-bounded for `N=4,5` |
 | `removable_interactions_subset_bound/` | historical redundant-interaction variant with the `(N-1)`-subset bound | exhaustive for `N=2,3`; historically capped/timeout-bounded for `N=4,5` |
 | `higher_m_general/` | unrestricted `N=5`, `m=4,...,10`, plus `m=5,N=6` | complete, all zero reported gap |
-| `higher_m_general_m11-13/` | unrestricted lower-`N` checkpoints and `N=5` for `m=11,12,13` | six runs complete and replayed; direct unrestricted `m=12,13,N=6` jobs handed off while still running |
-| `higher_m_general_m11-13_subset_bound/` | `m=12,13,N=6` with saved five-subunion bounds and known-construction cutoffs | runs in progress; no result is claimed yet |
+| `higher_m_general_m11-13/` | unrestricted lower-`N` checkpoints through `N=6` for `m=11,12,13` | eight runs complete and replayed; direct `m=12,13,N=6` values reconstruct to `73/504` and `122/845` |
+| `higher_m_general_m11-13_subset_bound/` | `m=12,13,N=6` with saved five-subunion bounds and known-construction cutoffs | two runs complete, zero reported gap, and replayed; numerical values reconstruct to `73/504` and `122/845` |
 | `two_interval_scan/` | unrestricted `N=2`, `m=4,...,100` | complete, all zero reported gap |
 | `two_interval_scan_strict/` | strict-tolerance replay of the marginal `m=87,N=2` point | complete, exact rational reconstruction feasible |
 | `tiny_intervals/` | equally spaced base plus one variable interval, `m=3,...,100` and both tied branches | complete, 123 zero-gap runs |

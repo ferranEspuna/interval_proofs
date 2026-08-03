@@ -1,0 +1,37 @@
+{
+  "solution_count": 2,
+  "all_success_optimal_zero_gap": true,
+  "all_problem_paths_exist": true,
+  "maxima": {
+    "max_bound_violation": 0.0,
+    "max_integrality_violation": 0.0,
+    "max_row_violation": 9.532277107648923e-07,
+    "objective_error": 0.0
+  },
+  "results": [
+    {
+      "solution": "json_results/verification_20260716/higher_m_general_m11-13_subset_bound/m12_N6_subsetN5le145over1008_totallen73over504_gap0_solution.json",
+      "problem": "json_results/verification_20260716/higher_m_general_m11-13_subset_bound/m12_N6_subsetN5le145over1008_totallen73over504_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.224090946145097e-07,
+      "worst_row": "sum_free_left_0-5-1",
+      "objective_error": 0.0
+    },
+    {
+      "solution": "json_results/verification_20260716/higher_m_general_m11-13_subset_bound/m13_N6_subsetN5le73over507_totallen122over845_gap0_solution.json",
+      "problem": "json_results/verification_20260716/higher_m_general_m11-13_subset_bound/m13_N6_subsetN5le73over507_totallen122over845_gap0_problem.json",
+      "success": true,
+      "status_name": "optimal",
+      "mip_gap": 0.0,
+      "max_bound_violation": 0.0,
+      "max_integrality_violation": 0.0,
+      "max_row_violation": 9.532277107648923e-07,
+      "worst_row": "sum_free_right_4-5-1",
+      "objective_error": 0.0
+    }
+  ]
+}
