@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { intervalSegments, linearFormSegments, measure, normalizeTurn, wrappedSegments } from './linearFormGeometry';
 import type { Interval, Segment } from './linearFormGeometry';
 
@@ -32,13 +32,19 @@ function point(radius, turn) {
   return { x: radius * Math.sin(2 * Math.PI * turn), y: -radius * Math.cos(2 * Math.PI * turn) };
 }
 
-function SegmentArc({ segment, radius, color }: { segment: Segment; radius: number; color: string }) {
+function SegmentArc({ segment, radius, color, ...interaction }: {
+  segment: Segment;
+  radius: number;
+  color: string;
+  className?: string;
+  onPointerDown?: React.PointerEventHandler<SVGElement>;
+}) {
   const [start, end] = segment;
-  if (end - start >= 1 - 1e-12) return <circle r={radius} fill="none" stroke={color} strokeWidth={14} />;
+  if (end - start >= 1 - 1e-12) return <circle r={radius} fill="none" stroke={color} strokeWidth={14} {...interaction} />;
   const a = point(radius, start);
-  if (end - start <= 1e-12) return <circle cx={a.x} cy={a.y} r={4} fill={color} />;
+  if (end - start <= 1e-12) return <circle cx={a.x} cy={a.y} r={4} fill={color} {...interaction} />;
   const b = point(radius, end);
-  return <path d={`M ${a.x} ${a.y} A ${radius} ${radius} 0 ${end - start > 0.5 ? 1 : 0} 1 ${b.x} ${b.y}`} fill="none" stroke={color} strokeWidth={14} />;
+  return <path d={`M ${a.x} ${a.y} A ${radius} ${radius} 0 ${end - start > 0.5 ? 1 : 0} 1 ${b.x} ${b.y}`} fill="none" stroke={color} strokeWidth={14} {...interaction} />;
 }
 
 export default function LinearFormVisualizer({ initialState, buildShareUrl, copyText, onSwitchToIntervals }) {
@@ -53,6 +59,9 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
   const [coefficientText, setCoefficientText] = useState(setup.coefficients.join(', '));
   const [inputJson, setInputJson] = useState('');
   const [status, setStatus] = useState('');
+  const svgRef = useRef<SVGSVGElement>(null);
+  const dragRef = useRef<{ id: number; pointerId: number; offset: number } | null>(null);
+  const [draggingId, setDraggingId] = useState<number | null>(null);
   const aSegments = useMemo(() => intervalSegments(setup.intervals), [setup.intervals]);
   const image = useMemo(() => {
     try { return { segments: linearFormSegments(setup.intervals, setup.coefficients), error: '' }; }
@@ -74,6 +83,53 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
     )) }));
   }
 
+  function pointerTurn(event: React.PointerEvent<SVGElement>) {
+    const svg = svgRef.current;
+    const transform = svg?.getScreenCTM();
+    if (!svg || !transform) return null;
+    const cursor = svg.createSVGPoint();
+    cursor.x = event.clientX;
+    cursor.y = event.clientY;
+    const local = cursor.matrixTransform(transform.inverse());
+    return normalizeTurn(Math.atan2(local.x, -local.y) / (2 * Math.PI));
+  }
+
+  function startDrag(event: React.PointerEvent<SVGElement>, interval: Interval) {
+    if (event.button !== 0 || dragRef.current) return;
+    const turn = pointerTurn(event);
+    if (turn === null) return;
+    event.preventDefault();
+    // Capture on the stable SVG, because crossing zero can split an arc into
+    // two paths or remove the path on which the drag originally started.
+    svgRef.current!.setPointerCapture(event.pointerId);
+    dragRef.current = { id: interval.id, pointerId: event.pointerId, offset: turn - interval.start };
+    setDraggingId(interval.id);
+  }
+
+  function moveDrag(event: React.PointerEvent<SVGSVGElement>) {
+    const drag = dragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    if (event.pointerType === 'mouse' && (event.buttons & 1) === 0) {
+      finishDrag(event);
+      return;
+    }
+    const turn = pointerTurn(event);
+    if (turn === null) return;
+    const start = normalizeTurn(turn - drag.offset);
+    setSetup(previous => ({ ...previous, intervals: previous.intervals.map(interval => (
+      interval.id === drag.id ? { ...interval, start } : interval
+    )) }));
+  }
+
+  function finishDrag(event: React.PointerEvent<SVGSVGElement>) {
+    if (dragRef.current?.pointerId !== event.pointerId) return;
+    dragRef.current = null;
+    setDraggingId(null);
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) {
+      event.currentTarget.releasePointerCapture(event.pointerId);
+    }
+  }
+
   async function copy(value, description) {
     try { await copyText(value); setStatus(`${description} copied.`); }
     catch { setStatus('Copy failed. Select and copy the state JSON below.'); }
@@ -90,10 +146,13 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
       {loadError && <p role="alert" className="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">{loadError}</p>}
       <div className="grid lg:grid-cols-2 gap-6">
         <section className="bg-white border border-slate-200 rounded-xl p-5">
-          <svg viewBox="-210 -210 420 420" role="img" aria-label="Circle showing A on the inner ring, its linear image on the outer ring, and the chosen missing point" className="w-full max-w-lg mx-auto">
+          <svg ref={svgRef} viewBox="-210 -210 420 420" role="img" aria-label="Circle showing A on the inner ring, its linear image on the outer ring, and the chosen missing point" className={`w-full max-w-lg mx-auto touch-none select-none ${draggingId === null ? '' : 'cursor-grabbing'}`}
+            onPointerMove={moveDrag} onPointerUp={finishDrag} onPointerCancel={finishDrag} onLostPointerCapture={finishDrag}>
             {[100, 160].map(radius => <circle key={radius} r={radius} stroke="#e2e8f0" strokeWidth={14} fill="none" />)}
             {setup.intervals.flatMap(interval => wrappedSegments(interval.start, interval.start + interval.width).map((segment, index) => (
-              <SegmentArc key={`${interval.id}-${index}`} segment={segment} radius={100} color={interval.color} />
+              <SegmentArc key={`${interval.id}-${index}`} segment={segment} radius={100} color={interval.color}
+                className={draggingId === interval.id ? 'cursor-grabbing' : 'cursor-grab'}
+                onPointerDown={event => startDrag(event, interval)} />
             )))}
             {image.segments.map((segment, index) => <SegmentArc key={index} segment={segment} radius={160} color="#7c3aed" />)}
             {[0, 0.25, 0.5, 0.75].map(turn => {
@@ -106,6 +165,7 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
             <text y={24} textAnchor="middle" fontSize={27} fontWeight="bold">{density.toPrecision(9)}</text>
           </svg>
           <div className="flex flex-wrap gap-4 justify-center text-sm"><span>Inner ring: A</span><span className="text-violet-700">Outer ring: L(A)</span><span>Black mark: missing point</span></div>
+          <p className="text-sm text-slate-600 text-center mt-3">Drag a colored interval on the inner ring to move it. Change its width in the table.</p>
           {image.error ? <p className="text-amber-800 mt-4" role="alert">{image.error}</p>
             : <p className="text-sm text-slate-600 text-center mt-4">Measure of L(A): {measure(image.segments).toPrecision(9)}</p>}
           <p className="text-xs text-slate-500 mt-4">Closed endpoints and zero-width intervals are shown. With ε = 0, a solver solution may touch the marked point; the numerical supremum need not itself be a strict avoidance construction.</p>
@@ -125,7 +185,7 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
             <p className="text-xs text-slate-500 mt-2">Each coefficient acts on one independently chosen point of A. For example: 1, 1, −3.</p>
           </form>
           <label className="block text-sm font-semibold">Missing point (mod 1)
-            <input className={`${textClass} mt-2`} type="number" step="any" value={setup.missingPoint} onChange={event => {
+            <input className={`${textClass} mt-2`} type="number" min={0} max={1} step="0.001" value={setup.missingPoint} onChange={event => {
               const value = Number(event.target.value);
               if (Number.isFinite(value)) setSetup({ ...setup, missingPoint: normalizeTurn(value) });
             }} /></label>
@@ -133,8 +193,8 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
             <thead><tr className="text-left"><th className="p-1">Interval</th><th className="p-1">Start</th><th className="p-1">Width</th><th /></tr></thead>
             <tbody>{setup.intervals.map((interval, index) => <tr key={interval.id}>
               <td className="p-1 font-semibold" style={{ color: interval.color }}>I{index}</td>
-              <td className="p-1"><input aria-label={`Start of interval ${index}`} className={textClass} type="number" step="any" value={interval.start} onChange={event => updateInterval(index, 'start', event.target.value)} /></td>
-              <td className="p-1"><input aria-label={`Width of interval ${index}`} className={textClass} type="number" min={0} max={1} step="any" value={interval.width} onChange={event => updateInterval(index, 'width', event.target.value)} /></td>
+              <td className="p-1"><input aria-label={`Start of interval ${index}`} className={textClass} type="number" min={0} max={1} step="0.001" value={interval.start} onChange={event => updateInterval(index, 'start', event.target.value)} /></td>
+              <td className="p-1"><input aria-label={`Width of interval ${index}`} className={textClass} type="number" min={0} max={1} step="0.001" value={interval.width} onChange={event => updateInterval(index, 'width', event.target.value)} /></td>
               <td className="p-1"><button aria-label={`Delete interval ${index}`} className="text-red-600 px-2" onClick={() => setSetup({ ...setup, intervals: setup.intervals.filter((_, i) => i !== index) })}>×</button></td>
             </tr>)}</tbody></table></div>
             <button className={`${buttonClass} mt-3`} onClick={() => setSetup({ ...setup, intervals: [...setup.intervals, { id: Math.max(0, ...setup.intervals.map(interval => interval.id)) + 1, start: 0, width: 0.05, color: COLORS[setup.intervals.length % COLORS.length] }] })}>Add interval</button>
