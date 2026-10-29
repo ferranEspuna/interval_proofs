@@ -1,6 +1,10 @@
 import React, { useMemo, useRef, useState } from 'react';
 import { intervalSegments, linearFormSegments, measure, normalizeTurn, wrappedSegments } from './linearFormGeometry';
 import type { Interval, Segment } from './linearFormGeometry';
+import {
+  EPSILON, appendInterval, changeIntervalWidth, moveIntervalStart,
+  packIntervalsClockwise, scaleIntervalsToTotal,
+} from './intervalEditing';
 
 const COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4'];
 const DEFAULT_STATE = {
@@ -14,7 +18,7 @@ export function normalizeLinearFormState(raw) {
     throw new Error('Provide a nonempty list of integer coefficients.');
   }
   if (!Array.isArray(raw.intervals)) throw new Error('State must include an intervals array.');
-  const intervals: Interval[] = raw.intervals.map((item, index) => {
+  let intervals: Interval[] = raw.intervals.map((item, index) => {
     if (!Number.isFinite(item?.start) || !Number.isFinite(item?.width) || item.width < 0 || item.width > 1) {
       throw new Error('Interval starts and widths must be finite; widths must lie between 0 and 1.');
     }
@@ -25,6 +29,9 @@ export function normalizeLinearFormState(raw) {
   });
   const missingPoint = raw.missingPoint ?? 0;
   if (!Number.isFinite(missingPoint)) throw new Error('The missing point must be finite.');
+  const total = intervals.reduce((sum, interval) => sum + interval.width, 0);
+  if (total > 1 + EPSILON) intervals = scaleIntervalsToTotal(intervals, 1);
+  intervals = packIntervalsClockwise(intervals, intervals[0]?.id);
   return { coefficients: [...raw.coefficients], intervals, missingPoint: normalizeTurn(missingPoint) };
 }
 
@@ -78,9 +85,16 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
   function updateInterval(index, field, value) {
     const numeric = Number(value);
     if (!Number.isFinite(numeric)) return;
-    setSetup(previous => ({ ...previous, intervals: previous.intervals.map((interval, i) => (
-      i === index ? { ...interval, [field]: field === 'start' ? normalizeTurn(numeric) : Math.min(1, Math.max(0, numeric)) } : interval
-    )) }));
+    setSetup(previous => {
+      const interval = previous.intervals[index];
+      if (!interval) return previous;
+      return {
+        ...previous,
+        intervals: field === 'start'
+          ? moveIntervalStart(previous.intervals, interval.id, numeric)
+          : changeIntervalWidth(previous.intervals, interval.id, numeric),
+      };
+    });
   }
 
   function pointerTurn(event: React.PointerEvent<SVGElement>) {
@@ -115,10 +129,10 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
     }
     const turn = pointerTurn(event);
     if (turn === null) return;
-    const start = normalizeTurn(turn - drag.offset);
-    setSetup(previous => ({ ...previous, intervals: previous.intervals.map(interval => (
-      interval.id === drag.id ? { ...interval, start } : interval
-    )) }));
+    setSetup(previous => ({
+      ...previous,
+      intervals: moveIntervalStart(previous.intervals, drag.id, turn - drag.offset),
+    }));
   }
 
   function finishDrag(event: React.PointerEvent<SVGSVGElement>) {
@@ -197,9 +211,16 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
               <td className="p-1"><input aria-label={`Width of interval ${index}`} className={textClass} type="number" min={0} max={1} step="0.001" value={interval.width} onChange={event => updateInterval(index, 'width', event.target.value)} /></td>
               <td className="p-1"><button aria-label={`Delete interval ${index}`} className="text-red-600 px-2" onClick={() => setSetup({ ...setup, intervals: setup.intervals.filter((_, i) => i !== index) })}>×</button></td>
             </tr>)}</tbody></table></div>
-            <button className={`${buttonClass} mt-3`} onClick={() => setSetup({ ...setup, intervals: [...setup.intervals, { id: Math.max(0, ...setup.intervals.map(interval => interval.id)) + 1, start: 0, width: 0.05, color: COLORS[setup.intervals.length % COLORS.length] }] })}>Add interval</button>
+            <button className={`${buttonClass} mt-3`} onClick={() => setSetup(previous => ({
+              ...previous,
+              intervals: appendInterval(previous.intervals, {
+                id: Math.max(0, ...previous.intervals.map(interval => interval.id)) + 1,
+                start: 0.5,
+                color: COLORS[previous.intervals.length % COLORS.length],
+              }),
+            }))}>Add interval</button>
           </div>
-          <p className="text-xs text-slate-500">Editing the picture does not rerun the optimizer. Density is the measure of the union, including any overlaps introduced by edits.</p>
+          <p className="text-xs text-slate-500">Intervals stay disjoint: moves snap to free space, and resizing moves neighboring intervals as needed. Editing the picture does not rerun the optimizer.</p>
         </section>
       </div>
       <section className="mt-6 bg-white border border-slate-200 rounded-xl p-5">
