@@ -53,16 +53,72 @@ Run the small MILP wrapper test:
 .venv/bin/python test_milp_problem.py
 ```
 
+## Arbitrary Integer Linear Forms
+
+`linear_form_intervals.py` is a standalone command line entry point for
+maximizing the density of a union of at most `N` circle intervals subject to
+`0` being outside `L(A)`, where
+`L(a_1,...,a_k) = c_1*a_1 + ... + c_k*a_k` and each input ranges independently
+over `A`. Supply any nonempty list of integer coefficients:
+
+```bash
+python linear_form_intervals.py -N 3 --coefficients 1 1 -3 --mip-rel-gap 0 --mip-abs-gap 0 --require-success
+python linear_form_intervals.py -N 2 --coefficients 2 -3 1 4 --mip-rel-gap 0 --require-success
+python linear_form_intervals.py -N 2 --coefficients 1 -1 --translated-missing-point --require-success
+```
+
+On Windows, use `.venv\Scripts\python.exe` in place of `python` to use the
+project environment. Coefficients are separated by spaces; negative and zero
+coefficients and single-term forms are supported. A coefficient `2` dilates
+one input by two; it is different from two coefficients `1 1`, which have
+independent inputs. Equal coefficients share permutation symmetry to reduce
+the number of lifted conditions; zero coefficients add no conditions.
+
+By default the missing point is zero. `--translated-missing-point` instead
+asks for any missing point `t`. These questions differ when the coefficients
+sum to zero: every nonempty `A` then has `0` in `L(A)`. In that case the fixed
+zero formulation has no positive-density solution, while the translated
+formulation may have one. The identically zero form is handled as well.
+
+As in the original solver, `--epsilon 0` gives the closed endpoint relaxation,
+used as a limiting density bound; `--epsilon 1e-6` enforces a positive margin.
+Zero-length intervals are permitted. Solver limits may return an incumbent
+without establishing a maximum; the status, dual bound and gap are saved.
+The original solver's width, monotonicity, endpoint and translated symmetry
+cuts, subset bounds, total-length cutoff and solver controls are available;
+run `python linear_form_intervals.py --help` for details. The number of
+conditions can grow exponentially with the number of distinct coefficients.
+
+Problem and solution JSON files are saved in `json_results_tmp/` by default,
+using filenames containing the coefficients and a configuration digest. Use
+`--output-dir json_results/my_experiment`, `--run-name NAME`, or the existing
+`--problem-json` / `--solution-json` overrides to choose their locations.
+`--no-save` disables file output. The solution JSON includes the full
+coefficients, solver diagnostics, visualizer state and shareable URL. Each
+completed solve with interval coordinates prints the visualizer link.
+
+The website's new `linear-form` mode displays `A`, the selected `L(A)`, and
+the actual missing point (including for zero-sum forms). Generated links
+default to `https://ferranespuna.github.io/interval_proofs/`, with the complete
+configuration encoded in the URL. This mode requires the updated website
+to be deployed there. No `--visualizer-url` override is needed for the
+published visualizer.
+
+The existing `circle_intervals.py` and construction links retain their
+original formats and behavior.
+
 ## Visualizer Website
 
-The visualizer lives in `website/`. It now has two modes:
+The visualizer lives in `website/`. It has three modes:
 
 - a discrete Candela--González-Sánchez--Grynkiewicz construction visualizer for
   sets in `Z/pZ` with `p = 4m^2n + 1`;
 - the original circle interval visualizer for interval configurations in
-  `T = R/Z`.
+  `T = R/Z`;
+- the general linear-form visualizer for arbitrary integer coefficients and
+  a chosen missing point.
 
-Both modes accept imported state JSON and shareable `?state=...` URLs.
+All modes accept imported state JSON and shareable `?state=...` URLs.
 
 Run it locally:
 

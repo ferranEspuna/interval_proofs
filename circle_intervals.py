@@ -90,6 +90,104 @@ def excluded_sum_free_triples(
     return excluded_triples
 
 
+def add_interval_layout(
+    problem: MILPProblem,
+    N: int,
+    *,
+    alpha_upper_bounds: list[float],
+    use_translated_missing_point: bool = False,
+    add_endpoint_length_cut: bool = True,
+    add_first_interval_shortest_cut: bool = False,
+    add_second_interval_at_most_last_cut: bool = False,
+    subset_alpha_bounds: list[tuple[int, float]] | None = None,
+    total_length_lower_bound: float | None = None,
+) -> None:
+    """Add ordered interval variables and shared cuts to a validated model.
+
+    Callers validate the interval count, bounds and symmetry options before
+    adding the layout. The objective and linear-form constraints are separate.
+    """
+    if use_translated_missing_point:
+        problem.add_continuous_variable("t", lower_bound=0, upper_bound=1)
+
+    for i in range(N):
+        problem.add_continuous_variable(f"x_{i}", lower_bound=0, upper_bound=1)
+        problem.add_continuous_variable(
+            f"alpha_{i}",
+            lower_bound=0,
+            upper_bound=alpha_upper_bounds[i],
+        )
+
+        # Keep each interval in the chosen [0, 1] representative.
+        problem.add_inequality(
+            name=f"inside_unit_{i}",
+            coefficients={f"x_{i}": 1, f"alpha_{i}": 1},
+            sense="<=",
+            rhs=1,
+        )
+
+        # Ordering and non-overlapping.
+        if i > 0:
+            problem.add_inequality(
+                name=f"order_{i}",
+                coefficients={f"x_{i-1}": 1, f"alpha_{i-1}": 1, f"x_{i}": -1},
+                sense="<=",
+                rhs=0,
+            )
+
+    if use_translated_missing_point:
+        problem.add_equality(
+            name="first_interval_starts_at_zero",
+            coefficients={"x_0": 1},
+            rhs=0,
+        )
+
+    if add_endpoint_length_cut and N > 1:
+        # Reflection lets us choose the orientation in which the last interval
+        # is no longer than the first one.
+        problem.add_inequality(
+            name="last_interval_at_most_first",
+            coefficients={f"alpha_{N - 1}": 1, "alpha_0": -1},
+            sense="<=",
+            rhs=0,
+        )
+
+    if add_first_interval_shortest_cut:
+        for i in range(1, N):
+            problem.add_inequality(
+                name=f"first_interval_shortest_{i}",
+                coefficients={"alpha_0": 1, f"alpha_{i}": -1},
+                sense="<=",
+                rhs=0,
+            )
+
+    if add_second_interval_at_most_last_cut and N > 2:
+        problem.add_inequality(
+            name="second_interval_at_most_last",
+            coefficients={"alpha_1": 1, f"alpha_{N - 1}": -1},
+            sense="<=",
+            rhs=0,
+        )
+
+    for bound_index, (subset_size, bound) in enumerate(subset_alpha_bounds or []):
+        for subset in combinations(range(N), subset_size):
+            subset_name = "_".join(str(index) for index in subset)
+            problem.add_inequality(
+                name=f"subset_alpha_bound_{bound_index}_{subset_size}_{subset_name}",
+                coefficients={f"alpha_{index}": 1 for index in subset},
+                sense="<=",
+                rhs=bound,
+            )
+
+    if total_length_lower_bound is not None:
+        problem.add_inequality(
+            name="total_length_lower_bound",
+            coefficients={f"alpha_{index}": 1 for index in range(N)},
+            sense=">=",
+            rhs=total_length_lower_bound,
+        )
+
+
 def build_circle_interval_problem(
     N: int,
     m: float | None = None,
@@ -250,85 +348,17 @@ def build_circle_interval_problem(
         },
     }
 
-    if use_translated_missing_point:
-        problem.add_continuous_variable("t", lower_bound=0, upper_bound=1)
-
-    for i in range(N):
-        problem.add_continuous_variable(f"x_{i}", lower_bound=0, upper_bound=1)
-        problem.add_continuous_variable(
-            f"alpha_{i}",
-            lower_bound=0,
-            upper_bound=alpha_upper_bounds[i],
-        )
-
-        # Keep each interval in the chosen [0, 1] representative.
-        problem.add_inequality(
-            name=f"inside_unit_{i}",
-            coefficients={f"x_{i}": 1, f"alpha_{i}": 1},
-            sense="<=",
-            rhs=1,
-        )
-
-        # Ordering and non-overlapping.
-        if i > 0:
-            problem.add_inequality(
-                name=f"order_{i}",
-                coefficients={f"x_{i-1}": 1, f"alpha_{i-1}": 1, f"x_{i}": -1},
-                sense="<=",
-                rhs=0,
-            )
-
-    if use_translated_missing_point:
-        problem.add_equality(
-            name="first_interval_starts_at_zero",
-            coefficients={"x_0": 1},
-            rhs=0,
-        )
-
-    if add_endpoint_length_cut and N > 1:
-        # Reflection lets us choose the orientation in which the last interval
-        # is no longer than the first one.
-        problem.add_inequality(
-            name="last_interval_at_most_first",
-            coefficients={f"alpha_{N - 1}": 1, "alpha_0": -1},
-            sense="<=",
-            rhs=0,
-        )
-
-    if add_first_interval_shortest_cut:
-        for i in range(1, N):
-            problem.add_inequality(
-                name=f"first_interval_shortest_{i}",
-                coefficients={"alpha_0": 1, f"alpha_{i}": -1},
-                sense="<=",
-                rhs=0,
-            )
-
-    if add_second_interval_at_most_last_cut and N > 2:
-        problem.add_inequality(
-            name="second_interval_at_most_last",
-            coefficients={"alpha_1": 1, f"alpha_{N - 1}": -1},
-            sense="<=",
-            rhs=0,
-        )
-
-    for bound_index, (subset_size, bound) in enumerate(subset_alpha_bounds):
-        for subset in combinations(range(N), subset_size):
-            subset_name = "_".join(str(index) for index in subset)
-            problem.add_inequality(
-                name=f"subset_alpha_bound_{bound_index}_{subset_size}_{subset_name}",
-                coefficients={f"alpha_{index}": 1 for index in subset},
-                sense="<=",
-                rhs=bound,
-            )
-
-    if total_length_lower_bound is not None:
-        problem.add_inequality(
-            name="total_length_lower_bound",
-            coefficients={f"alpha_{index}": 1 for index in range(N)},
-            sense=">=",
-            rhs=total_length_lower_bound,
-        )
+    add_interval_layout(
+        problem,
+        N,
+        alpha_upper_bounds=alpha_upper_bounds,
+        use_translated_missing_point=use_translated_missing_point,
+        add_endpoint_length_cut=add_endpoint_length_cut,
+        add_first_interval_shortest_cut=add_first_interval_shortest_cut,
+        add_second_interval_at_most_last_cut=add_second_interval_at_most_last_cut,
+        subset_alpha_bounds=subset_alpha_bounds,
+        total_length_lower_bound=total_length_lower_bound,
+    )
 
     # Sum-free condition: the interval I_i + I_j - m*I_ell must avoid the
     # chosen missing point. In the original formulation that point is 0; in

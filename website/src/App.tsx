@@ -3,6 +3,7 @@ import { Check, Copy, Plus, Trash2 } from 'lucide-react';
 import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import CandelaVisualizer from './CandelaVisualizer';
+import LinearFormVisualizer, { normalizeLinearFormState } from './LinearFormVisualizer';
 
 const EPSILON = 1e-9;
 const BASE_COLORS = ['#ef4444', '#3b82f6', '#f59e0b', '#10b981', '#8b5cf6', '#ec4899', '#06b6d4'];
@@ -591,6 +592,7 @@ function readInitialVisualizerMode() {
   try {
     const shared = decodeShareState(rawState);
     if (shared?.mode === 'candela') return 'candela';
+    if (shared?.mode === 'linear-form') return 'linear-form';
     if (shared?.mode === 'interval') return 'interval';
     if (Array.isArray(shared?.intervals)) return 'interval';
   } catch {
@@ -652,7 +654,7 @@ function Arc({ r, start, end, color, className, style, ...rest }) {
   return <path d={pathData} stroke={color} strokeWidth="16" fill="none" strokeLinecap="butt" className={finalClassName} style={mergedStyle} {...rest} />;
 }
 
-function IntervalVisualizer({ onSwitchToCandela }) {
+function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm }) {
   const [initialSetup] = useState(() => readSetupFromUrl());
   const [intervals, setIntervals] = useState(initialSetup.intervals);
   const [m, setM] = useState(initialSetup.m);
@@ -824,14 +826,19 @@ function IntervalVisualizer({ onSwitchToCandela }) {
 
   const handleImportStateJson = useCallback(() => {
     try {
-      const setup = normalizeSharedSetup(JSON.parse(jsonInput));
+      const raw = JSON.parse(jsonInput);
+      if (raw?.mode === 'linear-form') {
+        onSwitchToLinearForm(normalizeLinearFormState(raw));
+        return;
+      }
+      const setup = normalizeSharedSetup(raw);
       applySetup(setup);
       setJsonStatus('imported');
     } catch {
       setJsonStatus('invalid');
     }
     window.setTimeout(() => setJsonStatus('idle'), 2200);
-  }, [applySetup, jsonInput]);
+  }, [applySetup, jsonInput, onSwitchToLinearForm]);
 
   const addInterval = useCallback(() => {
     setIntervals(prev => {
@@ -962,6 +969,14 @@ function IntervalVisualizer({ onSwitchToCandela }) {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
+              <button
+                onClick={() => onSwitchToLinearForm({ coefficients: [1, 1, -m], intervals, missingPoint: 0 })}
+                disabled={!Number.isSafeInteger(m)}
+                title={Number.isSafeInteger(m) ? 'View this configuration as a general linear form' : 'The general linear form mode requires integer coefficients'}
+                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-sm font-bold disabled:opacity-50"
+              >
+                General linear form
+              </button>
               <button
                 onClick={onSwitchToCandela}
                 className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
@@ -1335,9 +1350,24 @@ function IntervalVisualizer({ onSwitchToCandela }) {
 
 export default function App() {
   const [mode, setMode] = useState(() => readInitialVisualizerMode());
+  const [linearState, setLinearState] = useState(() => {
+    try {
+      const encoded = new URLSearchParams(window.location.search).get('state');
+      return encoded ? decodeShareState(encoded) : undefined;
+    } catch { return undefined; }
+  });
+
+  const showLinearForm = setup => {
+    setLinearState(setup);
+    setMode('linear-form');
+  };
+
+  if (mode === 'linear-form') {
+    return <LinearFormVisualizer initialState={linearState} buildShareUrl={buildShareUrl} copyText={copyText} onSwitchToIntervals={() => setMode('interval')} />;
+  }
 
   if (mode === 'interval') {
-    return <IntervalVisualizer onSwitchToCandela={() => setMode('candela')} />;
+    return <IntervalVisualizer onSwitchToCandela={() => setMode('candela')} onSwitchToLinearForm={showLinearForm} />;
   }
 
   return <CandelaVisualizer onSwitchToIntervals={() => setMode('interval')} />;
