@@ -153,7 +153,7 @@ function unionSets(...sets) {
 }
 
 function sumset(values, p) {
-  const arr = Array.from(values);
+  const arr = Array.from<number>(values);
   const result = new Set();
   for (let i = 0; i < arr.length; i += 1) {
     for (let j = i; j < arr.length; j += 1) {
@@ -353,7 +353,7 @@ function Stat({ label, value, tone = 'slate' }) {
   );
 }
 
-export default function CandelaVisualizer({ onSwitchToIntervals }) {
+export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConstruction = undefined }) {
   const [initialSetup] = useState(() => readCandelaSetupFromUrl());
   const [m, setM] = useState(initialSetup.m);
   const [n, setN] = useState(initialSetup.n);
@@ -497,6 +497,10 @@ export default function CandelaVisualizer({ onSwitchToIntervals }) {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
+              {onSwitchToConstruction && <button
+                onClick={onSwitchToConstruction}
+                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-sm font-bold"
+              >Preimage construction</button>}
               <button
                 onClick={onSwitchToIntervals}
                 className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"

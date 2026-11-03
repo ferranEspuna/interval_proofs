@@ -248,12 +248,25 @@ def default_file_stem(args: argparse.Namespace) -> str:
         key: value for key, value in vars(args).items()
         if key not in {"run_name", "problem_json", "solution_json", "output_dir",
                        "visualizer_url", "no_save", "print_problem", "require_success"}
+        and not (key == "mip_feasibility_tolerance" and value is None)
     }
     digest = hashlib.sha256(json.dumps(configuration, sort_keys=True).encode()).hexdigest()[:12]
     coefficient_text = "_".join(str(c).replace("-", "neg") for c in args.coefficients)
     if len(coefficient_text) > 64:
         coefficient_text = coefficient_text[:64]
     return f"linear_form_N{args.N}_c{coefficient_text}_{digest}"
+
+
+def parse_mip_feasibility_tolerance(value: str) -> float:
+    try:
+        tolerance = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("expected a finite tolerance of at least 1e-10") from exc
+    # HiGHS 1.12 accepts [1e-10, infinity); infinity is not useful for checking
+    # feasibility and is deliberately rejected by this CLI.
+    if not math.isfinite(tolerance) or tolerance < 1e-10:
+        raise argparse.ArgumentTypeError("MIP feasibility tolerance must be finite and at least 1e-10")
+    return tolerance
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -279,6 +292,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--node-limit", type=int)
     parser.add_argument("--mip-rel-gap", type=float)
     parser.add_argument("--mip-abs-gap", type=float)
+    parser.add_argument(
+        "--mip-feasibility-tolerance", type=parse_mip_feasibility_tolerance,
+        help="HiGHS MIP feasibility tolerance (at least 1e-10); try 1e-9 for small densities",
+    )
     parser.add_argument("--presolve", action=argparse.BooleanOptionalAction, default=None)
     parser.add_argument("--disp", action="store_true", help="show solver log")
     parser.add_argument("--threads", type=int)
@@ -311,6 +328,8 @@ def main() -> None:
     except ValueError as exc:
         parser.error(str(exc))
     solver_options = solver_options_from_args(args)
+    if args.mip_feasibility_tolerance is not None:
+        solver_options["mip_feasibility_tolerance"] = args.mip_feasibility_tolerance
     problem.metadata.update(solver_options=solver_options, output_dir=str(args.output_dir))
     print(f"{problem.name}: {len(problem.variables)} variables, "
           f"{problem.metadata['lifted_tuple_count']} integer lifts, {len(problem.constraints)} constraints", flush=True)

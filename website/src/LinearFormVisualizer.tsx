@@ -54,7 +54,7 @@ function SegmentArc({ segment, radius, color, ...interaction }: {
   return <path d={`M ${a.x} ${a.y} A ${radius} ${radius} 0 ${end - start > 0.5 ? 1 : 0} 1 ${b.x} ${b.y}`} fill="none" stroke={color} strokeWidth={14} {...interaction} />;
 }
 
-export default function LinearFormVisualizer({ initialState, buildShareUrl, copyText, onSwitchToIntervals }) {
+export default function LinearFormVisualizer({ initialState, buildShareUrl, copyText, onSwitchToIntervals, onSwitchToConstruction = undefined }) {
   const [loaded] = useState(() => {
     try { return { setup: normalizeLinearFormState(initialState ?? DEFAULT_STATE), error: '' }; }
     catch (error) {
@@ -155,6 +155,7 @@ export default function LinearFormVisualizer({ initialState, buildShareUrl, copy
         <div><h1 className="text-3xl font-bold mb-2">Linear Form Visualizer</h1>
           <p className="text-slate-600">Explore L(A) = c₁A + ··· + cₖA on the circle ℝ/ℤ.</p></div>
         <div className="flex flex-wrap gap-2"><button className={buttonClass} onClick={onSwitchToIntervals}>A + A − mA visualizer</button>
+          {onSwitchToConstruction && <button className={buttonClass} onClick={() => onSwitchToConstruction({ coefficients: setup.coefficients })}>Preimage construction</button>}
           <button className={buttonClass} onClick={() => copy(shareUrl, 'Link')}>Copy link</button></div>
       </header>
       {loadError && <p role="alert" className="mb-5 rounded-lg border border-red-200 bg-red-50 p-4 text-red-800">{loadError}</p>}

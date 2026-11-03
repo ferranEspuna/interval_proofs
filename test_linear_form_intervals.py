@@ -6,7 +6,9 @@ Run with: python -m unittest test_linear_form_intervals.py
 from __future__ import annotations
 
 import base64
+from contextlib import redirect_stderr
 from itertools import product
+import io
 import json
 import math
 from pathlib import Path
@@ -18,6 +20,7 @@ from urllib.parse import parse_qs, urlsplit
 
 from circle_intervals import build_circle_interval_problem
 from linear_form_intervals import (
+    build_parser,
     build_linear_form_interval_problem,
     interval_tuples,
     linear_form_visualizer_state,
@@ -160,6 +163,7 @@ class LinearFormCLITests(unittest.TestCase):
             result = self.run_cli(
                 directory, "-N", 1, "--coefficients", 1, 1, -3,
                 "--translated-missing-point", "--mip-rel-gap", 0,
+                "--mip-feasibility-tolerance", "1e-9",
                 "--output-dir", output, "--run-name", "smoke", "--require-success",
                 "--visualizer-url", "https://example.test/view?theme=dark#plot",
             )
@@ -167,6 +171,8 @@ class LinearFormCLITests(unittest.TestCase):
             problem = MILPProblem.from_json((output / "smoke_problem.json").read_text())
             solution = MILPSolution.from_json((output / "smoke_solution.json").read_text())
             self.assertEqual(problem.metadata["coefficients"], [1, 1, -3])
+            self.assertEqual(problem.metadata["solver_options"]["mip_feasibility_tolerance"], 1e-9)
+            self.assertEqual(solution.parameters["solver_options"]["mip_feasibility_tolerance"], 1e-9)
             self.assertTrue(solution.success)
             self.assertAlmostEqual(solution.optimum, 0.2, places=7)
             url = solution.parameters["visualizer_url"]
@@ -181,6 +187,15 @@ class LinearFormCLITests(unittest.TestCase):
             self.assertEqual(state["coefficients"], [1, 1, -3])
             self.assertAlmostEqual(state["missingPoint"], solution["t"], places=10)
             self.assertEqual(state, solution.parameters["visualizer_state"])
+
+    def test_invalid_mip_feasibility_tolerance(self):
+        for value in ("nan", "inf", "-inf", "0", "-1", "1e-11"):
+            with self.subTest(value=value), redirect_stderr(io.StringIO()):
+                with self.assertRaises(SystemExit) as error:
+                    build_parser().parse_args([
+                        "--coefficients", "1", f"--mip-feasibility-tolerance={value}",
+                    ])
+                self.assertEqual(error.exception.code, 2)
 
     def test_infeasible_result_saved_before_require_success_exit(self):
         with tempfile.TemporaryDirectory() as directory:

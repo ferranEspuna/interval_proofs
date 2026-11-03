@@ -89,6 +89,13 @@ cuts, subset bounds, total-length cutoff and solver controls are available;
 run `python linear_form_intervals.py --help` for details. The number of
 conditions can grow exponentially with the number of distinct coefficients.
 
+For the small densities arising from large coefficients, use
+`--mip-feasibility-tolerance 1e-9` to tighten HiGHS' MIP feasibility checks.
+This is separate from `--mip-rel-gap 0 --mip-abs-gap 0`: gap settings alone
+do not tighten feasibility tolerances. The option accepts finite values of
+at least `1e-10`; omitting it preserves the solver default (`1e-6` in the
+installed HiGHS 1.12). These remain numerical computations, not exact proofs.
+
 Problem and solution JSON files are saved in `json_results_tmp/` by default,
 using filenames containing the coefficients and a configuration digest. Use
 `--output-dir json_results/my_experiment`, `--run-name NAME`, or the existing
@@ -107,16 +114,114 @@ published visualizer.
 The existing `circle_intervals.py` and construction links retain their
 original formats and behavior.
 
+## Explicit Circle Intervals
+
+`explicit_construction.py` provides exact `CircleOpenInterval` and
+`CircleOpenIntervalUnion` objects, with containment, intersection (`&`),
+union (`|`), and union measure (`.length`). Supply lifted endpoints with
+`0 <= end - start <= 1`; for example, `(3/4, 5/4)` wraps across zero.
+
+```python
+from fractions import Fraction as F
+from explicit_construction import CircleOpenInterval, CircleOpenIntervalUnion
+
+interval = CircleOpenInterval(F(3, 4), F(5, 4))
+union = CircleOpenIntervalUnion([interval, CircleOpenInterval(F(1, 8), F(1, 2))])
+print(interval.visualize(coefficients=[10, 10, -19]))
+print(union.visualize(coefficients=[2, -3, 1, 4], missing_point=F(1, 3)))
+```
+
+Both `visualize()` methods return a public URL opening the arbitrary
+linear-form visualizer with the configuration loaded, without launching a
+browser. `coefficients` defaults to `(1, 1, -3)` and `missing_point` to `0`.
+Supply a nonempty iterable of integers within JavaScript's exact integer
+range (`abs(c) <= 2**53 - 1`); the marked point is normalized modulo one.
+Use `base_url="http://localhost:5173/interval_proofs/"` for a local visualizer.
+
+Open endpoints remain excluded, including where two intervals merely touch.
+A zero-length interval is empty; a length-one interval misses its endpoint.
+A union covering every point has `.is_full == True` and `.length == 1`.
+The website uses floating point. The free interval and linear-form views
+visually treat full and punctured circles alike; the construction view below
+marks excluded endpoints explicitly. Python containment is exact.
+
+Apply a linear form with independent inputs and find an exact missing point:
+
+```python
+from explicit_construction import apply_linear_form
+
+image = apply_linear_form(union, [10, 10, -19])
+# Equivalently: image = union.apply_linear_form([10, 10, -19])
+print(image.length)
+print(image.missing_point())  # Fraction, or None if the image is the whole circle
+```
+
+Signed dilations, Minkowski sums, wrapping and excluded endpoints are handled
+exactly. Zero terms are ignored when there are nonzero terms. The all-zero
+form maps a nonempty set to `CirclePointSet((Fraction(0),))`; an empty input
+still has an empty image.
+
+### Preimage intersection construction
+
+Open **Preimage construction** from any existing visualizer page. Each pair
+of inner rings shows a target open interval `I_d` and its preimage under
+`x -> d*x mod 1`. Drag the target ring, use its arrow keys, or edit its start
+and width. The next-to-outermost ring is the intersection `A`; the outermost
+ring is `L(A)`, with an automatically calculated missing point when one exists.
+Negative coefficients use reflected targets; repeated absolute coefficients
+share a target and are counted with their multiplicity.
+
+For `g` distinct nonzero absolute coefficients with multiplicities `r_d`,
+**Reset optimal widths** restores `w_d = 1/(g*r_d)` while preserving starts.
+These widths maximize the product bound under `sum(r_d*w_d) <= 1`.
+Whenever that width condition holds, the signed sum of target intervals
+excludes a point, and `L(A)` is contained in that sum, for every choice of
+starts. At the optimal widths, the open target partitions pull back to a
+partition of the circle up to finitely many endpoints. Pigeonhole then gives
+a choice with `measure(A) >= product(w_d)`. **Find guaranteed shift** selects
+the largest partition cell using a sweep of the preimage endpoints; this
+maximizes over those partition choices, not over all continuous shifts or all
+possible circle sets.
+
+The same construction and its new-page link are available in Python:
+
+```python
+from explicit_construction import optimized_preimage_construction
+
+construction = optimized_preimage_construction([10, 10, -19])
+print(construction.A.length, construction.guaranteed_density)
+print(construction.missing_point)  # Exact witness outside construction.image
+print(construction.visualize())   # mode="preimage-construction"
+```
+
+For chosen targets, use `preimage_construction(coefficients, targets)` with
+a dictionary mapping each distinct positive absolute coefficient to a
+`CircleOpenInterval`. The existing `ruzsa_optimized_construction(coefficients)`
+continues to return just `A`. The new view exports/imports target intervals
+and coefficients and supports shareable URLs; exact endpoints remain available
+in Python. Browser computations have explicit work and precision limits.
+Public construction links require deployment of the updated website through
+the existing GitHub Pages workflow; local changes do not update the public site.
+
+Run the exact geometry and URL regression tests with:
+
+```bash
+python -m unittest test_explicit_construction test_explicit_construction_visualizer test_explicit_linear_forms
+npm --prefix website run test:construction
+```
+
 ## Visualizer Website
 
-The visualizer lives in `website/`. It has three modes:
+The visualizer lives in `website/`. It has four modes:
 
 - a discrete Candela--González-Sánchez--Grynkiewicz construction visualizer for
   sets in `Z/pZ` with `p = 4m^2n + 1`;
 - the original circle interval visualizer for interval configurations in
   `T = R/Z`;
 - the general linear-form visualizer for arbitrary integer coefficients and
-  a chosen missing point.
+  a chosen missing point;
+- the preimage intersection construction with editable target intervals,
+  their preimages, `A`, and its linear-form image and missing point.
 
 All modes accept imported state JSON and shareable `?state=...` URLs.
 

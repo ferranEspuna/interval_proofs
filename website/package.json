@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test:linear-form": "node --test test_linear_form_geometry.cjs"
+    "test:linear-form": "node --test test_linear_form_geometry.cjs",
+    "test:construction": "node --test test_preimage_construction.cjs test_preimage_page.cjs"
   },
   "dependencies": {
     "@vitejs/plugin-react": "^5.0.0",

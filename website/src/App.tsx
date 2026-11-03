@@ -4,6 +4,7 @@ import katex from 'katex';
 import 'katex/dist/katex.min.css';
 import CandelaVisualizer from './CandelaVisualizer';
 import LinearFormVisualizer, { normalizeLinearFormState } from './LinearFormVisualizer';
+import PreimageConstructionVisualizer from './PreimageConstructionVisualizer';
 import {
   EPSILON, getWrappedSegments, normalizeTurn, clamp, signedCircularDelta,
   getForbiddenStartSegments, forbiddenStartBackground, maxValueBackground,
@@ -85,7 +86,7 @@ function calculateMeasure(segments) {
 function getDisjointSegments(segments) {
   if (!segments || segments.length === 0) return { measure: 0, pieces: [] };
 
-  let endpoints = new Set();
+  let endpoints = new Set<number>();
   segments.forEach(seg => {
     endpoints.add(seg.start);
     endpoints.add(seg.end);
@@ -267,6 +268,7 @@ function readInitialVisualizerMode() {
     const shared = decodeShareState(rawState);
     if (shared?.mode === 'candela') return 'candela';
     if (shared?.mode === 'linear-form') return 'linear-form';
+    if (shared?.mode === 'preimage-construction') return 'preimage-construction';
     if (shared?.mode === 'interval') return 'interval';
     if (Array.isArray(shared?.intervals)) return 'interval';
   } catch {
@@ -307,8 +309,8 @@ async function copyText(text) {
 }
 
 // Reusable component to draw an arc on the circle
-function Arc({ r, start, end, color, className, style, ...rest }) {
-  const mergedStyle = { mixBlendMode: 'multiply', ...style };
+function Arc({ r, start, end, color, className = '', style = {}, ...rest }) {
+  const mergedStyle: React.CSSProperties = { mixBlendMode: 'multiply', ...style };
   const baseClasses = "opacity-60 transition-opacity duration-75";
   const finalClassName = className ? `${baseClasses} ${className}` : baseClasses;
 
@@ -328,7 +330,7 @@ function Arc({ r, start, end, color, className, style, ...rest }) {
   return <path d={pathData} stroke={color} strokeWidth="16" fill="none" strokeLinecap="butt" className={finalClassName} style={mergedStyle} {...rest} />;
 }
 
-function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm }) {
+function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm, onSwitchToConstruction }) {
   const [initialSetup] = useState(() => readSetupFromUrl());
   const [intervals, setIntervals] = useState(initialSetup.intervals);
   const [m, setM] = useState(initialSetup.m);
@@ -501,6 +503,10 @@ function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm }) {
   const handleImportStateJson = useCallback(() => {
     try {
       const raw = JSON.parse(jsonInput);
+      if (raw?.mode === 'preimage-construction') {
+        onSwitchToConstruction(raw);
+        return;
+      }
       if (raw?.mode === 'linear-form') {
         onSwitchToLinearForm(normalizeLinearFormState(raw));
         return;
@@ -512,7 +518,7 @@ function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm }) {
       setJsonStatus('invalid');
     }
     window.setTimeout(() => setJsonStatus('idle'), 2200);
-  }, [applySetup, jsonInput, onSwitchToLinearForm]);
+  }, [applySetup, jsonInput, onSwitchToLinearForm, onSwitchToConstruction]);
 
   const addInterval = useCallback(() => {
     setIntervals(prev => appendInterval(prev, {
@@ -615,6 +621,13 @@ function IntervalVisualizer({ onSwitchToCandela, onSwitchToLinearForm }) {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-2">
+              <button
+                onClick={() => onSwitchToConstruction({ coefficients: [1, 1, -m] })}
+                disabled={!Number.isSafeInteger(m)}
+                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-sm font-bold disabled:opacity-50"
+              >
+                Preimage construction
+              </button>
               <button
                 onClick={() => onSwitchToLinearForm({ coefficients: [1, 1, -m], intervals, missingPoint: 0 })}
                 disabled={!Number.isSafeInteger(m)}
@@ -1002,19 +1015,30 @@ export default function App() {
       return encoded ? decodeShareState(encoded) : undefined;
     } catch { return undefined; }
   });
+  const [constructionState, setConstructionState] = useState(linearState);
 
   const showLinearForm = setup => {
     setLinearState(setup);
     setMode('linear-form');
   };
 
+  const showConstruction = (setup = undefined) => {
+    setConstructionState(setup);
+    setMode('preimage-construction');
+  };
+
+  if (mode === 'preimage-construction') {
+    return <PreimageConstructionVisualizer initialState={constructionState} buildShareUrl={buildShareUrl} copyText={copyText}
+      onSwitchToLinearForm={showLinearForm} onSwitchToIntervals={() => setMode('interval')} />;
+  }
+
   if (mode === 'linear-form') {
-    return <LinearFormVisualizer initialState={linearState} buildShareUrl={buildShareUrl} copyText={copyText} onSwitchToIntervals={() => setMode('interval')} />;
+    return <LinearFormVisualizer initialState={linearState} buildShareUrl={buildShareUrl} copyText={copyText} onSwitchToIntervals={() => setMode('interval')} onSwitchToConstruction={showConstruction} />;
   }
 
   if (mode === 'interval') {
-    return <IntervalVisualizer onSwitchToCandela={() => setMode('candela')} onSwitchToLinearForm={showLinearForm} />;
+    return <IntervalVisualizer onSwitchToCandela={() => setMode('candela')} onSwitchToLinearForm={showLinearForm} onSwitchToConstruction={showConstruction} />;
   }
 
-  return <CandelaVisualizer onSwitchToIntervals={() => setMode('interval')} />;
+  return <CandelaVisualizer onSwitchToIntervals={() => setMode('interval')} onSwitchToConstruction={() => showConstruction()} />;
 }
