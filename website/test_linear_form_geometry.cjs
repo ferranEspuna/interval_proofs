@@ -1,17 +1,9 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const Module = require('node:module');
 const test = require('node:test');
-const ts = require('typescript');
+const { loadSource } = require('./load_ts.cjs');
 
-const filename = path.join(__dirname, 'src', 'linearFormGeometry.ts');
-const compiled = ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-});
-const geometry = new Module(filename, module);
-geometry._compile(compiled.outputText, filename);
-const { linearFormSegments, mergeSegments, measure, wrappedSegments } = geometry.exports;
+const geometry = loadSource('linearFormGeometry.ts');
+const { linearFormSegments, mergeSegments, measure, wrappedSegments } = geometry;
 
 const interval = (start, width, id = 1) => ({ id, start, width, color: '#ef4444' });
 function close(actual, expected) {
@@ -72,22 +64,8 @@ test('work limit reports an error instead of silently returning partial images',
   assert.throws(() => linearFormSegments([interval(0.1, 0.01), interval(0.4, 0.01, 2)], [1, 1], 1), /too large/);
 });
 
-const componentFilename = path.join(__dirname, 'src', 'LinearFormVisualizer.tsx');
-const editingFilename = path.join(__dirname, 'src', 'intervalEditing.ts');
-const editing = new Module(editingFilename, module);
-editing._compile(ts.transpileModule(fs.readFileSync(editingFilename, 'utf8'), {
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-}).outputText, editingFilename);
-const component = new Module(componentFilename, module);
-component.paths = module.paths;
-component.require = name => {
-  if (name === './linearFormGeometry') return geometry.exports;
-  if (name === './intervalEditing') return editing.exports;
-  return require(name);
-};
-component._compile(ts.transpileModule(fs.readFileSync(componentFilename, 'utf8'), {
-  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true },
-}).outputText, componentFilename);
+const editing = { exports: loadSource('intervalEditing.ts') };
+const component = { exports: loadSource('LinearFormVisualizer.tsx') };
 const React = require('react');
 const { renderToStaticMarkup } = require('react-dom/server');
 

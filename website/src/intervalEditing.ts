@@ -1,4 +1,7 @@
 /** Shared interval editing rules used by both circle visualizer modes. */
+import { normalizeTurn } from './linearFormGeometry';
+
+export { normalizeTurn };
 export const EPSILON = 1e-9;
 
 // Splits an interval [s, e] into segments strictly within [0, 1].
@@ -25,10 +28,6 @@ export function getWrappedSegments(s, e) {
     }
   }
   return segments;
-}
-
-export function normalizeTurn(value) {
-  return ((value % 1) + 1) % 1;
 }
 
 export function clamp(value, min, max) {

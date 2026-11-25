@@ -1,6 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Check, Copy, RotateCcw } from 'lucide-react';
-import katex from 'katex';
+import { RotateCcw } from 'lucide-react';
+import { clamp } from './intervalEditing';
+import {
+  buildShareUrl, circlePoint, copyText, readSharedStateFromUrl,
+} from './shared';
+import {
+  CircleAxes, InlineMath, NumberSlider, StateJsonPanel, VisualizerHeader,
+} from './ui';
 
 const MIN_M = 3;
 const MAX_P = 12000;
@@ -13,30 +19,17 @@ const COLORS = {
   mixed: '#7c3aed',
 };
 
-function InlineMath({ children, className = '' }) {
-  const html = katex.renderToString(String(children), {
-    throwOnError: false,
-    strict: false,
-  });
-
-  return <span className={className} dangerouslySetInnerHTML={{ __html: html }} />;
-}
-
-function clamp(value, min, max) {
-  return Math.min(Math.max(value, min), max);
-}
-
-function clampInt(value, min, max, fallback) {
+function clampInt(value: unknown, min: number, max: number, fallback: number): number {
   const parsed = Math.round(Number(value));
   if (!Number.isFinite(parsed)) return fallback;
   return clamp(parsed, min, max);
 }
 
-function mod(value, modulus) {
+function mod(value: number, modulus: number): number {
   return ((value % modulus) + modulus) % modulus;
 }
 
-function gcd(a, b) {
+function gcd(a: number, b: number): number {
   let x = Math.abs(a);
   let y = Math.abs(b);
   while (y !== 0) {
@@ -47,7 +40,7 @@ function gcd(a, b) {
   return x;
 }
 
-function isPrime(value) {
+function isPrime(value: number): boolean {
   if (value < 2) return false;
   if (value === 2 || value === 3) return true;
   if (value % 2 === 0 || value % 3 === 0) return false;
@@ -57,15 +50,15 @@ function isPrime(value) {
   return true;
 }
 
-function pFor(m, n) {
+function pFor(m: number, n: number): number {
   return 4 * m * m * n + 1;
 }
 
-function maxNForM(m) {
+function maxNForM(m: number): number {
   return Math.max(1, Math.floor((MAX_P - 1) / (4 * m * m)));
 }
 
-function possiblePrimeValues(m) {
+function possiblePrimeValues(m: number) {
   const options = [];
   const maxN = maxNForM(m);
   for (let n = 1; n <= maxN; n += 1) {
@@ -75,7 +68,7 @@ function possiblePrimeValues(m) {
   return options;
 }
 
-function lemmaPreset(m) {
+function lemmaPreset(m: number) {
   const residue = mod(m, 4);
   if (residue === 0) return { lambda: m, mu: m / 4, extra: 'none' };
   if (residue === 1) return { lambda: m, mu: (m - 1) / 4, extra: 'none' };
@@ -83,7 +76,7 @@ function lemmaPreset(m) {
   return { lambda: m, mu: (m - 3) / 4, extra: 'tail-3' };
 }
 
-function remarkPreset(m) {
+function remarkPreset(m: number) {
   const residue = mod(m, 4);
   if (residue === 0) return lemmaPreset(m);
   if (residue === 1) return { lambda: Math.max(3, m - 3), mu: (m + 3) / 4, extra: 'none' };
@@ -91,7 +84,7 @@ function remarkPreset(m) {
   return { lambda: Math.max(3, m - 1), mu: (m + 1) / 4, extra: 'none' };
 }
 
-function getRecipePreset(recipe, m, manualLambda, manualMu) {
+function getRecipePreset(recipe: string, m: number, manualLambda: unknown, manualMu: unknown) {
   if (recipe === 'remark') return remarkPreset(m);
   if (recipe === 'manual') {
     return {
@@ -103,9 +96,19 @@ function getRecipePreset(recipe, m, manualLambda, manualMu) {
   return lemmaPreset(m);
 }
 
-function buildCandelaSet({ m, n, p, lambda, mu, extra }) {
-  const base = new Set();
-  const tail = new Set();
+function unionSets(...sets: Set<number>[]) {
+  const result = new Set<number>();
+  sets.forEach(values => {
+    values.forEach(value => result.add(value));
+  });
+  return result;
+}
+
+function buildCandelaSet({ m, n, p, lambda, mu, extra }: {
+  m: number; n: number; p: number; lambda: number; mu: number; extra: string;
+}) {
+  const base = new Set<number>();
+  const tail = new Set<number>();
   const start = 4 * m * n + 1;
   const end = 2 * lambda * m * n;
 
@@ -136,25 +139,17 @@ function buildCandelaSet({ m, n, p, lambda, mu, extra }) {
   };
 }
 
-function multiplySet(values, factor, p) {
-  const result = new Set();
+function multiplySet(values: Set<number>, factor: number, p: number) {
+  const result = new Set<number>();
   values.forEach(value => {
     result.add(mod(value * factor, p));
   });
   return result;
 }
 
-function unionSets(...sets) {
-  const result = new Set();
-  sets.forEach(values => {
-    values.forEach(value => result.add(value));
-  });
-  return result;
-}
-
-function sumset(values, p) {
+function sumset(values: Set<number>, p: number) {
   const arr = Array.from<number>(values);
-  const result = new Set();
+  const result = new Set<number>();
   for (let i = 0; i < arr.length; i += 1) {
     for (let j = i; j < arr.length; j += 1) {
       result.add(mod(arr[i] + arr[j], p));
@@ -163,8 +158,8 @@ function sumset(values, p) {
   return result;
 }
 
-function differenceSet(leftValues, rightValues, p) {
-  const result = new Set();
+function differenceSet(leftValues: Set<number>, rightValues: Set<number>, p: number) {
+  const result = new Set<number>();
   leftValues.forEach(left => {
     rightValues.forEach(right => {
       result.add(mod(left - right, p));
@@ -173,69 +168,12 @@ function differenceSet(leftValues, rightValues, p) {
   return result;
 }
 
-function intersectionSize(leftValues, rightValues) {
+function intersectionSize(leftValues: Set<number>, rightValues: Set<number>): number {
   let count = 0;
   leftValues.forEach(value => {
     if (rightValues.has(value)) count += 1;
   });
   return count;
-}
-
-function polarToCartesian(cx, cy, r, angleInTurns) {
-  const angleInRadians = (angleInTurns - 0.25) * 2 * Math.PI;
-  return {
-    x: cx + r * Math.cos(angleInRadians),
-    y: cy + r * Math.sin(angleInRadians),
-  };
-}
-
-function encodeShareState(state) {
-  const json = JSON.stringify(state);
-  const bytes = encodeURIComponent(json).replace(/%([0-9A-F]{2})/g, (_, hex) => (
-    String.fromCharCode(parseInt(hex, 16))
-  ));
-
-  return btoa(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/g, '');
-}
-
-function decodeShareState(value) {
-  const padded = value.replace(/-/g, '+').replace(/_/g, '/').padEnd(Math.ceil(value.length / 4) * 4, '=');
-  const bytes = atob(padded);
-  const escaped = Array.from(bytes, char => (
-    `%${char.charCodeAt(0).toString(16).padStart(2, '0')}`
-  )).join('');
-
-  return JSON.parse(decodeURIComponent(escaped));
-}
-
-function buildShareUrl(state) {
-  if (typeof window === 'undefined') return '';
-
-  const url = new URL(window.location.href);
-  url.search = '';
-  url.searchParams.set('state', encodeShareState(state));
-  return url.toString();
-}
-
-async function copyText(text) {
-  if (navigator.clipboard?.writeText) {
-    try {
-      await navigator.clipboard.writeText(text);
-      return;
-    } catch {
-      // Fall back for local/dev contexts where clipboard permission is denied.
-    }
-  }
-
-  const textarea = document.createElement('textarea');
-  textarea.value = text;
-  textarea.setAttribute('readonly', '');
-  textarea.style.position = 'fixed';
-  textarea.style.opacity = '0';
-  document.body.appendChild(textarea);
-  textarea.select();
-  document.execCommand('copy');
-  document.body.removeChild(textarea);
 }
 
 function getDefaultCandelaSetup() {
@@ -252,7 +190,7 @@ function getDefaultCandelaSetup() {
   };
 }
 
-function normalizeCandelaSetup(raw) {
+function normalizeCandelaSetup(raw: any) {
   const defaults = getDefaultCandelaSetup();
   const m = clampInt(raw?.m, MIN_M, MAX_M, defaults.m);
   const n = clampInt(raw?.n, 1, maxNForM(m), defaults.n);
@@ -271,24 +209,35 @@ function normalizeCandelaSetup(raw) {
 }
 
 function readCandelaSetupFromUrl() {
-  if (typeof window === 'undefined') return getDefaultCandelaSetup();
-
-  const rawState = new URLSearchParams(window.location.search).get('state');
-  if (!rawState) return getDefaultCandelaSetup();
-
+  const shared = readSharedStateFromUrl();
+  if (!shared) return getDefaultCandelaSetup();
   try {
-    return normalizeCandelaSetup(decodeShareState(rawState));
+    return normalizeCandelaSetup(shared);
   } catch {
     return getDefaultCandelaSetup();
   }
 }
 
-function DiscreteRing({ radius, p, residues, color, accentResidues = null, accentColor = null }) {
+function DiscreteRing({
+  radius,
+  p,
+  residues,
+  color,
+  accentResidues = null,
+  accentColor = null,
+}: {
+  radius: number;
+  p: number;
+  residues: Set<number>;
+  color: string;
+  accentResidues?: Set<number> | null;
+  accentColor?: string | null;
+}) {
   const dotRadius = p <= 720 ? 1.05 : p <= 1500 ? 0.75 : p <= 3000 ? 0.55 : p <= 8000 ? 0.38 : 0.3;
   const dots = useMemo(() => {
     const result = [];
     for (let value = 0; value < p; value += 1) {
-      const point = polarToCartesian(0, 0, radius, value / p);
+      const point = circlePoint(radius, value / p);
       const isPresent = residues.has(value);
       const isAccent = accentResidues?.has(value);
       result.push(
@@ -297,9 +246,9 @@ function DiscreteRing({ radius, p, residues, color, accentResidues = null, accen
           cx={point.x}
           cy={point.y}
           r={dotRadius}
-          fill={isAccent ? accentColor : isPresent ? color : '#cbd5e1'}
+          fill={isAccent && accentColor ? accentColor : isPresent ? color : '#cbd5e1'}
           opacity={isPresent ? 0.98 : 0.58}
-        />
+        />,
       );
     }
     return result;
@@ -313,37 +262,7 @@ function DiscreteRing({ radius, p, residues, color, accentResidues = null, accen
   );
 }
 
-function NumberSlider({ label, value, min, max, onChange, disabled = false }) {
-  return (
-    <div>
-      <div className="flex justify-between text-sm mb-1">
-        <label className="font-medium text-slate-700">{label}</label>
-        <input
-          type="number"
-          step="1"
-          min={min}
-          max={max}
-          value={value}
-          disabled={disabled}
-          onChange={(e) => onChange(clampInt(e.target.value, min, max, value))}
-          className="w-24 px-2 py-1 text-right border border-slate-200 rounded-lg font-mono text-sm text-slate-700 disabled:bg-slate-100 disabled:text-slate-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-        />
-      </div>
-      <input
-        type="range"
-        min={min}
-        max={max}
-        step="1"
-        value={value}
-        disabled={disabled}
-        onChange={(e) => onChange(clampInt(e.target.value, min, max, value))}
-        className="w-full accent-blue-500 disabled:opacity-50"
-      />
-    </div>
-  );
-}
-
-function Stat({ label, value, tone = 'slate' }) {
+function Stat({ label, value, tone = 'slate' }: { label: string; value: React.ReactNode; tone?: 'slate' | 'good' | 'bad' }) {
   const toneClass = tone === 'good' ? 'text-emerald-600' : tone === 'bad' ? 'text-red-500' : 'text-slate-700';
   return (
     <div className="flex items-center justify-between gap-3 py-1">
@@ -353,7 +272,15 @@ function Stat({ label, value, tone = 'slate' }) {
   );
 }
 
-export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConstruction = undefined }) {
+export default function CandelaVisualizer({
+  onSwitchToIntervals,
+  onSwitchToLinearForm = undefined,
+  onSwitchToConstruction = undefined,
+}: {
+  onSwitchToIntervals: () => void;
+  onSwitchToLinearForm?: (setup?: unknown) => void;
+  onSwitchToConstruction?: () => void;
+}) {
   const [initialSetup] = useState(() => readCandelaSetupFromUrl());
   const [m, setM] = useState(initialSetup.m);
   const [n, setN] = useState(initialSetup.n);
@@ -361,9 +288,6 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
   const [manualLambda, setManualLambda] = useState(initialSetup.manualLambda);
   const [manualMu, setManualMu] = useState(initialSetup.manualMu);
   const [dilation, setDilation] = useState(initialSetup.dilation);
-  const [copyStatus, setCopyStatus] = useState('idle');
-  const [jsonInput, setJsonInput] = useState('');
-  const [jsonStatus, setJsonStatus] = useState('idle');
 
   const maxN = useMemo(() => maxNForM(m), [m]);
   const p = useMemo(() => pFor(m, n), [m, n]);
@@ -371,9 +295,10 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
   const pIsPrime = useMemo(() => isPrime(p), [p]);
   const dilationGcd = useMemo(() => gcd(dilation, p), [dilation, p]);
 
-  const activePreset = useMemo(() => (
-    getRecipePreset(recipe, m, manualLambda, manualMu)
-  ), [recipe, m, manualLambda, manualMu]);
+  const activePreset = useMemo(
+    () => getRecipePreset(recipe, m, manualLambda, manualMu),
+    [recipe, m, manualLambda, manualMu],
+  );
 
   const lambda = activePreset.lambda;
   const mu = activePreset.mu;
@@ -429,50 +354,23 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
   const shareUrl = useMemo(() => buildShareUrl(shareState), [shareState]);
   const currentStateJson = useMemo(() => JSON.stringify(shareState, null, 2), [shareState]);
 
-  const setMClamped = useCallback((value) => {
-    const nextM = clampInt(value, MIN_M, MAX_M, m);
-    setM(nextM);
+  const setMClamped = useCallback((value: number) => {
+    setM(clampInt(value, MIN_M, MAX_M, m));
   }, [m]);
 
-  const setNClamped = useCallback((value) => {
+  const setNClamped = useCallback((value: number) => {
     setN(clampInt(value, 1, maxNForM(m), n));
   }, [m, n]);
 
-  const applyJson = useCallback(() => {
-    try {
-      const setup = normalizeCandelaSetup(JSON.parse(jsonInput));
-      setM(setup.m);
-      setN(setup.n);
-      setRecipe(setup.recipe);
-      setManualLambda(setup.manualLambda);
-      setManualMu(setup.manualMu);
-      setDilation(setup.dilation);
-      setJsonStatus('imported');
-    } catch {
-      setJsonStatus('invalid');
-    }
-    window.setTimeout(() => setJsonStatus('idle'), 2200);
-  }, [jsonInput]);
-
-  const copyShareLink = useCallback(async () => {
-    try {
-      await copyText(shareUrl);
-      setCopyStatus('copied');
-    } catch {
-      setCopyStatus('failed');
-    }
-    window.setTimeout(() => setCopyStatus('idle'), 1600);
-  }, [shareUrl]);
-
-  const copyStateJson = useCallback(async () => {
-    try {
-      await copyText(currentStateJson);
-      setJsonStatus('copied');
-    } catch {
-      setJsonStatus('copy-failed');
-    }
-    window.setTimeout(() => setJsonStatus('idle'), 1600);
-  }, [currentStateJson]);
+  const handleImportState = useCallback((raw: unknown) => {
+    const setup = normalizeCandelaSetup(raw);
+    setM(setup.m);
+    setN(setup.n);
+    setRecipe(setup.recipe);
+    setManualLambda(setup.manualLambda);
+    setManualMu(setup.manualMu);
+    setDilation(setup.dilation);
+  }, []);
 
   const useCurrentParametersAsManual = useCallback(() => {
     setManualLambda(lambda);
@@ -488,53 +386,42 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
   return (
     <div className="min-h-screen bg-slate-50 text-slate-800 font-sans p-4 md:p-8 flex flex-col items-center">
       <div className="max-w-[1600px] w-full">
-        <header className="mb-6">
-          <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-            <div>
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">Candela Construction Visualizer</h1>
-              <p className="text-slate-600">
-                Work in <InlineMath>{'\\mathbb Z/p\\mathbb Z'}</InlineMath> with <InlineMath>{'p=4m^2n+1'}</InlineMath>. The set is built from <InlineMath>{'J=\\{4mn+1,\\ldots,2\\lambda mn\\}'}</InlineMath> by residue classes modulo <InlineMath>{'m'}</InlineMath>, then dilated by <InlineMath>{'c\\ne 0'}</InlineMath>.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              {onSwitchToConstruction && <button
-                onClick={onSwitchToConstruction}
-                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg text-sm font-bold"
-              >Preimage construction</button>}
-              <button
-                onClick={onSwitchToIntervals}
-                className="shrink-0 bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
-                title="Open the circle interval visualizer"
-              >
-                <RotateCcw size={16} />
-                Circle intervals
-              </button>
-              <button
-                onClick={copyShareLink}
-                className="shrink-0 bg-slate-900 hover:bg-slate-700 text-white px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
-                title="Copy shareable setup link"
-              >
-                {copyStatus === 'copied' ? <Check size={16} /> : <Copy size={16} />}
-                {copyStatus === 'copied' ? 'Copied' : copyStatus === 'failed' ? 'Copy Failed' : 'Copy current state link'}
-              </button>
-            </div>
-          </div>
-        </header>
+        <VisualizerHeader
+          title="Candela Construction Visualizer"
+          description={
+            <>
+              Work in <InlineMath>{'\\mathbb Z/p\\mathbb Z'}</InlineMath> with <InlineMath>{'p=4m^2n+1'}</InlineMath>. The set is built from <InlineMath>{'J=\\{4mn+1,\\ldots,2\\lambda mn\\}'}</InlineMath> by residue classes modulo <InlineMath>{'m'}</InlineMath>, then dilated by <InlineMath>{'c\\ne 0'}</InlineMath>.
+            </>
+          }
+          shareUrl={shareUrl}
+          copyText={copyText}
+          actions={[
+            ...(onSwitchToConstruction ? [{
+              label: 'Preimage construction',
+              onClick: onSwitchToConstruction,
+            }] : []),
+            ...(onSwitchToLinearForm ? [{
+              label: 'General linear form',
+              onClick: () => onSwitchToLinearForm(),
+            }] : []),
+            {
+              label: <><RotateCcw size={16} />Circle intervals</>,
+              onClick: onSwitchToIntervals,
+              title: 'Open the circle interval visualizer',
+            },
+          ]}
+        />
 
         <div className="flex flex-col xl:flex-row gap-8 items-start">
           <div className="flex flex-col lg:flex-row gap-8 flex-1 min-w-0 w-full">
             <div className="flex-1 bg-white rounded-2xl shadow-sm border border-slate-200 p-6 flex flex-col items-center justify-center min-h-[560px]">
               <svg viewBox="-265 -265 530 530" className="w-full max-w-[560px] h-auto overflow-visible">
-                {[0, 0.25, 0.5, 0.75].map(turn => {
-                  const p1 = polarToCartesian(0, 0, 38, turn);
-                  const p2 = polarToCartesian(0, 0, 228, turn);
-                  return <line x1={p1.x} y1={p1.y} x2={p2.x} y2={p2.y} stroke="#e2e8f0" strokeWidth="2" strokeDasharray="4 4" key={`axis-${turn}`} />;
-                })}
-
-                <text x="0" y="-248" textAnchor="middle" className="text-sm font-semibold fill-slate-400">0</text>
-                <text x="248" y="0" textAnchor="start" alignmentBaseline="middle" className="text-sm font-semibold fill-slate-400">{Math.floor(p / 4)}</text>
-                <text x="0" y="248" textAnchor="middle" alignmentBaseline="hanging" className="text-sm font-semibold fill-slate-400">{Math.floor(p / 2)}</text>
-                <text x="-248" y="0" textAnchor="end" alignmentBaseline="middle" className="text-sm font-semibold fill-slate-400">{Math.floor(3 * p / 4)}</text>
+                <CircleAxes
+                  innerRadius={38}
+                  outerRadius={228}
+                  labelRadius={248}
+                  labels={[0, Math.floor(p / 4), Math.floor(p / 2), Math.floor((3 * p) / 4)]}
+                />
 
                 <DiscreteRing radius={RADIUS_A} p={p} residues={data.a} color={COLORS.a} accentResidues={data.aTail} accentColor={COLORS.tail} />
                 <DiscreteRing radius={RADIUS_MA} p={p} residues={data.ma} color={COLORS.ma} />
@@ -594,6 +481,7 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
                       ].map(([value, label]) => (
                         <button
                           key={value}
+                          type="button"
                           onClick={() => value === 'manual' ? useCurrentParametersAsManual() : setRecipe(value)}
                           className={`px-3 py-2 rounded-lg border text-sm font-bold transition-colors ${recipe === value ? 'bg-slate-900 text-white border-slate-900' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100'}`}
                         >
@@ -603,8 +491,8 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
                     </div>
                   </div>
 
-                  <NumberSlider label="m" value={m} min={MIN_M} max={MAX_M} onChange={setMClamped} />
-                  <NumberSlider label="n" value={n} min={1} max={maxN} onChange={setNClamped} />
+                  <NumberSlider integer step={1} label="m" value={m} min={MIN_M} max={MAX_M} onChange={setMClamped} />
+                  <NumberSlider integer step={1} label="n" value={n} min={1} max={maxN} onChange={setNClamped} />
 
                   <div className="grid grid-cols-2 gap-3 rounded-xl bg-slate-50 border border-slate-100 p-3">
                     <Stat label="p" value={p} tone={pIsPrime ? 'good' : 'bad'} />
@@ -632,14 +520,14 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
                     </select>
                   </div>
 
-                  <NumberSlider label="lambda" value={lambda} min={3} max={m} onChange={setManualLambda} disabled={recipe !== 'manual'} />
-                  <NumberSlider label="mu" value={mu} min={0} max={m - 1} onChange={setManualMu} disabled={recipe !== 'manual'} />
+                  <NumberSlider integer step={1} label="lambda" value={lambda} min={3} max={m} onChange={v => setManualLambda(clampInt(v, 3, m, lambda))} disabled={recipe !== 'manual'} />
+                  <NumberSlider integer step={1} label="mu" value={mu} min={0} max={m - 1} onChange={v => setManualMu(clampInt(v, 0, m - 1, mu))} disabled={recipe !== 'manual'} />
                 </div>
               </div>
 
               <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                 <h2 className="font-bold text-lg mb-4">Dilate the Set</h2>
-                <NumberSlider label="c" value={dilation} min={1} max={Math.max(1, p - 1)} onChange={setDilation} />
+                <NumberSlider integer step={1} label="c" value={dilation} min={1} max={Math.max(1, p - 1)} onChange={v => setDilation(clampInt(v, 1, Math.max(1, p - 1), dilation))} />
                 <div className="mt-3 rounded-xl bg-slate-50 border border-slate-100 p-3">
                   <Stat label="gcd(c,p)" value={dilationGcd} tone={dilationGcd === 1 ? 'good' : 'bad'} />
                 </div>
@@ -662,40 +550,12 @@ export default function CandelaVisualizer({ onSwitchToIntervals, onSwitchToConst
               </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-4">
-                <h2 className="font-bold text-lg">State JSON</h2>
-                <button
-                  onClick={copyStateJson}
-                  className="bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-bold"
-                >
-                  {jsonStatus === 'copied' ? <Check size={16} /> : <Copy size={16} />}
-                  {jsonStatus === 'copied' ? 'Copied' : jsonStatus === 'copy-failed' ? 'Copy Failed' : 'Copy current JSON'}
-                </button>
-              </div>
-
-              <textarea
-                value={jsonInput}
-                onChange={(e) => setJsonInput(e.target.value)}
-                placeholder="Paste Candela state JSON"
-                spellCheck="false"
-                className="w-full min-h-40 resize-y rounded-lg border border-slate-200 bg-slate-50 p-3 font-mono text-xs text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-
-              <div className="mt-3 flex items-center justify-between gap-3">
-                <button
-                  onClick={applyJson}
-                  disabled={!jsonInput.trim()}
-                  className="bg-slate-900 hover:bg-slate-700 disabled:bg-slate-200 disabled:text-slate-400 disabled:cursor-not-allowed text-white px-3 py-2 rounded-lg transition-colors text-sm font-bold"
-                >
-                  Import JSON
-                </button>
-                <div className="min-h-5 text-right text-xs font-bold">
-                  {jsonStatus === 'imported' && <span className="text-emerald-600">Imported</span>}
-                  {jsonStatus === 'invalid' && <span className="text-red-500">Invalid JSON</span>}
-                </div>
-              </div>
-            </div>
+            <StateJsonPanel
+              stateJson={currentStateJson}
+              onImport={handleImportState}
+              copyText={copyText}
+              placeholder="Paste Candela state JSON"
+            />
           </div>
         </div>
       </div>

@@ -1,35 +1,14 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
-const Module = require('node:module');
 const test = require('node:test');
-const ts = require('typescript');
 const React = require('react');
 const { renderToStaticMarkup } = require('react-dom/server');
+const { loadSource } = require('./load_ts.cjs');
 
-const cache = new Map();
-function loadSource(filename) {
-  if (cache.has(filename)) return cache.get(filename).exports;
-  const loaded = new Module(filename, module);
-  loaded.paths = module.paths;
-  cache.set(filename, loaded);
-  loaded.require = name => {
-    if (name.endsWith('.css')) return {};
-    if (!name.startsWith('./')) return require(name);
-    const base = path.resolve(path.dirname(filename), name);
-    const source = ['.ts', '.tsx'].map(ext => base + ext).find(fs.existsSync);
-    return source ? loadSource(source) : require(name);
-  };
-  loaded._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
-    compilerOptions: {
-      module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020,
-      jsx: ts.JsxEmit.ReactJSX, esModuleInterop: true,
-    },
-  }).outputText, filename);
-  return loaded.exports;
-}
-
-const Page = loadSource(path.join(__dirname, 'src', 'PreimageConstructionVisualizer.tsx')).default;
+const Page = loadSource('PreimageConstructionVisualizer.tsx').default;
+const shared = loadSource('shared.ts');
+const preimageGeometry = loadSource('preimageConstruction.ts');
 const props = {
   buildShareUrl: state => 'https://example.test/?state=' + Buffer.from(JSON.stringify(state)).toString('base64url'),
   copyText: async () => {}, onSwitchToLinearForm: () => {}, onSwitchToIntervals: () => {},
@@ -75,7 +54,7 @@ test('invalid construction links report an error rather than silently substituti
   }
 });
 
-const App = loadSource(path.join(__dirname, 'src', 'App.tsx')).default;
+const App = loadSource('App.tsx').default;
 test('shared URLs still select each existing page and the new construction page', () => {
   const oldWindow = global.window;
   try {
@@ -91,6 +70,97 @@ test('shared URLs still select each existing page and the new construction page'
       assert.match(html, expected);
       assert.doesNotMatch(html, /role="alert"/);
     }
+  } finally {
+    if (oldWindow === undefined) delete global.window;
+    else global.window = oldWindow;
+  }
+});
+
+test('construction page renders editable multiplier and multi-interval union controls', () => {
+  const html = renderToStaticMarkup(React.createElement(Page, {
+    ...props,
+    initialState: {
+      mode: 'preimage-construction',
+      coefficients: [1, 1, -3],
+      targets: [
+        { coefficient: 5, intervals: [{ start: 0.1, width: 0.15 }, { start: 0.6, width: 0.15 }] },
+        { coefficient: -2, start: 0.2, width: 0.3 },
+      ],
+    },
+  }));
+  assert.match(html, /data-target-coefficient="5"/);
+  assert.match(html, /data-target-coefficient="-2"/);
+  assert.match(html, /aria-label="Multiplier of preimage 1"/);
+  assert.match(html, /Interval 1 of 2/);
+  assert.match(html, /Interval 2 of 2/);
+  assert.match(html, /Add preimage/);
+  assert.match(html, /Custom multipliers or multi-interval target unions are active/);
+  assert.doesNotMatch(html, /role="alert"/);
+});
+
+test('floating point inputs render as deferred text inputs with spinner buttons', () => {
+  const html = renderToStaticMarkup(React.createElement(Page, props));
+  assert.match(html, /aria-label="Start of target 10"/);
+  assert.match(html, /aria-label="Increase Start of target 10"/);
+  assert.match(html, /aria-label="Decrease Start of target 10"/);
+  assert.match(html, /aria-label="Increase Multiplier of preimage 1"/);
+  assert.match(html, /aria-label="Decrease Multiplier of preimage 1"/);
+  assert.match(html, /aria-label="Remove preimage 1"/);
+  assert.match(html, /inputMode="decimal"|inputmode="decimal"/);
+  assert.doesNotMatch(html, /type="number"/);
+});
+
+test('all existing VISUALIZER_LINKS.md links and legacy URLs decode, render, and round-trip cleanly', () => {
+  const linksDoc = fs.readFileSync(path.join(__dirname, '..', 'VISUALIZER_LINKS.md'), 'utf8');
+  const matches = [...linksDoc.matchAll(/https:\/\/ferranespuna\.github\.io\/interval_proofs\/(\?state=[A-Za-z0-9_-]+)/g)];
+  assert.ok(matches.length >= 40, `Expected at least 40 catalog links, found ${matches.length}`);
+
+  const oldWindow = global.window;
+  try {
+    for (const [, search] of matches) {
+      const encoded = new URLSearchParams(search).get('state');
+      const decoded = shared.decodeShareState(encoded);
+      assert.deepEqual(shared.decodeShareState(shared.encodeShareState(decoded)), decoded);
+
+      global.window = { location: { search, href: 'https://example.test/' + search } };
+      const html = renderToStaticMarkup(React.createElement(App));
+      assert.doesNotMatch(html, /role="alert"/);
+      if (decoded.mode === 'candela') {
+        assert.match(html, /Candela Construction Visualizer/);
+      } else {
+        assert.match(html, /Circle Group Visualizer/);
+      }
+    }
+
+    // Legacy interval link without explicit mode and using `lambda` instead of `m`.
+    const legacyState = { v: 1, lambda: 5, intervals: [{ id: 1, start: 0.2, width: 0.1, color: '#ef4444' }] };
+    const legacySearch = '?state=' + shared.encodeShareState(legacyState);
+    global.window = { location: { search: legacySearch, href: 'https://example.test/' + legacySearch } };
+    const legacyHtml = renderToStaticMarkup(React.createElement(App));
+    assert.match(legacyHtml, /Circle Group Visualizer/);
+    assert.match(legacyHtml, /5A\./);
+    assert.doesNotMatch(legacyHtml, /role="alert"/);
+
+    // Custom multiplier + multi-interval preimage construction link round-trip.
+    const customConstruction = preimageGeometry.serializeConstructionState(
+      preimageGeometry.normalizeConstructionState({
+        mode: 'preimage-construction',
+        coefficients: [10, 10, -19],
+        targets: [
+          { coefficient: 5, intervals: [{ start: 0.1, width: 0.2 }, { start: 0.6, width: 0.15 }], color: '#ef4444' },
+          { coefficient: -19, start: 0.25, width: 0.3, color: '#3b82f6' },
+        ],
+      }),
+    );
+    const customUrl = shared.buildShareUrl(customConstruction);
+    const customSearch = new URL(customUrl).search;
+    global.window = { location: { search: customSearch, href: customUrl } };
+    const customHtml = renderToStaticMarkup(React.createElement(App));
+    assert.match(customHtml, /Preimage intersection construction/);
+    assert.match(customHtml, /data-target-coefficient="5"/);
+    assert.match(customHtml, /data-target-coefficient="-19"/);
+    assert.match(customHtml, /Interval 2 of 2/);
+    assert.doesNotMatch(customHtml, /role="alert"/);
   } finally {
     if (oldWindow === undefined) delete global.window;
     else global.window = oldWindow;

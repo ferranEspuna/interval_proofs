@@ -1,26 +1,15 @@
 const assert = require('node:assert/strict');
-const fs = require('node:fs');
-const path = require('node:path');
-const Module = require('node:module');
 const test = require('node:test');
-const ts = require('typescript');
+const { loadSource } = require('./load_ts.cjs');
 
-function loadTypeScript(name, imports = {}) {
-  const filename = path.join(__dirname, 'src', name);
-  const loaded = new Module(filename, module);
-  loaded.paths = module.paths;
-  loaded.require = name => imports[name] ?? require(name);
-  loaded._compile(ts.transpileModule(fs.readFileSync(filename, 'utf8'), {
-    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
-  }).outputText, filename);
-  return loaded.exports;
-}
-const oldGeometry = loadTypeScript('linearFormGeometry.ts');
-const geometry = loadTypeScript('preimageConstruction.ts', { './linearFormGeometry': oldGeometry });
+const shared = loadSource('shared.ts');
+const geometry = loadSource('preimageConstruction.ts');
 const {
   applyLinearForm, containsPoint, defaultConstructionState, evaluateConstruction,
-  findGuaranteedShift, findMissingPoint, groupCoefficients, intersectSets,
-  normalizeConstructionState, openCircleSet, preimage, resetOptimalWidths, setMeasure,
+  findGuaranteedShift, findMissingPoint, getTargetIntervals, groupCoefficients,
+  intersectSets, normalizeConstructionState, openCircleSet, preimage,
+  resetOptimalWidths, serializeConstructionState, setMeasure, suggestNewInterval,
+  suggestNewMultiplier,
 } = geometry;
 const close = (actual, expected) => assert.ok(Math.abs(actual - expected) < 1e-10, `${actual} != ${expected}`);
 const arc = (start, width) => openCircleSet([{ start, width }]);
@@ -201,4 +190,101 @@ test('an actual excess over unit width is not granted an endpoint certificate', 
   assert.equal(result.widthGuarantee, false);
   assert.equal(result.image.full, true);
   assert.equal(result.missingPoint, null);
+});
+
+test('preimage of a union of intervals agrees with multiplication for positive and negative multipliers', () => {
+  const intervals = [{ start: 0.1, width: 0.15 }, { start: 0.55, width: 0.2 }, { start: 0.9, width: 0.15 }];
+  const union = openCircleSet(intervals);
+  for (const multiplier of [-4, -2, -1, 1, 2, 3, 5]) {
+    const set = preimage(intervals, multiplier);
+    close(setMeasure(set), setMeasure(union));
+    const denom = 16 * Math.abs(multiplier);
+    for (let k = 0; k < denom; k += 1) {
+      const point = k / denom;
+      assert.equal(
+        containsPoint(set, point),
+        containsPoint(union, multiplier * point),
+        JSON.stringify({ multiplier, point }),
+      );
+    }
+  }
+  const fullPreimage = preimage([{ start: 0, width: 0.7 }, { start: 0.5, width: 0.7 }], 3);
+  assert.equal(fullPreimage.full, true);
+  assert.throws(() => preimage(intervals, 0), /nonzero/);
+});
+
+test('custom multipliers and multi-interval targets evaluate, serialize, and reset cleanly', () => {
+  const custom = normalizeConstructionState({
+    mode: 'preimage-construction',
+    coefficients: [1, 1, -3],
+    targets: [
+      { coefficient: 2, intervals: [{ start: 0, width: 0.2 }, { start: 0.5, width: 0.2 }], color: '#ef4444' },
+      { coefficient: -3, start: 0.1, width: 0.25, color: '#3b82f6' },
+    ],
+  });
+  assert.equal(custom.targets.length, 2);
+  assert.equal(custom.targets[0].coefficient, 2);
+  assert.equal(getTargetIntervals(custom.targets[0]).length, 2);
+  assert.equal(custom.targets[1].coefficient, -3);
+
+  const evaluated = evaluateConstruction(custom);
+  assert.equal(evaluated.isCanonical, false);
+  assert.equal(evaluated.boundWidth, null);
+  assert.equal(evaluated.widthGuarantee, false);
+  assert.ok(evaluated.density > 0);
+  if (evaluated.missingPoint !== null) {
+    assert.equal(containsPoint(evaluated.image, evaluated.missingPoint), false);
+  }
+
+  // Round-trip through serialized JSON preserves multi-interval & custom multipliers.
+  const serialized = serializeConstructionState(custom);
+  assert.ok(Array.isArray(serialized.targets[0].intervals));
+  assert.equal(serialized.targets[0].intervals.length, 2);
+  assert.equal('intervals' in serialized.targets[1], false);
+  const reloaded = normalizeConstructionState(serialized);
+  assert.deepEqual(reloaded, custom);
+
+  // Resetting restores canonical Ruzsa targets for [1, 1, -3] (multipliers 1 and 3).
+  const reset = resetOptimalWidths(custom);
+  assert.deepEqual(reset.targets.map(t => t.coefficient), [1, 3]);
+  assert.equal(evaluateConstruction(reset).isCanonical, true);
+});
+
+test('single-target multi-interval shortcut matches direct linear-form evaluation', () => {
+  const state = normalizeConstructionState({
+    coefficients: [4, -6],
+    targets: [{ coefficient: 2, intervals: [{ start: 0, width: 0.1 }, { start: 0.5, width: 0.1 }] }],
+  });
+  const result = evaluateConstruction(state);
+  const direct = applyLinearForm(result.a, state.coefficients);
+  close(setMeasure(result.image), setMeasure(direct));
+  for (let k = 0; k < 64; k += 1) {
+    assert.equal(containsPoint(result.image, k / 64), containsPoint(direct, k / 64));
+  }
+});
+
+test('helper suggestions place new intervals in gaps and pick fresh multipliers', () => {
+  const existing = [{ start: 0, width: 0.5 }];
+  const added = suggestNewInterval(existing);
+  assert.ok(added.width > 0);
+  assert.equal(containsPoint(openCircleSet(existing), added.start + added.width / 2), false);
+
+  const state = defaultConstructionState([1, 1, -3]);
+  assert.equal(suggestNewMultiplier(state.targets, state.coefficients), 2);
+});
+
+test('numeric input parser handles floats, scientific notation, fractions, and strict integers', () => {
+  const { parseNumericInput } = shared;
+  close(parseNumericInput('0.25'), 0.25);
+  close(parseNumericInput('.5'), 0.5);
+  close(parseNumericInput(' -1.25e-2 '), -0.0125);
+  close(parseNumericInput('1/3'), 1 / 3);
+  close(parseNumericInput('-2 / 7'), -2 / 7);
+  assert.equal(parseNumericInput('1/0'), null);
+  assert.equal(parseNumericInput(''), null);
+  assert.equal(parseNumericInput('0.2.3'), null);
+  assert.equal(parseNumericInput('10', { integer: true }), 10);
+  assert.equal(parseNumericInput('-19', { integer: true }), -19);
+  assert.equal(parseNumericInput('1.5', { integer: true }), null);
+  assert.equal(parseNumericInput('1/2', { integer: true }), null);
 });
